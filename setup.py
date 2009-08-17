@@ -11,9 +11,9 @@ def read(*path_elements):
 version = '0.1dev'
 
 setuptools.setup(
-    name='icemac.ab.importexport',
+    name='icemac.ab.importer',
     version=version,
-    description="Import and export interface for icemac.addressbook",
+    description="Import interface for icemac.addressbook",
     long_description=(
         read('README.txt') +
         read('CHANGES.txt')
@@ -21,7 +21,7 @@ setuptools.setup(
     keywords='icemac.addressbook',
     author='Michael Howitz',
     author_email='icemac@gmx.net',
-    url='http://pypi.python.org/pypi/icemac.ab.importexport',
+    url='http://pypi.python.org/pypi/icemac.ab.importer',
     license='ZPL 2.1',
     classifiers=[
         'Development Status :: 3 - Alpha',
