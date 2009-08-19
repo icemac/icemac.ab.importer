@@ -1,0 +1,9 @@
+===========
+ Changelog
+===========
+
+0.1 (unreleased)
+================
+
+- Extacted importer from icemac.addressbook, to make it optional and
+  easily extendable.
