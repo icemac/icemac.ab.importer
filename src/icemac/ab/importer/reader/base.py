@@ -3,6 +3,7 @@
 # See also LICENSE.txt
 
 import icemac.ab.importer.interfaces
+import zope.component
 import zope.interface
 
 

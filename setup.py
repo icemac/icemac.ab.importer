@@ -41,13 +41,15 @@ setuptools.setup(
     include_package_data=True,
     zip_safe=False,
     install_requires=[
+        'icemac.addressbook',
         'setuptools',
-        'zope.schema',
-        'zope.interface',
-        'zope.container',
         'zc.sourcefactory',
+        'zope.container',
+        'zope.interface',
+        'zope.schema',
         ],
     extras_require = dict(
         test=['zope.testing >= 3.8.0',
+              'zope.traversing',
               ]),
     )
