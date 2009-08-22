@@ -5,13 +5,9 @@
 import datetime
 import icemac.ab.importer.interfaces
 import os.path
+import sys
 import unittest
 import zope.interface.verify
-
-
-def getFileHandle(file_name):
-    return file(os.path.join(
-            os.path.dirname(__file__), 'tests', 'data', file_name))
 
 
 class BaseReaderTest(unittest.TestCase):
@@ -21,10 +17,15 @@ class BaseReaderTest(unittest.TestCase):
     import_file = None # set name of default import file here
     import_file_short = None # set name of short import file here
 
+    def getFileHandle(self, file_name=None):
+        base_path = sys.modules[self.reader_class.__module__].__file__
+        if file_name is None:
+            file_name = self.import_file
+        return file(os.path.join(
+                os.path.dirname(base_path), 'tests', 'data', file_name))
+
     def getReader(self, import_file=None):
-        if import_file is None:
-            import_file = self.import_file
-        return self.reader_class.open(getFileHandle(import_file))
+        return self.reader_class.open(self.getFileHandle(import_file))
 
     def test_interfaces(self):
         zope.interface.verify.verifyObject(
@@ -33,12 +34,13 @@ class BaseReaderTest(unittest.TestCase):
 
     def test_canRead(self):
         self.assertEqual(
-            True, self.reader_class.canRead(getFileHandle(self.import_file)))
+            True, self.reader_class.canRead(self.getFileHandle()))
         self.assertEqual(
             True,
-            self.reader_class.canRead(getFileHandle(self.import_file_short)))
+            self.reader_class.canRead(
+                self.getFileHandle(self.import_file_short)))
         self.assertEqual(
-            False, self.reader_class.canRead(getFileHandle('dummy.txt')))
+            False, self.reader_class.canRead(self.getFileHandle('dummy.txt')))
 
     def test_getFieldNames(self):
         field_names = list(self.getReader().getFieldNames())
