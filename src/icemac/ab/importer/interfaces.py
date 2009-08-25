@@ -49,7 +49,7 @@ class IImportFileReader(zope.interface.Interface):
         """
 
     def getFieldSamples(field_name):
-        """Get an iterable of sample values for a field.
+        """Get an iterable of up to three sample values for a field.
 
         The values are unicode strings.
         Date values are represented as ISO-date resp. empty string..

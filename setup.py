@@ -13,9 +13,11 @@ version = '0.1dev'
 setuptools.setup(
     name='icemac.ab.importer',
     version=version,
-    description="Import interface for icemac.addressbook",
+    description="Import infrastructure for icemac.addressbook",
     long_description=(
         read('README.txt') +
+        read('src', 'icemac', 'ab', 'importer', 'browser', 'importer.txt') +
+        read('src', 'icemac', 'ab', 'importer', 'browser', 'wizard.txt') +
         read('CHANGES.txt')
         ),
     keywords='icemac.addressbook',
@@ -49,7 +51,10 @@ setuptools.setup(
         'zope.schema',
         ],
     extras_require = dict(
-        test=['zope.testing >= 3.8.0',
-              'zope.traversing',
-              ]),
+        test=[
+            'icemac.addressbook [test]',
+            'zope.app.testing',
+            'zope.testing >= 3.8.0',
+            'zope.traversing',
+            ]),
     )

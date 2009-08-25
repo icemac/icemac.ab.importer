@@ -28,11 +28,22 @@ class BaseReader(object):
     def canRead(cls, file_handle):
         try:
             reader = cls.open(file_handle)
-            reader.getFieldNames()
         except:
             return False
-        return True
+        try:
+            return bool(list(reader.getFieldNames()))
+        except:
+            return False
 
     def __del__(self):
         if self.file is not None:
             self.file.close()
+
+    def getFieldNames(self):
+        raise NotImplementedError
+
+    def getFieldSamples(self, field_name):
+        raise NotImplementedError
+
+    def __iter__(self):
+        raise NotImplementedError
