@@ -12,10 +12,6 @@ Set up
 >>> from zope.testbrowser.testing import Browser
 >>> ab = create_addressbook()
 
-
-Upload a file
-=============
-
 Only administrators can upload import files. So we log-in as
 administrator and go to the master data area:
 
@@ -27,23 +23,25 @@ administrator and go to the master data area:
 
 Let's create a simple file which will get imported fine:
 
->>> from xlutils.tests.fixtures import make_book
->>> import xlutils.save
 >>> from StringIO import StringIO
->>> wb = make_book(((u'firstname', u'last_name', u'addr_city'),
-...                 (u'Rene Manfred', u'Kohn', u'Hiernase'),
-...                 (u'Jurgen', u'Krafft', u'Dortmund')))
 >>> file_data = StringIO()
->>> xlutils.save.save(wb, file_data)
+>>> file_data.write("firstname,last_name,addr_city\n"
+...                 "Rene Manfred,Kohn,Hiernase\n"
+...                 "Jurgen,Krafft,Dortmund\n")
 >>> file_data.seek(0)
+
+
+Upload a file
+=============
 
 There is an `add file` link to upload an import file:
 
 >>> browser.getLink('file').click()
->>> browser.getControl('file').add_file(file_data, 'text/plain', 'first.xls')
+>>> browser.getControl('file').add_file(file_data, 'text/plain', 'first.csv')
 >>> browser.getControl('Add').click()
 >>> browser.url
 'http://localhost/++skin++AddressBook/ab/++attribute++importer'
+
 
 Minimal successful import
 =========================
@@ -61,7 +59,7 @@ The first step is to choose a reader for the import file. Only the
 readers capable to import the file are displayed:
 
 >>> browser.getControl('Import file reader').displayOptions
-['Microsoft Excel file']
+['CSV file (comma separated fields, ISO-dates, UTF-8 encoded)']
 >>> browser.getControl('Next').click()
 >>> print browser.url
 http://localhost/.../ab/++attribute++importer/File/import/map
@@ -205,7 +203,7 @@ The import file is still displayed:
 
 >>> print browser.contents
 <!DOCTYPE ...
-<td><a href="http://localhost/++skin++AddressBook/ab/++attribute++importer/File">first.xls</a>...
+<td><a href="http://localhost/++skin++AddressBook/ab/++attribute++importer/File">first.csv</a>...
 
 The imported persons are displayed on the person list:
 
@@ -216,40 +214,3 @@ The imported persons are displayed on the person list:
 <!DOCTYPE ...
 ...Kohn, Rene Manfred...
 ...Krafft, Jurgen...
-
-Empty import file
-=================
-
-When the import file is empty, nothing gets imported:
-
->>> file_data = StringIO()
->>> xlutils.save.save(make_book(()), file_data)
->>> file_data.seek(0)
-
-Next step is to upload the file:
-
->>> browser.getLink('Master data').click()
->>> browser.getLink('Import data').click()
->>> browser.getLink('file').click()
->>> browser.getControl('file').add_file(file_data, 'text/plain', 'empty.xls')
->>> browser.getControl('Add').click()
-
-There is no import file reader, as the XLS reader expects a first line
-containing the field names:
-
->>> browser.getLink('Import').click()
->>> browser.getControl('Import file reader').displayOptions
-[]
-
-
-.. XXX testcases:
-..  - doppelte Spaltennamen im import-file --> mapping im UI 90° kippen,
-..    implementierung funktioniert schon so, dass man ein import feld nicht
-..    in zwei ab-felder schreiben kann
-..  - state testen
-..  - nicht seletierte felder des import-files
-..  - empty import row (wenn möglich) bzw. nothing imported
-..  - state interface invariables testen
-..  - required missing errors testen
-..  - constraint not satisfied testen (sources, email, www)
-..  - Sicherstellen, dass ein Feld nicht mehrmals ausgewählt werden kann, ..    evtl. dafür Feldname und Source tauschen

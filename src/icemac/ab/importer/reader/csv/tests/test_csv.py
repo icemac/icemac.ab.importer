@@ -6,7 +6,7 @@ import icemac.ab.importer.reader.testing
 import icemac.ab.importer.reader.csv.csv
 
 
-class CSVTest(icemac.ab.importer.reader.testing.BaseReaderTest):
+class CSVTest(icemac.ab.importer.reader.testing.ReaderTest):
 
     reader_class = icemac.ab.importer.reader.csv.csv.CSV
     import_file = 'long.csv'

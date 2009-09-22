@@ -19,7 +19,8 @@ class DummyReader(icemac.ab.importer.reader.base.BaseReader):
 
     def getFieldNames(self):
         """Get the names of the fields in the file."""
-        return []
+        # canRead requires at least a field name to return True
+        return ['field1']
 
     def getFieldSamples(self, field_name):
         """Get sample values for a field."""
@@ -35,8 +36,8 @@ class NoXMLReader(DummyReader):
         self.file.seek(0)
         data = self.file.read()
         if data.startswith('<?xml'):
-            raise ValueError('no xml!')
-        return []
+            raise ValueError('No XML!')
+        return ['field1']
 
 
 class DummyImportFile(object):

@@ -62,7 +62,7 @@ The file for reading gets stored on the ``file`` attribute.
 Test reader class
 =================
 
-``icemac.ab.importer.reader.testing.BaseReaderTest`` provides a base
+``icemac.ab.importer.reader.testing.ReaderTest`` provides a (base)
 test class which checks whether the reader behaves as expected. It
 requires some example files for the reader. The derived reader tests
 must fulfill the following conventions:
@@ -74,9 +74,8 @@ must fulfill the following conventions:
     |-__init__.py
     |-test_reader.py
     |-data
-      |-dummy.txt
-      |-short.file
-      |-long.file
+     |-short.file
+     |-long.file
 
 - The `__init__.py` file can be empty.
 
@@ -94,26 +93,43 @@ must fulfill the following conventions:
 
 - There must be three files in the `data` dictionary:
 
-  - `dummy.txt` - a file the reader is not able to read (the file mus
-    have exactly this name.)
+  - a file for the ``import_file_short`` attribute on the test class,
+    containing the following data:
 
-  - a file for ``import_file_short`` on the test class, containing the
+    =========  ==========  =========
+    firstname  birth_date  last name
+               1976-01-24    Koch
+    =========  ==========  =========
+
+  - a file for the ``import_file`` attribute on the test class, containing the
     following data:
 
     =========  ==========  =========
     firstname  birth_date  last name
-               24.01.76    Koch
-    =========  ==========  =========
-
-  - a file for ``import_file`` on the test class, containing the
-    following data:
-
-    =========  ==========  =========
-    firstname  birth_date  last name
-    Andreas    24.01.76    Koch
-    Hanna      01.01.00    Hula
+    Andreas    1976-01-24  Koch
+    Hanna      2000-01-01  Hula
     Jens                   Jänsen
-               31.12.01    Fruma
+               2001-12-31  Fruma
     =========  ==========  =========
 
+
+Register reader class
+=====================
+
+To register the reader class with `icemac.addressbook` write a `configure.zcml` file in the reader package::
+
+  <configure xmlns="http://namespaces.zope.org/zope">
+    <adapter
+       name="<name>"
+       factory="<path>" />
+  </configure>
+
+The ``name`` attribute contains a unique name to identify the importer
+internally. The ``factory`` attribute contains the python path to the reader
+class.
+
+Integrate the reader in icemac.addressbook
+==========================================
+
+During installing `icemac.addressbook`, it is possible to enter the name of external dependencies. This is the place to integrate your reader into `icemac.addressbook`.
 

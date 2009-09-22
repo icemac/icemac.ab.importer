@@ -13,6 +13,7 @@ class BaseReader(object):
     zope.interface.implements(icemac.ab.importer.interfaces.IImportFileReader)
     zope.component.adapts(None)
 
+    title = None
     file = None
 
     def __init__(self, ignored=None):
@@ -28,9 +29,6 @@ class BaseReader(object):
     def canRead(cls, file_handle):
         try:
             reader = cls.open(file_handle)
-        except:
-            return False
-        try:
             return bool(list(reader.getFieldNames()))
         except:
             return False

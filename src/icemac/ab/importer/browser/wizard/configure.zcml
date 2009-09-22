@@ -1,0 +1,116 @@
+<configure
+   xmlns="http://namespaces.zope.org/zope"
+   xmlns:browser="http://namespaces.zope.org/browser"
+   xmlns:gocept="http://namespaces.gocept.com/zcml"
+   xmlns:z3c="http://namespaces.zope.org/z3c">
+
+  <!-- This adapter is not registered by default in z3c.form for
+       safety reasons but we need it here to edit PersistentMappings
+       stored in the session. -->
+  <adapter
+     for="persistent.mapping.PersistentMapping
+          zope.schema.interfaces.IField"
+     factory="z3c.form.datamanager.DictionaryField" />
+
+  <adapter factory=".base.importfile_to_addressbook" />
+  <adapter factory=".base.file_session_to_import_file" />
+
+  <z3c:wizard
+     name="import"
+     for="icemac.ab.importer.interfaces.IImportFile"
+     class=".base.ImportWizard"
+     permission="icemac.addressbook.Import"
+     layer="icemac.addressbook.browser.interfaces.IAddressBookLayer"
+     />
+
+  <z3c:template
+     template="step.pt"
+     for=".base.Step"
+     layer="icemac.addressbook.browser.interfaces.IAddressBookLayer"
+     />
+
+  <z3c:macro
+     name="import-wizard"
+     template="step.pt"
+     layer="icemac.addressbook.browser.interfaces.IAddressBookLayer"
+     />
+
+  <z3c:wizardStep
+     name="editFile"
+     wizard=".base.ImportWizard"
+     class=".edit.EditFile"
+     permission="icemac.addressbook.Import"
+     layer="icemac.addressbook.browser.interfaces.IAddressBookLayer"
+     />
+
+  <z3c:wizardStep
+     name="reader"
+     wizard=".base.ImportWizard"
+     class=".reader.ChooseReader"
+     permission="icemac.addressbook.Import"
+     layer="icemac.addressbook.browser.interfaces.IAddressBookLayer"
+     />
+
+  <z3c:wizardStep
+     name="map"
+     wizard=".base.ImportWizard"
+     class=".map.MapFields"
+     permission="icemac.addressbook.Import"
+     layer="icemac.addressbook.browser.interfaces.IAddressBookLayer"
+     />
+
+  <adapter factory=".map.unchanged_field" />
+  <adapter for="* zope.schema.interfaces.IText"
+           factory=".map.text_field" />
+  <adapter for="* zope.schema.interfaces.IChoice"
+           factory=".map.text_field" />
+  <adapter factory=".map.uri_field" />
+  <adapter factory=".map.keywords_field" name="keywords" />
+  <adapter factory=".map.country_or_state_field" name="country" />
+  <adapter factory=".map.country_or_state_field" name="state" />
+  <adapter factory=".map.choice_constraint_not_satisfield" />
+  <adapter factory=".map.country_or_state_constraint_not_satisfield"
+           name="country" />
+  <adapter factory=".map.country_or_state_constraint_not_satisfield"
+           name="state" />
+  <adapter factory=".map.date_wrong_type" />
+  <adapter factory=".map.index_error" />
+  <adapter factory=".map.email_constraint_not_satisfield" name="email" />
+  <adapter factory=".map.simple_invalid"
+           for="* zope.schema.interfaces.RequiredMissing" />
+  <adapter factory=".map.simple_invalid"
+           for="* zope.schema.interfaces.InvalidURI" />
+  <adapter factory=".map.simple_invalid"
+           for="* icemac.addressbook.interfaces.StateCountryMismatchError" />
+  <adapter factory=".map.simple_invalid"
+           for="* icemac.addressbook.interfaces.StateWithoutCountryError" />
+
+  <z3c:wizardStep
+     name="review"
+     wizard=".base.ImportWizard"
+     class=".review.Review"
+     permission="icemac.addressbook.Import"
+     layer="icemac.addressbook.browser.interfaces.IAddressBookLayer"
+     />
+
+  <z3c:template
+      template="review.pt"
+      for=".review.Review"
+      layer="icemac.addressbook.browser.interfaces.IAddressBookLayer"
+      />
+
+  <z3c:wizardStep
+     name="complete"
+     wizard=".base.ImportWizard"
+     class=".complete.Complete"
+     permission="icemac.addressbook.Import"
+     layer="icemac.addressbook.browser.interfaces.IAddressBookLayer"
+     />
+
+  <z3c:template
+      template="complete.pt"
+      for=".complete.Complete"
+      layer="icemac.addressbook.browser.interfaces.IAddressBookLayer"
+      />
+
+</configure>

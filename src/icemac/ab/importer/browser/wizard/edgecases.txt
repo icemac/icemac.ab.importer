@@ -1,0 +1,117 @@
+===============================
+ Edge caes when importing data
+===============================
+
+Importing has some edge cases which are demonstrated here:
+
+Set up
+======
+
+Create an addressbook and a browser to test the import:
+
+>>> from icemac.addressbook.testing import create_addressbook
+>>> from zope.testbrowser.testing import Browser
+>>> ab = create_addressbook()
+
+>>> browser = Browser()
+>>> browser.addHeader('Authorization', 'Basic mgr:mgrpw')
+>>> browser.open('http://localhost/++skin++AddressBook/ab')
+
+Empty import file
+=================
+
+When the import file is empty, nothing can get imported:
+
+>>> from StringIO import StringIO
+>>> file_data = StringIO()
+>>> file_data.write('')
+>>> file_data.seek(0)
+
+Upload the file:
+
+>>> browser.getLink('Master data').click()
+>>> browser.getLink('Import data').click()
+>>> browser.getLink('file').click()
+>>> browser.getControl('file').add_file(file_data, 'text/plain', 'empty.csv')
+>>> browser.getControl('Add').click()
+
+There is no import file reader, as the CSV reader expects a first line
+containing the field names:
+
+>>> browser.getLink('Import').click()
+>>> browser.getControl('Import file reader').displayOptions
+[]
+
+Editing import file
+===================
+
+As the empty import file cannot be imported, it is possible to upload another file by using the `back` button:
+
+>>> browser.getControl('Back').click()
+>>> browser.url
+'http://localhost/.../ab/++attribute++importer/File/import/editFile'
+
+Uploading a new file is demonstrated in the next chapter.
+
+
+Nothing to import
+=================
+
+When the import file is not completely empty but contains at least field names a reader can be found but nothing can get imported, too.
+
+>>> file_data = StringIO()
+>>> file_data.write('last_name\n')
+>>> file_data.seek(0)
+
+To upload the new file we use the step `edit import file`:
+
+>>> browser.getControl('file').add_file(file_data, 'text/plain', 'header.csv')
+>>> browser.getControl('Next').click()
+>>> browser.url
+'http://localhost/.../ab/++attribute++importer/File/import/reader'
+
+
+The original file was really replaced:
+
+>>> browser.getControl('Back').click()
+>>> browser.url
+'http://localhost/.../ab/++attribute++importer/File/import/editFile'
+>>> browser.getControl('name').value
+'header.csv'
+
+Now we can navigate to the `map fields` step and map the fields:
+
+>>> browser.getControl('Next').click()
+>>> browser.url
+'http://localhost/.../ab/++attribute++importer/File/import/reader'
+>>> browser.getControl('Next').click()
+>>> print browser.url
+http://localhost/++skin++AddressBook/ab/++attribute++importer/File/import/map
+>>> browser.getControl('last name').displayValue = ['last_name']
+>>> browser.getControl('Next').click()
+
+On the review step a message tells that there is nothing to import:
+
+>>> print browser.url
+http://localhost/.../ab/++attribute++importer/File/import/review
+>>> print browser.contents
+<!DOCTYPE ...
+...There was nothing to import in the import file...
+
+It is possible to go to the complete step as there are no errors:
+
+>>> browser.getControl('Next').click()
+>>> browser.url
+'http://localhost/.../ab/++attribute++importer/File/import/complete'
+>>> browser.getControl('Complete').click()
+>>> browser.url
+'http://localhost/++skin++AddressBook/ab/++attribute++importer'
+
+The new import file has replaced the old one:
+
+>>> browser.getLink('Master data').click()
+>>> browser.getLink('Import data').click()
+>>> print browser.contents
+<!DOCTYPE ...
+<td><a href="http://localhost/++skin++AddressBook/ab/++attribute++importer/File">header.csv</a></td>...
+

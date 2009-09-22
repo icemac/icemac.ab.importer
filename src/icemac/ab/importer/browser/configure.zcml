@@ -4,16 +4,6 @@
    xmlns:gocept="http://namespaces.gocept.com/zcml"
    xmlns:z3c="http://namespaces.zope.org/z3c">
 
-  <!-- This adapter is not registered by default in z3c.form for
-       safety reasons but we need it here to edit PersistentMappings
-       stored in the session. -->
-  <adapter
-     for="persistent.mapping.PersistentMapping
-          zope.schema.interfaces.IField"
-     factory="z3c.form.datamanager.DictionaryField" />
-
-  <adapter factory=".importer.importfile_to_addressbook" />
-
   <browser:viewlet
      manager="icemac.addressbook.browser.masterdata.manager.IMasterData"
      layer="icemac.addressbook.browser.interfaces.IAddressBookLayer"
@@ -67,66 +57,16 @@
      factory="z3c.table.header.SortingColumnHeader"
      />
 
-  <adapter factory=".importer.file_session_to_import_file" />
-
-  <z3c:wizard
-     name="import"
-     for="icemac.ab.importer.interfaces.IImportFile"
-     class=".importer.ImportWizard"
+  <gocept:pagelet
+     name="readers.html"
+     for="icemac.ab.importer.interfaces.IImportFileContainer"
      permission="icemac.addressbook.Import"
      layer="icemac.addressbook.browser.interfaces.IAddressBookLayer"
+     class=".readers.Readers"
+     template="readers.pt"
      />
 
-  <z3c:wizardStep
-     name="editFile"
-     wizard=".importer.ImportWizard"
-     class=".importer.EditFile"
-     permission="icemac.addressbook.Import"
-     layer="icemac.addressbook.browser.interfaces.IAddressBookLayer"
-     />
 
-  <z3c:wizardStep
-     name="reader"
-     wizard=".importer.ImportWizard"
-     class=".importer.ChooseReader"
-     permission="icemac.addressbook.Import"
-     layer="icemac.addressbook.browser.interfaces.IAddressBookLayer"
-     />
-
-  <z3c:wizardStep
-     name="map"
-     wizard=".importer.ImportWizard"
-     class=".importer.MapFields"
-     permission="icemac.addressbook.Import"
-     layer="icemac.addressbook.browser.interfaces.IAddressBookLayer"
-     />
-
-  <z3c:wizardStep
-     name="review"
-     wizard=".importer.ImportWizard"
-     class=".importer.Review"
-     permission="icemac.addressbook.Import"
-     layer="icemac.addressbook.browser.interfaces.IAddressBookLayer"
-     />
-
-  <z3c:template
-      template="review.pt"
-      for=".importer.Review"
-      layer="icemac.addressbook.browser.interfaces.IAddressBookLayer"
-      />
-
-  <z3c:wizardStep
-     name="complete"
-     wizard=".importer.ImportWizard"
-     class=".importer.Complete"
-     permission="icemac.addressbook.Import"
-     layer="icemac.addressbook.browser.interfaces.IAddressBookLayer"
-     />
-
-  <z3c:template
-      template="complete.pt"
-      for=".importer.Complete"
-      layer="icemac.addressbook.browser.interfaces.IAddressBookLayer"
-      />
+  <include package=".wizard" />
 
 </configure>

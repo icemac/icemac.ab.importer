@@ -1,0 +1,110 @@
+# -*- coding: utf-8 -*-
+# Copyright (c) 2009 Michael Howitz
+# See also LICENSE.txt
+
+from icemac.addressbook.i18n import MessageFactory as _
+import icemac.ab.importer.interfaces
+import icemac.addressbook.address
+import icemac.addressbook.interfaces
+import icemac.addressbook.person
+import persistent.mapping
+import z3c.form.field
+import z3c.wizard.wizard
+import zope.component
+import zope.interface
+import zope.security.proxy
+import zope.session.interfaces
+
+
+class ImportWizard(z3c.wizard.wizard.Wizard):
+
+    label = _(u'Import Wizard')
+
+    def setUpSteps(self):
+        return [
+            z3c.wizard.step.addStep(self, 'editFile', weight=1),
+            z3c.wizard.step.addStep(self, 'reader', weight=2),
+            z3c.wizard.step.addStep(self, 'map', weight=3),
+            z3c.wizard.step.addStep(self, 'review', weight=4),
+            z3c.wizard.step.addStep(self, 'complete', weight=5),
+            ]
+
+
+class FileSession(persistent.mapping.PersistentMapping):
+    "Session of an import file."
+
+    file = None
+
+
+@zope.component.adapter(FileSession)
+@zope.interface.implementer(icemac.ab.importer.interfaces.IImportFile)
+def file_session_to_import_file(file_session):
+    """Get the import file of its session."""
+    return file_session.file
+
+
+def get_file_session(file, request):
+    "Get the session associated with the file."
+    session = zope.session.interfaces.ISession(request)[
+        icemac.addressbook.interfaces.PACKAGE_ID]
+    key = 'import_%s' % file.__name__
+    file_session = session.get(key, None)
+    if file_session is None:
+        file_session = FileSession()
+        session[key] = file_session
+    file_session.file = zope.security.proxy.removeSecurityProxy(file)
+    return file_session
+
+
+class Step(z3c.wizard.step.Step):
+
+    @property
+    def fields(self):
+        return z3c.form.field.Fields(self.interface)
+
+
+class FileSessionStorageStep(Step):
+    "Step which stores its data in file's session."
+
+    def getContent(self):
+        return get_file_session(self.context, self.request)
+
+
+person_mapping = dict(interface=icemac.addressbook.interfaces.IPerson,
+                      title=u'person',
+                      prefix='person',
+                      class_=icemac.addressbook.person.Person)
+import_mapping =  (person_mapping,) + icemac.addressbook.address.address_mapping
+
+
+def getImportMappingRowForPrefix(prefix):
+    for row in import_mapping:
+        if prefix == row['prefix']:
+            return row
+
+
+def getImportMappingRowForInterface(interface):
+    for row in import_mapping:
+        if interface == row['interface']:
+            return row
+
+
+@zope.interface.implementer(icemac.addressbook.interfaces.IAddressBook)
+@zope.component.adapter(icemac.ab.importer.interfaces.IImportFile)
+def importfile_to_addressbook(import_file):
+    "Adapt import file to address book."
+    return import_file.__parent__.__parent__
+
+
+def delete_imported_data(self):
+    """Delete previously imported data."""
+    addressbook = icemac.addressbook.interfaces.IAddressBook(self.context)
+    session = self.getContent()
+    for id in session.get('imported', []):
+        del addressbook[id]
+    session['imported'] = []
+    keywords = zope.component.getUtility(
+        icemac.addressbook.interfaces.IKeywords)
+    for id in session.get('imported_keywords', []):
+        del keywords[id]
+    session['imported_keywords'] = []

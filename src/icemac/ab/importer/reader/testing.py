@@ -10,8 +10,8 @@ import unittest
 import zope.interface.verify
 
 
-class BaseReaderTest(unittest.TestCase):
-    "Base class for reader tests."
+class ReaderTest(unittest.TestCase):
+    "Test class for readers."
 
     reader_class = None # reference to the reader's class object
     import_file = None # name of the longer import file
@@ -31,13 +31,6 @@ class BaseReaderTest(unittest.TestCase):
         zope.interface.verify.verifyObject(
             icemac.ab.importer.interfaces.IImportFileReader,
             self.getReader())
-
-    def test_canRead(self):
-        self.assertEqual(True, self.reader_class.canRead(self.getFileHandle()))
-        self.assertEqual(True, self.reader_class.canRead(
-                                   self.getFileHandle(self.import_file_short)))
-        self.assertEqual(
-            False, self.reader_class.canRead(self.getFileHandle('dummy.txt')))
 
     def test_getFieldNames(self):
         field_names = list(self.getReader().getFieldNames())
@@ -77,36 +70,25 @@ class BaseReaderTest(unittest.TestCase):
         self.assertEqual([u''], samples)
         self.assert_(isinstance(samples[0], unicode))
 
-
     def test___iter__(self):
-        result = [{0: u'Andreas',
-                   1: datetime.date(1976, 1, 24),
-                   2: u'Koch'},
-                  {0: u'Hanna',
-                   1: datetime.date(2000, 1, 1),
-                   2: u'Hula'},
-                  {0: u'Jens',
-                   1: None,
-                   2: u'Jänsen'},
-                  {0: None,
-                   1: datetime.date(2001, 12, 31),
-                   2: u'Fruma'}]
+        result = [[u'Andreas', datetime.date(1976, 1, 24), u'Koch'],
+                  [u'Hanna', datetime.date(2000, 1, 1), u'Hula'],
+                  [u'Jens', None, u'Jänsen'],
+                  [None, datetime.date(2001, 12, 31), u'Fruma']]
         for index, line in enumerate(self.getReader()):
             self.assertEqual(result[index], line)
-            for key, value in line.items():
-                self.assert_(isinstance(key, int), key)
-                self.assert_(isinstance(value, unicode) or
-                             isinstance(value, datetime.date) or
-                             value is None, repr(value))
+            for value in line:
+                self.assert_((isinstance(value, unicode) or
+                              isinstance(value, datetime.date) or
+                              value is None),
+                             repr(value))
 
     def test___iter__short(self):
-        result = [{0: None,
-                   1: datetime.date(1976, 1, 24),
-                   2: u'Koch'}]
+        result = [[None, datetime.date(1976, 1, 24), u'Koch']]
         for index, line in enumerate(self.getReader(self.import_file_short)):
             self.assertEqual(result[index], line)
-            for key, value in line.items():
-                self.assert_(isinstance(key, int), key)
-                self.assert_(isinstance(value, unicode) or
-                             isinstance(value, datetime.date) or
-                             value is None, repr(value))
+            for value in line:
+                self.assert_((isinstance(value, unicode) or
+                              isinstance(value, datetime.date) or
+                              value is None),
+                             repr(value))

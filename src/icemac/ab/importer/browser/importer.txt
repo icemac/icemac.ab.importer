@@ -45,7 +45,7 @@ The uploaded file gets displayed in the list:
 
 >>> print browser.contents
 <!DOCTYPE...
-...txt...Delete...Import...
+...txt...<DATETIME>...Delete...Import...
 >>> browser.getLink('Import').url
 'http://localhost/++skin++AddressBook/ab/++attribute++importer/File/@@import'
 
@@ -161,3 +161,16 @@ importtest...
 'http://localhost/++skin++AddressBook/ab/++attribute++importer'
 >>> 'csv' in browser.contents
 False
+
+
+List registered import file readers
+===================================
+
+There is a link on the import's page which leads to a list of all registered import file readers:
+
+>>> browser.getLink('Registered import file readers').click()
+>>> browser.url
+'http://localhost/++skin++AddressBook/ab/++attribute++importer/@@readers.html'
+>>> print browser.contents
+<!DOCTYPE ...
+<li>CSV file (comma separated fields, ISO-dates, UTF-8 encoded)</li>...

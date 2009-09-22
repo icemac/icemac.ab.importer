@@ -1,0 +1,601 @@
+================================
+ Contraints when importing data
+================================
+
+Imported data must match the same constraints as data entered using the forms.
+
+Set up
+======
+
+Create an addressbook and a browser to test the import:
+
+>>> from icemac.addressbook.testing import create_addressbook
+>>> from zope.testbrowser.testing import Browser
+>>> ab = create_addressbook()
+
+>>> browser = Browser()
+>>> browser.addHeader('Authorization', 'Basic mgr:mgrpw')
+>>> browser.open('http://localhost/++skin++AddressBook/ab')
+>>> browser.getLink('Master data').click()
+>>> browser.getLink('Import data').click()
+
+Ensuring constraints
+====================
+
+There are a number of constraints the imported data must fulfill
+otherwise error messages are displayed. We test most constraints here
+together:
+
+  - last name of the person must not be empty
+
+  - birth date column must be empty or contain a valid date
+
+  - sex must be `male` or `female`
+
+  - values of address kind fields must be contained in soure's values
+
+  - e-mail address must be valid
+
+  - www address must be a URI
+
+  - country must be either the ISO country code or the country name
+
+  - state must be either the ISO subdivision code or the state name
+
+  - state must belong to country
+
+  - state without country is not allowed
+
+  - data line must contain enough fields
+
+Not each field must be selected on mapping fields. (Field `asdf` is used as an example here.). A field in the import file might be associated to more than one field in the addressbook (Field `all_kind` is used to show this).
+
+Whitespaces at beginning and end are striped. (See line with `last_name` ``nice``.)
+
+Let's construct an import file which containts errors for this constraints:
+
+>>> from StringIO import StringIO
+>>> file_data = StringIO()
+>>> file_data.write(
+...     'last_name,birth_date,s_e_x,all_kind,e_mail_addr,www,asdf,countries,'
+...       'cstate\n'
+...     ',1999-09-09,,,,,asdf,,\n'  # missing last name
+...     '"wrong date",1981,,,,,,,,\n'
+...     '"wrong sex_value",,m,,,,,,\n'
+...     '"wrong kind",,,personal,,,,,\n'
+...     '"wrong e-mail",,,private,i@me@de,,,,\n'
+...     '"wrong home page address",,,,i@me.de,asdf,,,\n'
+...     '"wrong country",,,,,,,D,\n'
+...     '"country ISO code",,,,,,,AT,\n'
+...     '"wrong state",,,,,,,DE,Schlesien\n'
+...     '"state from different country",,,,,,,AT,Sachsen\n'
+...     '"state without country",,,,,,,,Sachsen-Anhalt\n'
+...     '"state",,,,,,,DE,Brandenburg\n'
+...     '"not enough fields",,female,,,,,\n'
+...     '" nice "," 2006-06-06"," male",work, r6@ab.info,'
+...       '" http://www.r6.sf.net",," Switzerland ",\n')
+>>> file_data.seek(0)
+
+The upload and import works as usual:
+
+>>> browser.getLink('file').click()
+>>> browser.getControl('file').add_file(file_data, 'text/plain', 'errors.csv')
+>>> browser.getControl('Add').click()
+>>> browser.getLink('Import', index=0).click()
+>>> browser.url
+'http://localhost/++skin++AddressBook/ab/++attribute++importer/File/@@import'
+
+The user chooses the reader as usual and maps the fields:
+
+>>> browser.getControl('Next').click()
+>>> print browser.url
+http://localhost/++skin++AddressBook/ab/++attribute++importer/File/import/map
+>>> browser.getControl('last name').displayValue = [
+...     'last_name (wrong date, wrong sex_value)']
+>>> browser.getControl('birth date').displayValue = [
+...     'birth_date (1999-09-09, 1981)']
+>>> browser.getControl('sex').displayValue = ['s_e_x (m)']
+>>> browser.getControl('kind', index=0).displayValue = ['all_kind']
+>>> browser.getControl('kind', index=2).displayValue = ['all_kind']
+>>> browser.getControl('e-mail address').displayValue = ['e_mail_addr']
+>>> browser.getControl('country').displayValue = ['countries']
+>>> browser.getControl('state').displayValue = ['cstate']
+>>> browser.getControl('URL').displayValue = ['www']
+>>> browser.getControl('Next').click()
+
+The review step shows the error messages:
+
+>>> print browser.url
+http://localhost/.../ab/++attribute++importer/File/import/review
+>>> print browser.contents
+<!DOCTYPE ...
+    <table>
+  <thead>
+    <tr>
+      <th><i>person</i><br />first name</th>
+      <th><br />last name</th>
+      <th><br />birth date</th>
+      <th><br />sex</th>
+      <th><br />keywords</th>
+      <th><br />notes</th>
+      <th><i>postal address</i><br />kind</th>
+      <th><br />address prefix</th>
+      <th><br />street</th>
+      <th><br />city</th>
+      <th><br />zip</th>
+      <th><br />country</th>
+      <th><br />state</th>
+      <th><br />notes</th>
+      <th><i>phone number</i><br />kind</th>
+      <th><br />number</th>
+      <th><br />notes</th>
+      <th><i>e-mail address</i><br />kind</th>
+      <th><br />e-mail address</th>
+      <th><br />notes</th>
+      <th><i>home page address</i><br />kind</th>
+      <th><br />URL</th>
+      <th><br />notes</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr class="table-even-row">
+      <td></td>
+      <td></td>
+      <td>1999-09-09</td>
+      <td></td>
+      <td></td>
+      <td></td>
+      <td></td>
+      <td></td>
+      <td></td>
+      <td></td>
+      <td></td>
+      <td></td>
+      <td></td>
+      <td></td>
+      <td></td>
+      <td></td>
+      <td></td>
+      <td></td>
+      <td></td>
+      <td></td>
+      <td></td>
+      <td></td>
+      <td></td>
+    </tr>
+<tr class="table-even-row">
+<td colspan="23">
+Errors:
+<ul class="errors">
+<li>person - last name: Required input is missing.</li>
+</ul>
+</td>
+</tr>
+    <tr class="table-odd-row">
+      <td></td>
+      <td>wrong date</td>
+      <td></td>
+      <td></td>
+      <td></td>
+      <td></td>
+      <td></td>
+      <td></td>
+      <td></td>
+      <td></td>
+      <td></td>
+      <td></td>
+      <td></td>
+      <td></td>
+      <td></td>
+      <td></td>
+      <td></td>
+      <td></td>
+      <td></td>
+      <td></td>
+      <td></td>
+      <td></td>
+      <td></td>
+    </tr>
+<tr class="table-odd-row">
+<td colspan="23">
+Errors:
+<ul class="errors">
+<li>person - birth date: 1981 is no valid date.</li>
+</ul>
+</td>
+</tr>
+    <tr class="table-even-row">
+      <td></td>
+      <td>wrong sex_value</td>
+      <td></td>
+      <td></td>
+      <td></td>
+      <td></td>
+      <td></td>
+      <td></td>
+      <td></td>
+      <td></td>
+      <td></td>
+      <td></td>
+      <td></td>
+      <td></td>
+      <td></td>
+      <td></td>
+      <td></td>
+      <td></td>
+      <td></td>
+      <td></td>
+      <td></td>
+      <td></td>
+      <td></td>
+    </tr>
+<tr class="table-even-row">
+<td colspan="23">
+Errors:
+<ul class="errors">
+<li>person - sex: Value m not allowed. Allowed values: male, female</li>
+</ul>
+</td>
+</tr>
+    <tr class="table-odd-row">
+      <td></td>
+      <td>wrong kind</td>
+      <td></td>
+      <td></td>
+      <td></td>
+      <td></td>
+      <td></td>
+      <td></td>
+      <td></td>
+      <td></td>
+      <td></td>
+      <td></td>
+      <td></td>
+      <td></td>
+      <td></td>
+      <td></td>
+      <td></td>
+      <td></td>
+      <td></td>
+      <td></td>
+      <td></td>
+      <td></td>
+      <td></td>
+    </tr>
+<tr class="table-odd-row">
+<td colspan="23">
+Errors:
+<ul class="errors">
+<li>e-mail address - kind: Value personal not allowed. Allowed values: private, work, other</li>
+<li>postal address - kind: Value personal not allowed. Allowed values: private, work, other</li>
+</ul>
+</td>
+</tr>
+    <tr class="table-even-row">
+      <td></td>
+      <td>wrong e-mail</td>
+      <td></td>
+      <td></td>
+      <td></td>
+      <td></td>
+      <td>private</td>
+      <td></td>
+      <td></td>
+      <td></td>
+      <td></td>
+      <td></td>
+      <td></td>
+      <td></td>
+      <td></td>
+      <td></td>
+      <td></td>
+      <td>private</td>
+      <td></td>
+      <td></td>
+      <td></td>
+      <td></td>
+      <td></td>
+    </tr>
+<tr class="table-even-row">
+<td colspan="23">
+Errors:
+<ul class="errors">
+<li>e-mail address - e-mail address: i@me@de is not a valid e-mail address.</li>
+</ul>
+</td>
+</tr>
+    <tr class="table-odd-row">
+      <td></td>
+      <td>wrong home page address</td>
+      <td></td>
+      <td></td>
+      <td></td>
+      <td></td>
+      <td></td>
+      <td></td>
+      <td></td>
+      <td></td>
+      <td></td>
+      <td></td>
+      <td></td>
+      <td></td>
+      <td></td>
+      <td></td>
+      <td></td>
+      <td></td>
+      <td>i@me.de</td>
+      <td></td>
+      <td></td>
+      <td></td>
+      <td></td>
+    </tr>
+<tr class="table-odd-row">
+<td colspan="23">
+Errors:
+<ul class="errors">
+<li>home page address - URL: The specified URI is not valid.</li>
+</ul>
+</td>
+</tr>
+    <tr class="table-even-row">
+      <td></td>
+      <td>wrong country</td>
+      <td></td>
+      <td></td>
+      <td></td>
+      <td></td>
+      <td></td>
+      <td></td>
+      <td></td>
+      <td></td>
+      <td></td>
+      <td>DE</td>
+      <td></td>
+      <td></td>
+      <td></td>
+      <td></td>
+      <td></td>
+      <td></td>
+      <td></td>
+      <td></td>
+      <td></td>
+      <td></td>
+      <td></td>
+    </tr>
+<tr class="table-even-row">
+<td colspan="23">
+Errors:
+<ul class="errors">
+<li>postal address - country: Value D not allowed. Allowed values: AF resp. Afghanistan, AX resp. Åland Islands, ...
+</ul>
+</td>
+</tr>
+    <tr class="table-odd-row">
+      <td></td>
+      <td>country ISO code</td>
+      <td></td>
+      <td></td>
+      <td></td>
+      <td></td>
+      <td></td>
+      <td></td>
+      <td></td>
+      <td></td>
+      <td></td>
+      <td>AT</td>
+      <td></td>
+      <td></td>
+      <td></td>
+      <td></td>
+      <td></td>
+      <td></td>
+      <td></td>
+      <td></td>
+      <td></td>
+      <td></td>
+      <td></td>
+    </tr>
+<BLANKLINE>
+    <tr class="table-even-row">
+      <td></td>
+      <td>wrong state</td>
+      <td></td>
+      <td></td>
+      <td></td>
+      <td></td>
+      <td></td>
+      <td></td>
+      <td></td>
+      <td></td>
+      <td></td>
+      <td>DE</td>
+      <td></td>
+      <td></td>
+      <td></td>
+      <td></td>
+      <td></td>
+      <td></td>
+      <td></td>
+      <td></td>
+      <td></td>
+      <td></td>
+      <td></td>
+    </tr>
+<tr class="table-even-row">
+<td colspan="23">
+Errors:
+<ul class="errors">
+<li>postal address - state: Value Schlesien not allowed. Allowed values: DE-BW resp. Baden-Württemberg, DE-BY resp. Bayern, DE-HB resp. Bremen, ...
+</ul>
+</td>
+</tr>
+    <tr class="table-odd-row">
+      <td></td>
+      <td>state from different country</td>
+      <td></td>
+      <td></td>
+      <td></td>
+      <td></td>
+      <td></td>
+      <td></td>
+      <td></td>
+      <td></td>
+      <td></td>
+      <td>AT</td>
+      <td>DE-SN</td>
+      <td></td>
+      <td></td>
+      <td></td>
+      <td></td>
+      <td></td>
+      <td></td>
+      <td></td>
+      <td></td>
+      <td></td>
+      <td></td>
+    </tr>
+<tr class="table-odd-row">
+<td colspan="23">
+Errors:
+<ul class="errors">
+<li>postal address: The selected state does not belong to the selected country.</li>
+</ul>
+</td>
+</tr>
+    <tr class="table-even-row">
+      <td></td>
+      <td>state without country</td>
+      <td></td>
+      <td></td>
+      <td></td>
+      <td></td>
+      <td></td>
+      <td></td>
+      <td></td>
+      <td></td>
+      <td></td>
+      <td></td>
+      <td>DE-ST</td>
+      <td></td>
+      <td></td>
+      <td></td>
+      <td></td>
+      <td></td>
+      <td></td>
+      <td></td>
+      <td></td>
+      <td></td>
+      <td></td>
+    </tr>
+<tr class="table-even-row">
+<td colspan="23">
+Errors:
+<ul class="errors">
+<li>postal address: A country is required to choose a state.</li>
+</ul>
+</td>
+</tr>
+    <tr class="table-odd-row">
+      <td></td>
+      <td>state</td>
+      <td></td>
+      <td></td>
+      <td></td>
+      <td></td>
+      <td></td>
+      <td></td>
+      <td></td>
+      <td></td>
+      <td></td>
+      <td>DE</td>
+      <td>DE-BB</td>
+      <td></td>
+      <td></td>
+      <td></td>
+      <td></td>
+      <td></td>
+      <td></td>
+      <td></td>
+      <td></td>
+      <td></td>
+      <td></td>
+    </tr>
+<BLANKLINE>
+    <tr class="table-even-row">
+      <td></td>
+      <td>not enough fields</td>
+      <td></td>
+      <td>female</td>
+      <td></td>
+      <td></td>
+      <td></td>
+      <td></td>
+      <td></td>
+      <td></td>
+      <td></td>
+      <td></td>
+      <td></td>
+      <td></td>
+      <td></td>
+      <td></td>
+      <td></td>
+      <td></td>
+      <td></td>
+      <td></td>
+      <td></td>
+      <td></td>
+      <td></td>
+    </tr>
+<tr class="table-even-row">
+<td colspan="23">
+Errors:
+<ul class="errors">
+<li>postal address: Not enough data fields in row.</li>
+</ul>
+</td>
+</tr>
+    <tr class="table-odd-row">
+      <td></td>
+      <td>nice</td>
+      <td>2006-06-06</td>
+      <td>male</td>
+      <td></td>
+      <td></td>
+      <td>work</td>
+      <td></td>
+      <td></td>
+      <td></td>
+      <td></td>
+      <td>CH</td>
+      <td></td>
+      <td></td>
+      <td></td>
+      <td></td>
+      <td></td>
+      <td>work</td>
+      <td>r6@ab.info</td>
+      <td></td>
+      <td></td>
+      <td>http://www.r6.sf.net</td>
+      <td></td>
+    </tr>
+ </tbody>
+</table>...
+
+
+As there are errors, there is no `next` button:
+
+>>> from icemac.addressbook.testing import get_submit_control_names
+>>> get_submit_control_names(browser)
+['form.buttons.back']
+
+As the user can't go further he could change the import file again or
+abort the import right now by selecting any link outside the
+importer. None of the data rows got imported as there wehere errors:
+
+>>> browser.getLink('Person list').click()
+>>> browser.url
+'http://localhost/++skin++AddressBook/ab/@@index.html'
+>>> print browser.contents
+<!DOCTYPE ...
+...There are no persons entered yet, click on "Add person" to create one...

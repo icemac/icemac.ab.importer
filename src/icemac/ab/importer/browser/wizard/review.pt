@@ -1,0 +1,5 @@
+<div metal:use-macro="macro:import-wizard">
+  <metal:table fill-slot="below-label">
+    <tal:table content="structure view/renderImportedTable" />
+  </metal:table>
+</div>

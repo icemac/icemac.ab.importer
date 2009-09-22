@@ -9,17 +9,25 @@ def read(*path_elements):
     return "\n\n" + file(os.path.join(*path_elements)).read()
 
 version = '0.1dev'
+long_description = (
+    read('README.txt') +
+    read('src', 'icemac', 'ab', 'importer', 'browser', 'masterdata.txt') +
+    read('src', 'icemac', 'ab', 'importer', 'browser', 'importer.txt') +
+    read('src', 'icemac', 'ab', 'importer', 'browser', 'wizard', 'wizard.txt') +
+    read('src', 'icemac', 'ab', 'importer', 'browser', 'wizard',
+         'constraints.txt') +
+    read('src', 'icemac', 'ab', 'importer', 'browser', 'wizard',
+         'keywords.txt') +
+    read('src', 'icemac', 'ab', 'importer', 'browser', 'wizard',
+         'edgecases.txt') +
+    read('CHANGES.txt')
+    )
 
 setuptools.setup(
     name='icemac.ab.importer',
     version=version,
     description="Import infrastructure for icemac.addressbook",
-    long_description=(
-        read('README.txt') +
-        read('src', 'icemac', 'ab', 'importer', 'browser', 'importer.txt') +
-        read('src', 'icemac', 'ab', 'importer', 'browser', 'wizard.txt') +
-        read('CHANGES.txt')
-        ),
+    long_description=long_description,
     keywords='icemac.addressbook',
     author='Michael Howitz',
     author_email='icemac@gmx.net',
@@ -43,7 +51,9 @@ setuptools.setup(
     include_package_data=True,
     zip_safe=False,
     install_requires=[
+        'gocept.cache',
         'icemac.addressbook',
+        'pytz',
         'setuptools',
         'zc.sourcefactory',
         'zope.container',

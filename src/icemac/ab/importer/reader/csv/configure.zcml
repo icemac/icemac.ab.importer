@@ -1,0 +1,8 @@
+<configure
+   xmlns="http://namespaces.zope.org/zope">
+
+  <adapter
+     name="csv-commaseparated-utf8-isodate"
+     factory=".csv.CSV" />
+
+</configure>

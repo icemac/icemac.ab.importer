@@ -22,12 +22,7 @@ class IImportFile(zope.interface.Interface):
 
 
 class IImportFileReader(zope.interface.Interface):
-    """Reader for an import file.
-
-    Text fields are returned as unicode strings.
-    Date fields are returned as ISO date strings.
-
-    """
+    """Reader for an import file."""
 
     title = zope.schema.TextLine(
         title=u"User understandable name of the reader.", readonly=True)
@@ -35,11 +30,25 @@ class IImportFileReader(zope.interface.Interface):
     def canRead(file_handle):
         """Tell whether this reader is able to read the given file.
 
-        Class method!
+        A reader is able to read a file when:
+
+          - it can open it successfully and
+
+          - `getFieldNames` returns at least one field.
+
+        When an exception occorures, the reader is not able to read the file,
+        too.
+
+        This method is a class method!
+
         """
 
     def open(file_handle):
-        """Create a new file reader and use `file_handle` to read from."""
+        """Create a new file reader and use `file_handle` to read from.
+
+        This method is a class method!
+
+        """
 
     def getFieldNames():
         """Get an iterable of the names of the fields in the file.
@@ -52,18 +61,18 @@ class IImportFileReader(zope.interface.Interface):
         """Get an iterable of up to three sample values for a field.
 
         The values are unicode strings.
-        Date values are represented as ISO-date resp. empty string..
+        Date values are represented as ISO-date resp. empty string.
 
         """
 
     def __iter__():
         """Iterate over the file.
 
-        Yields a dict mapping field index to value for each line in
-        the file.  The keys are integers, the values in the dict are
-        unicode strings or `None`.  Date values are datetime.date
-        objects or `None`.
+        Yields a list for each data row in the file. The values are unicode
+        strings or `None`.  Date values are `datetime.date` objects or
+        `None`.
 
-        The field index is the index of the field name in `getFieldNames`.
+        The indexes are the indexes of the corresponding field names in
+        `getFieldNames`.
 
         """
