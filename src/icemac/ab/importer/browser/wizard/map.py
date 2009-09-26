@@ -49,7 +49,8 @@ class ImportFields(zc.sourcefactory.contextual.BasicContextualSourceFactory):
     def getTitle(self, context, value):
         reader = get_reader(context)
         field_name = list(reader.getFieldNames())[value]
-        samples = u', '.join(x for x in reader.getFieldSamples(field_name) if x)
+        samples = u', '.join(
+            x for x in reader.getFieldSamples(field_name) if x)
         title = field_name
         if samples:
             title = '%s (%s)' % (field_name, samples)
@@ -206,16 +207,16 @@ def render_error(interface, field_name, exc):
 
 class KeywordBuilder(object):
 
-    KEYWORD_FIELD_NAME = "person.keywords"
+    KEYWORD_FIELD_NAME = "person-0.keywords"
     keyword_index = None
     keywords = None
 
     def __init__(self, user_data):
         """Expects a mapping between name of the field in the address book and
-        (pseudo) field index in import file.
+        field index in import file.
 
-        Example: person.first_name --> field_0
-                 homepage.notes --> field_11
+        Example: person-0.first_name --> 0
+                 home_page_address-2.notes --> 11
         """
         if self.KEYWORD_FIELD_NAME in user_data:
             self.keyword_index = user_data[self.KEYWORD_FIELD_NAME]
@@ -241,23 +242,26 @@ class KeywordBuilder(object):
 class ImportObjectBuilder(object):
     """Build the objects the user wants to import."""
 
-    def __init__(self, user_data, address_book):
+    def __init__(self, user_data, address_book, entries_number):
         """Expects a mapping between name of the field in the address book and
-        (pseudo) field index in import file and
+        field index in import file and
         .
 
-        Example: person.first_name --> field_0
-                 homepage.notes --> field_11
+        Example: person-0.first_name --> 0
+                 home_page_address-3.notes --> 11
 
         Stores the address book field names in dictionaries on
         attributes mapping to the index in the import file.
 
         address_book ... address book to create the objects in.
+        entries_number ... number of entries of each address kind.
 
         """
         self.address_book = address_book
+        self.entries_number = entries_number
         for row in icemac.ab.importer.browser.wizard.base.import_mapping:
-            setattr(self, row['prefix'], {})
+            for index in xrange(self.entries_number):
+                setattr(self, "%s-%s" % (row['prefix'], index), {})
         for field_desc, index in user_data.iteritems():
             if index is None:
                 continue # field was not selected for import
@@ -269,22 +273,26 @@ class ImportObjectBuilder(object):
 
         data ... import data row, mapping between field index and value."""
         self.errors = set()
-        person = self._create('person', self.address_book, data)
+        person = self._create('person-0', self.address_book, data)
         self._validate(
             icemac.ab.importer.browser.wizard.base.person_mapping['interface'],
             person)
         for address in icemac.addressbook.address.address_mapping:
-            obj = self._create(address['prefix'], person, data)
-            # set the created address as default address of its kind
-            setattr(person, 'default_'+address['prefix'], obj)
-            self._validate(address['interface'], obj)
+            for index in xrange(self.entries_number):
+                prefix = "%s-%s" % (address['prefix'], index)
+                obj = self._create(prefix, person, data)
+                if index == 0:
+                    # set the created address as default address of its kind
+                    setattr(person, 'default_'+address['prefix'], obj)
+                self._validate(address['interface'], obj)
         return person, sorted(list(self.errors))
 
     def _create(self, prefix, parent, data):
         # map address book field name to value
+        row_prefix, row_index = prefix.split('-')
         row = (
-            icemac.ab.importer.browser.wizard.base.getImportMappingRowForPrefix(
-                prefix))
+            icemac.ab.importer.browser.wizard.base.
+            getImportMappingRowForPrefix(row_prefix))
         obj = icemac.addressbook.utils.create_obj(row['class_'])
 
         iface = row['interface']
@@ -354,10 +362,24 @@ class MapFields(z3c.form.group.GroupForm,
         super(MapFields, self).__init__(*args, **kw)
         session = self.getContent()
         request = self.request
-        self.groups = [
-            FieldsGroup(session, request, self, row['interface'],
-                        row['title'], row['prefix'])
-            for row in icemac.ab.importer.browser.wizard.base.import_mapping]
+        self.groups = []
+        for row in icemac.ab.importer.browser.wizard.base.import_mapping:
+            if row['prefix'] == 'person':
+                entries_number = 1
+                main_prefix = ''
+            else:
+                entries_number = session.get('entries_number', 0)
+                main_prefix = _(u'main')
+            for index in xrange(entries_number):
+                if index == 0:
+                    row_title_prefix = main_prefix
+                else:
+                    row_title_prefix = _(u'other')
+                title = row_title_prefix + ' ' + row['title']
+                prefix = '%s-%s' % (row['prefix'], index)
+                self.groups.append(
+                    FieldsGroup(session, request, self, row['interface'],
+                                title, prefix))
 
     @property
     def fields(self):
@@ -374,7 +396,8 @@ class MapFields(z3c.form.group.GroupForm,
     def applyChanges(self, data):
         super(MapFields, self).applyChanges(data)
         import_object_builder = ImportObjectBuilder(
-            data, icemac.addressbook.interfaces.IAddressBook(self.context))
+            data, icemac.addressbook.interfaces.IAddressBook(self.context),
+            self.getContent()['entries_number'])
         keyword_builder = KeywordBuilder(data)
         session = self.getContent()
         reader = get_reader(session)

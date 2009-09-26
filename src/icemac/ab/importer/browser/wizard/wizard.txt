@@ -100,13 +100,13 @@ the address book. The user can decide to keep the values:
 <table>
   <thead>
     <tr>
-      <th><i>person</i><br />first name</th>
+      <th><i> person</i><br />first name</th>
       <th><br />last name</th>
       <th><br />birth date</th>
       <th><br />sex</th>
       <th><br />keywords</th>
       <th><br />notes</th>
-      <th><i>postal address</i><br />kind</th>
+      <th><i>main postal address</i><br />kind</th>
       <th><br />address prefix</th>
       <th><br />street</th>
       <th><br />city</th>
@@ -114,13 +114,13 @@ the address book. The user can decide to keep the values:
       <th><br />country</th>
       <th><br />state</th>
       <th><br />notes</th>
-      <th><i>phone number</i><br />kind</th>
+      <th><i>main phone number</i><br />kind</th>
       <th><br />number</th>
       <th><br />notes</th>
-      <th><i>e-mail address</i><br />kind</th>
+      <th><i>main e-mail address</i><br />kind</th>
       <th><br />e-mail address</th>
       <th><br />notes</th>
-      <th><i>home page address</i><br />kind</th>
+      <th><i>main home page address</i><br />kind</th>
       <th><br />URL</th>
       <th><br />notes</th>
     </tr>

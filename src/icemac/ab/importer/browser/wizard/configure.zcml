@@ -49,7 +49,7 @@
   <z3c:wizardStep
      name="reader"
      wizard=".base.ImportWizard"
-     class=".reader.ChooseReader"
+     class=".reader.ReaderSettings"
      permission="icemac.addressbook.Import"
      layer="icemac.addressbook.browser.interfaces.IAddressBookLayer"
      />

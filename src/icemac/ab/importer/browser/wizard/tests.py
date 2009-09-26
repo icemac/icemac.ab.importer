@@ -11,6 +11,7 @@ def test_suite():
         "constraints.txt",
         "edgecases.txt",
         "keywords.txt",
+        "multientries.txt",
         "wizard.txt",
         package='icemac.ab.importer.browser.wizard',
         layer=icemac.ab.importer.browser.testing.ImporterLayer,

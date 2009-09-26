@@ -9,19 +9,23 @@ import zope.interface
 import zope.schema
 
 
-class IReadersList(zope.interface.Interface):
-    "A list of import readers which are able to read the file."
+class IReaderSettings(zope.interface.Interface):
+    "Reader Setttings."
 
     reader = zope.schema.Choice(
         title=_(u'Import file reader'),
         source=icemac.ab.importer.source.Importers())
 
+    entries_number = zope.schema.Int(
+        title=_(u'Number of e.g. phone numbers per person'),
+        min=1, max=9, default=1)
 
-class ChooseReader(
+
+class ReaderSettings(
     icemac.ab.importer.browser.wizard.base.FileSessionStorageStep):
 
-    interface = IReadersList
-    label = _(u'Choose reader')
+    interface = IReaderSettings
+    label = _(u'Reader settings')
 
     @property
     def showBackButton(self):
@@ -31,5 +35,5 @@ class ChooseReader(
     def doBack(self, action):
         """Process back action and return True on sucess."""
         self.getContent()['edit_file_available'] = True
-        return super(ChooseReader, self).doBack(action)
+        return super(ReaderSettings, self).doBack(action)
 

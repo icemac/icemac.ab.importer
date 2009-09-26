@@ -102,17 +102,29 @@ class ImportedTable(icemac.addressbook.browser.table.Table):
         cols = []
         weight = 0
         for row in icemac.ab.importer.browser.wizard.base.import_mapping:
-            fields = zope.schema.getFieldsInOrder(row['interface'])
-            first = True
-            for field_name, field in fields:
-                weight += 1
-                if first:
-                    header = '<i>%s</i><br />%s' % (
-                        row['title'], field.title)
-                    first = False
-                else:
-                    header = '<br />%s' % field.title
-                cols.append(self._create_col(field, field_name, weight, header))
+            if row['prefix'] == 'person':
+                entries_number = 1
+                main_prefix = ''
+            else:
+               entries_number = self.session['entries_number']
+               main_prefix = _(u'main')
+            for index in xrange(entries_number):
+                fields = zope.schema.getFieldsInOrder(row['interface'])
+                first = True
+                for field_name, field in fields:
+                    weight += 1
+                    if first:
+                        if index == 0:
+                            title_prefix = main_prefix
+                        else:
+                            title_prefix = _(u'other')
+                        title = title_prefix + ' ' + row['title']
+                        header = '<i>%s</i><br />%s' % (title, field.title)
+                        first = False
+                    else:
+                        header = '<br />%s' % field.title
+                    cols.append(self._create_col(
+                        field, field_name, weight, header, index))
         return cols
 
     def renderRow(self, row, cssClass=None):
@@ -122,7 +134,7 @@ class ImportedTable(icemac.addressbook.browser.table.Table):
         return u'\n'.join((rendered_row,
                            self._renderErrors(row[0][0], cssClass)))
 
-    def _create_col(self, field, field_name, weight, header):
+    def _create_col(self, field, field_name, weight, header, index):
         "Create a single column for the field."
         # try named adapter first
         column = zope.component.queryMultiAdapter(
@@ -136,7 +148,7 @@ class ImportedTable(icemac.addressbook.browser.table.Table):
         return z3c.table.column.addColumn(
             self, column, field_name, weight=weight, header=header,
             container_interface=icemac.addressbook.interfaces.IPerson,
-            interface=field.interface, attrName=field_name)
+            interface=field.interface, attrName=field_name, index=index)
 
     def _renderErrors(self, item, cssClass):
         errors = self.session['import_errors'][item.__name__]

@@ -1,0 +1,320 @@
+===============================================
+ Importing multiple address entries per person
+===============================================
+
+By default only one phone number, e-mail address etc. is imported but
+it is also possible to import multiple ones.
+
+Set up
+======
+
+Create an addressbook and a browser to test the import:
+
+>>> from icemac.addressbook.testing import create_addressbook
+>>> from zope.testbrowser.testing import Browser
+>>> ab = create_addressbook()
+
+>>> browser = Browser()
+>>> browser.addHeader('Authorization', 'Basic mgr:mgrpw')
+>>> browser.open('http://localhost/++skin++AddressBook/ab')
+>>> browser.getLink('Master data').click()
+>>> browser.getLink('Import data').click()
+
+Multi import
+============
+
+In the `Reader settings` form the number of possible entries is
+set. Let's prepare an import file which contains multiple phone
+numbers as example:
+
+>>> from StringIO import StringIO
+>>> file_data = StringIO()
+>>> file_data.write(
+...     'last_name,1st_phone,2nd_phone\n'
+...     'One,112,110\n'
+...     'Two,,116116\n'
+...     'Three,1111,\n'
+...     'Four,,\n')
+>>> file_data.seek(0)
+
+The upload and import works as usual:
+
+>>> browser.getLink('file').click()
+>>> browser.getControl('file').add_file(file_data, 'text/plain', 'multi.csv')
+>>> browser.getControl('Add').click()
+>>> browser.handleErrors = False
+>>> browser.getLink('Import').click()
+>>> browser.url
+'http://localhost/++skin++AddressBook/ab/++attribute++importer/File/@@import'
+
+The user chooses the reader and selects `2` as the number of entries
+per person:
+
+>>> browser.getControl('Number of e.g. phone numbers per person').value
+'1'
+>>> browser.getControl('Number of e.g. phone numbers per person').value = '2'
+>>> browser.getControl('Next').click()
+>>> print browser.url
+http://localhost/++skin++AddressBook/ab/++attribute++importer/File/import/map
+
+Now it is possible to map the fields:
+
+>>> browser.getControl('last name').displayValue = [
+...     'last_name (One, Two, Three)']
+>>> browser.getControl('number', index=0).displayValue = [
+...     '1st_phone (112, 1111)']
+>>> browser.getControl('number', index=1).displayValue = [
+...     '2nd_phone (110, 116116)']
+>>> browser.getControl('Next').click()
+
+The review step shows the import result, the first phone number is the
+default one:
+
+>>> print browser.url
+http://localhost/.../ab/++attribute++importer/File/import/review
+>>> print browser.contents
+<!DOCTYPE ...
+    <table>
+  <thead>
+    <tr>
+      <th><i> person</i><br />first name</th>
+      <th><br />last name</th>
+      <th><br />birth date</th>
+      <th><br />sex</th>
+      <th><br />keywords</th>
+      <th><br />notes</th>
+      <th><i>main postal address</i><br />kind</th>
+      <th><br />address prefix</th>
+      <th><br />street</th>
+      <th><br />city</th>
+      <th><br />zip</th>
+      <th><br />country</th>
+      <th><br />state</th>
+      <th><br />notes</th>
+      <th><i>other postal address</i><br />kind</th>
+      <th><br />address prefix</th>
+      <th><br />street</th>
+      <th><br />city</th>
+      <th><br />zip</th>
+      <th><br />country</th>
+      <th><br />state</th>
+      <th><br />notes</th>
+      <th><i>main phone number</i><br />kind</th>
+      <th><br />number</th>
+      <th><br />notes</th>
+      <th><i>other phone number</i><br />kind</th>
+      <th><br />number</th>
+      <th><br />notes</th>
+      <th><i>main e-mail address</i><br />kind</th>
+      <th><br />e-mail address</th>
+      <th><br />notes</th>
+      <th><i>other e-mail address</i><br />kind</th>
+      <th><br />e-mail address</th>
+      <th><br />notes</th>
+      <th><i>main home page address</i><br />kind</th>
+      <th><br />URL</th>
+      <th><br />notes</th>
+      <th><i>other home page address</i><br />kind</th>
+      <th><br />URL</th>
+      <th><br />notes</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr class="table-even-row">
+      <td></td>
+      <td>One</td>
+      <td></td>
+      <td></td>
+      <td></td>
+      <td></td>
+      <td></td>
+      <td></td>
+      <td></td>
+      <td></td>
+      <td></td>
+      <td>DE</td>
+      <td></td>
+      <td></td>
+      <td></td>
+      <td></td>
+      <td></td>
+      <td></td>
+      <td></td>
+      <td>DE</td>
+      <td></td>
+      <td></td>
+      <td></td>
+      <td>112</td>
+      <td></td>
+      <td></td>
+      <td>110</td>
+      <td></td>
+      <td></td>
+      <td></td>
+      <td></td>
+      <td></td>
+      <td></td>
+      <td></td>
+      <td></td>
+      <td></td>
+      <td></td>
+      <td></td>
+      <td></td>
+      <td></td>
+    </tr>
+<BLANKLINE>
+    <tr class="table-odd-row">
+      <td></td>
+      <td>Two</td>
+      <td></td>
+      <td></td>
+      <td></td>
+      <td></td>
+      <td></td>
+      <td></td>
+      <td></td>
+      <td></td>
+      <td></td>
+      <td>DE</td>
+      <td></td>
+      <td></td>
+      <td></td>
+      <td></td>
+      <td></td>
+      <td></td>
+      <td></td>
+      <td>DE</td>
+      <td></td>
+      <td></td>
+      <td></td>
+      <td></td>
+      <td></td>
+      <td></td>
+      <td>116116</td>
+      <td></td>
+      <td></td>
+      <td></td>
+      <td></td>
+      <td></td>
+      <td></td>
+      <td></td>
+      <td></td>
+      <td></td>
+      <td></td>
+      <td></td>
+      <td></td>
+      <td></td>
+    </tr>
+<BLANKLINE>
+    <tr class="table-even-row">
+      <td></td>
+      <td>Three</td>
+      <td></td>
+      <td></td>
+      <td></td>
+      <td></td>
+      <td></td>
+      <td></td>
+      <td></td>
+      <td></td>
+      <td></td>
+      <td>DE</td>
+      <td></td>
+      <td></td>
+      <td></td>
+      <td></td>
+      <td></td>
+      <td></td>
+      <td></td>
+      <td>DE</td>
+      <td></td>
+      <td></td>
+      <td></td>
+      <td>1111</td>
+      <td></td>
+      <td></td>
+      <td></td>
+      <td></td>
+      <td></td>
+      <td></td>
+      <td></td>
+      <td></td>
+      <td></td>
+      <td></td>
+      <td></td>
+      <td></td>
+      <td></td>
+      <td></td>
+      <td></td>
+      <td></td>
+    </tr>
+<BLANKLINE>
+    <tr class="table-odd-row">
+      <td></td>
+      <td>Four</td>
+      <td></td>
+      <td></td>
+      <td></td>
+      <td></td>
+      <td></td>
+      <td></td>
+      <td></td>
+      <td></td>
+      <td></td>
+      <td>DE</td>
+      <td></td>
+      <td></td>
+      <td></td>
+      <td></td>
+      <td></td>
+      <td></td>
+      <td></td>
+      <td>DE</td>
+      <td></td>
+      <td></td>
+      <td></td>
+      <td></td>
+      <td></td>
+      <td></td>
+      <td></td>
+      <td></td>
+      <td></td>
+      <td></td>
+      <td></td>
+      <td></td>
+      <td></td>
+      <td></td>
+      <td></td>
+      <td></td>
+      <td></td>
+      <td></td>
+      <td></td>
+      <td></td>
+    </tr>
+<BLANKLINE>
+  </tbody>
+</table>...
+
+After completing the import the imported data can be inspected:
+
+>>> browser.getControl('Next').click()
+>>> browser.url
+'http://localhost/.../ab/++attribute++importer/File/import/complete'
+>>> browser.getControl('Complete').click()
+>>> browser.url
+'http://localhost/++skin++AddressBook/ab/++attribute++importer'
+>>> browser.getLink('Person list').click()
+>>> browser.url
+'http://localhost/++skin++AddressBook/ab/@@index.html'
+>>> browser.getLink('One').click()
+>>> browser.getControl('main phone number').displayOptions
+['unknown: 112', 'unknown: 110']
+>>> browser.getControl('main phone number').displayValue
+['unknown: 112']
+>>> browser.getControl('Cancel').click()
+
+>>> browser.getLink('Two').click()
+>>> browser.getControl('main phone number').displayOptions
+['unknown', 'unknown: 116116']
+>>> browser.getControl('main phone number').displayValue
+['unknown']
