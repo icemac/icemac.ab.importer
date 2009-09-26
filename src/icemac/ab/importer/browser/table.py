@@ -56,12 +56,10 @@ class CountryAttrGetAttrColumn(AttrGetAttrColumn):
         return country
 
 
-class KeywordsGetAttrColumn(GetAttrColumn):
+class KeywordsGetAttrColumn(z3c.table.column.GetAttrColumn):
     """GetAttrColumn where attr is an iterable of keywords."""
 
     def getValue(self, obj):
         values = super(KeywordsGetAttrColumn, self).getValue(obj)
-        if values != u'':
-            return u', '.join(
-                icemac.addressbook.interfaces.ITitle(x) for x in values)
-        return values
+        return u', '.join(
+            icemac.addressbook.interfaces.ITitle(x) for x in values)
