@@ -55,6 +55,7 @@ setuptools.setup(
         'icemac.addressbook',
         'pytz',
         'setuptools',
+        'z3c.wizard',
         'zc.sourcefactory',
         'zope.container',
         'zope.interface',

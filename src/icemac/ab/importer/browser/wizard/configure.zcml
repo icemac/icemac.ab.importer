@@ -4,6 +4,9 @@
    xmlns:gocept="http://namespaces.gocept.com/zcml"
    xmlns:z3c="http://namespaces.zope.org/z3c">
 
+  <include package="z3c.wizard" file="meta.zcml" />
+  <include package="z3c.wizard" />
+
   <!-- This adapter is not registered by default in z3c.form for
        safety reasons but we need it here to edit PersistentMappings
        stored in the session. -->
