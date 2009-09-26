@@ -102,6 +102,45 @@
       layer="icemac.addressbook.browser.interfaces.IAddressBookLayer"
       />
 
+  <adapter
+     for="icemac.addressbook.file.interfaces.IFile
+          *"
+     provides="z3c.table.interfaces.IColumn"
+     factory=".review.ContainerColumnFactory" />
+
+  <adapter
+     for="icemac.addressbook.file.interfaces.IFile
+          zope.schema.interfaces.ITextLine"
+     provides="z3c.table.interfaces.IColumn"
+     factory=".review.ContainerColumnFactory" />
+
+  <adapter
+     for="icemac.addressbook.file.interfaces.IFile
+          zope.schema.interfaces.IText"
+     provides="z3c.table.interfaces.IColumn"
+     factory=".review.TruncatedContentColumnFactory" />
+
+  <adapter
+     for="icemac.addressbook.file.interfaces.IFile
+          zope.schema.interfaces.IChoice"
+     provides="z3c.table.interfaces.IColumn"
+     factory=".review.CountryColumnFactory"
+     name="country" />
+
+  <adapter
+     for="icemac.addressbook.file.interfaces.IFile
+          zope.schema.interfaces.IChoice"
+     provides="z3c.table.interfaces.IColumn"
+     factory=".review.CountryColumnFactory"
+     name="state" />
+
+  <adapter
+     for="icemac.addressbook.file.interfaces.IFile
+          gocept.reference.field.Set"
+     provides="z3c.table.interfaces.IColumn"
+     factory=".review.KeywordsColumnFactory"
+     name="keywords" />
+
   <z3c:wizardStep
      name="complete"
      wizard=".base.ImportWizard"

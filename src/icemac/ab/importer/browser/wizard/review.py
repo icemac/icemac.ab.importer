@@ -13,6 +13,78 @@ import zope.interface
 import zope.schema
 
 
+class ContainerColumn(z3c.table.column.GetAttrColumn):
+    "Context is a container, search values in container items."
+    interface = None # search only objects providinf this interface
+    container_interface = None # when value provides this interface, lookup
+                               # atribute on container
+    index = 0 # index in the list of found objects
+    attrName = None # attr to look up
+
+    def getObject(self, container):
+        if (self.container_interface and
+            self.container_interface == self.interface):
+            return container
+        candidates = list(icemac.addressbook.utils.iter_by_interface(
+                container, self.interface))
+        return candidates[self.index]
+
+    def getRawValue(self, item):
+        return self.getValue(self.getObject(item))
+
+    def getRenderedValue(self, item):
+        value = self.getRawValue(item)
+        if value is None:
+            value = u''
+        return value
+
+    def renderCell(self, item):
+        return self.getRenderedValue(item)
+
+
+class CountryColumn(ContainerColumn):
+    """ContainerColumn for gocept.country objects."""
+
+    def getRawValue(self, obj):
+        country = super(CountryColumn, self).getRawValue(obj)
+        if country is not None:
+            country = country.token
+        return country
+
+
+class TruncatedContentColumn(ContainerColumn):
+
+    length = 20
+    ellipsis = u'…'
+
+    def getRawValue(self, obj):
+        value = super(TruncatedContentColumn, self).getRawValue(obj)
+        return icemac.truncatetext.truncate(value, self.length, self.ellipsis)
+
+
+class KeywordsColumn(z3c.table.column.GetAttrColumn):
+    """GetAttrColumn where attr is an iterable of keywords."""
+
+    def getValue(self, obj):
+        values = super(KeywordsColumn, self).getValue(obj)
+        return u', '.join(
+            icemac.addressbook.interfaces.ITitle(x) for x in values)
+
+
+def columnFactory(column):
+    """Create a factory which returns the column, so the column can be used as
+    an adapter without instanciating it."""
+    def factory(context, field):
+        return column
+    return factory
+
+
+ContainerColumnFactory = columnFactory(ContainerColumn)
+CountryColumnFactory = columnFactory(CountryColumn)
+TruncatedContentColumnFactory = columnFactory(TruncatedContentColumn)
+KeywordsColumnFactory = columnFactory(KeywordsColumn)
+
+
 class ReviewFields(zope.interface.Interface):
 
     keep = zope.schema.Choice(title=_(u'Keep imported data?'),
@@ -40,8 +112,7 @@ class ImportedTable(icemac.addressbook.browser.table.Table):
                     first = False
                 else:
                     header = '<br />%s' % field.title
-                cols.append(self._create_col(
-                        row['prefix'], field_name, weight, header))
+                cols.append(self._create_col(field, field_name, weight, header))
         return cols
 
     def renderRow(self, row, cssClass=None):
@@ -51,23 +122,21 @@ class ImportedTable(icemac.addressbook.browser.table.Table):
         return u'\n'.join((rendered_row,
                            self._renderErrors(row[0][0], cssClass)))
 
-    def _create_col(self, prefix, field_name, weight, header):
-        "Create a single column according to `prefix` and `field_name`."
-        kwargs = {}
-        if prefix == 'person':
-            column = icemac.ab.importer.browser.table.GetAttrColumn
-            if field_name == 'keywords':
-                column = icemac.ab.importer.browser.table.KeywordsGetAttrColumn
-        else:
-            column = icemac.ab.importer.browser.table.AttrGetAttrColumn
-            kwargs['masterAttrName'] = 'default_' + prefix
-            if field_name in ('country', 'state'):
-                column = (
-                    icemac.ab.importer.browser.table.CountryAttrGetAttrColumn)
+    def _create_col(self, field, field_name, weight, header):
+        "Create a single column for the field."
+        # try named adapter first
+        column = zope.component.queryMultiAdapter(
+            (self.context, field), z3c.table.interfaces.IColumn,
+            name=field_name)
+        if column is None:
+            # the default adapter needs to exist
+            column = zope.component.getMultiAdapter(
+                (self.context, field), z3c.table.interfaces.IColumn)
 
         return z3c.table.column.addColumn(
             self, column, field_name, weight=weight, header=header,
-            attrName=field_name, **kwargs)
+            container_interface=icemac.addressbook.interfaces.IPerson,
+            interface=field.interface, attrName=field_name)
 
     def _renderErrors(self, item, cssClass):
         errors = self.session['import_errors'][item.__name__]

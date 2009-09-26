@@ -50,7 +50,7 @@ together:
 
 Not each field must be selected on mapping fields. (Field `asdf` is used as an example here.). A field in the import file might be associated to more than one field in the addressbook (Field `all_kind` is used to show this).
 
-Whitespaces at beginning and end are striped. (See line with `last_name` ``nice``.)
+Whitespaces at beginning and end are striped. When a notes field contains more then 20 characters it get nicely truncated. (See line with `last_name` ``nice`` for both cases.)
 
 Let's construct an import file which containts errors for this constraints:
 
@@ -73,7 +73,8 @@ Let's construct an import file which containts errors for this constraints:
 ...     '"state",,,,,,,DE,Brandenburg,\n'
 ...     '"not enough fields",,female,,,,,\n'
 ...     '" nice "," 2006-06-06"," male",work, r6@ab.info,'
-...       '" http://www.r6.sf.net",," Switzerland ",," my  nice  notes    "\n')
+...       '" http://www.r6.sf.net",," Switzerland ",,'
+...       '"  my r e a l l y   long, but also really nice  notes    "\n')
 >>> file_data.seek(0)
 
 The upload and import works as usual:
@@ -562,7 +563,7 @@ Errors:
       <td>2006-06-06</td>
       <td>male</td>
       <td></td>
-      <td>my  nice  notes</td>
+      <td>my r e a l l y   long, …</td>
       <td>work</td>
       <td></td>
       <td></td>
