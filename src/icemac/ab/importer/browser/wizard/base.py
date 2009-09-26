@@ -3,6 +3,7 @@
 # See also LICENSE.txt
 
 from icemac.addressbook.i18n import MessageFactory as _
+import gocept.cache.property
 import icemac.ab.importer.interfaces
 import icemac.addressbook.address
 import icemac.addressbook.interfaces
@@ -34,6 +35,7 @@ class FileSession(persistent.mapping.PersistentMapping):
     "Session of an import file."
 
     file = None
+    cache = gocept.cache.property.TransactionBoundCache('_cache', dict)
 
 
 @zope.component.adapter(FileSession)

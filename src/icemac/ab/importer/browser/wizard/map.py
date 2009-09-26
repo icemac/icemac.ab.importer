@@ -21,13 +21,18 @@ NONE_REPLACEMENT = object()
 
 
 def get_reader(session):
+    reader = session.cache.get('reader', None)
+    if reader is not None:
+        return reader
     reader_name = session['reader']
     reader = zope.component.getAdapter(
         None,
         icemac.ab.importer.interfaces.IImportFileReader,
         name=reader_name)
     file = zope.security.proxy.removeSecurityProxy(session.file.openDetached())
-    return reader.open(file)
+    reader = reader.open(file)
+    session.cache['reader'] = reader
+    return reader
 
 
 class ImportFields(zc.sourcefactory.contextual.BasicContextualSourceFactory):
