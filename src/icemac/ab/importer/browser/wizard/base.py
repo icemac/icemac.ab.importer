@@ -76,7 +76,8 @@ person_mapping = dict(interface=icemac.addressbook.interfaces.IPerson,
                       title=u'person',
                       prefix='person',
                       class_=icemac.addressbook.person.Person)
-import_mapping =  (person_mapping,) + icemac.addressbook.address.address_mapping
+import_mapping =  ((person_mapping,) +
+                   icemac.addressbook.address.address_mapping)
 
 
 def getImportMappingRowForPrefix(prefix):
