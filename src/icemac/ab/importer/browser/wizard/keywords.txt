@@ -31,7 +31,8 @@ Create an import file:
 >>> file_data = StringIO()
 >>> file_data.write('last_name,xkeywords\n'
 ...                 'Lahn,"family, friends"\n'
-...                 'Sieg," friends , company"\n')
+...                 'Sieg," friends , company"\n'
+...                 'Pech,\n')
 >>> file_data.seek(0)
 
 
@@ -54,7 +55,8 @@ The user chooses the reader as usual and maps the fields:
 >>> browser.getControl('Next').click()
 >>> print browser.url
 http://localhost/++skin++AddressBook/ab/++attribute++importer/File/import/map
->>> browser.getControl('last name').displayValue = ['last_name (Lahn, Sieg)']
+>>> browser.getControl('last name').displayValue = [
+...     'last_name (Lahn, Sieg, Pech)']
 >>> browser.getControl('keywords').displayValue = [
 ...     'xkeywords (family, friends, friends , company)']
 >>> browser.getControl('Next').click()
@@ -95,6 +97,10 @@ They have been associated to the persons:
 >>> browser.getLink('Sieg').click()
 >>> browser.getControl('keywords').displayValue
 ['company', 'friends']
+>>> browser.getControl('Cancel').click()
+>>> browser.getLink('Pech').click()
+>>> browser.getControl('keywords').displayValue
+[]
 
 
 Do not keep data
@@ -160,4 +166,4 @@ No new persons have been created:
 
 >>> from icemac.addressbook.interfaces import ITitle
 >>> [ITitle(x) for x in ab.values()]
-[u'Lahn', u'Sieg']
+[u'Lahn', u'Sieg', u'Pech']

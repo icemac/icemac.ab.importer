@@ -114,12 +114,11 @@ def country_or_state_field(value, field):
 @zope.component.adapter(None, gocept.reference.field.Set)
 @zope.interface.implementer(IFieldValue)
 def keywords_field(value, field):
+    keywords = set()
     if value is None:
-        # We can't return None, as this means that the adapter can't adapt.
-        return NONE_REPLACEMENT
+        return keywords
     keyword_util = zope.component.getUtility(
         icemac.addressbook.interfaces.IKeywords)
-    keywords = set()
     for keyword_title in split_keywords(value):
         keywords.add(keyword_util.get_keyword_by_title(keyword_title))
     return keywords
@@ -227,7 +226,10 @@ class KeywordBuilder(object):
         created = []
         if self.keyword_index is None:
             return created
-        for keyword_title in split_keywords(data[self.keyword_index]):
+        keyword_data = data[self.keyword_index]
+        if keyword_data is None:
+            return created
+        for keyword_title in split_keywords(keyword_data):
             if self.keywords.get_keyword_by_title(keyword_title, None) is None:
                 keyword = icemac.addressbook.utils.create_obj(
                     icemac.addressbook.keyword.Keyword, keyword_title)
