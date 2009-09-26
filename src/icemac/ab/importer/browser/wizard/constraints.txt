@@ -58,22 +58,22 @@ Let's construct an import file which containts errors for this constraints:
 >>> file_data = StringIO()
 >>> file_data.write(
 ...     'last_name,birth_date,s_e_x,all_kind,e_mail_addr,www,asdf,countries,'
-...       'cstate\n'
-...     ',1999-09-09,,,,,asdf,,\n'  # missing last name
-...     '"wrong date",1981,,,,,,,,\n'
-...     '"wrong sex_value",,m,,,,,,\n'
-...     '"wrong kind",,,personal,,,,,\n'
-...     '"wrong e-mail",,,private,i@me@de,,,,\n'
-...     '"wrong home page address",,,,i@me.de,asdf,,,\n'
-...     '"wrong country",,,,,,,D,\n'
-...     '"country ISO code",,,,,,,AT,\n'
-...     '"wrong state",,,,,,,DE,Schlesien\n'
-...     '"state from different country",,,,,,,AT,Sachsen\n'
-...     '"state without country",,,,,,,,Sachsen-Anhalt\n'
-...     '"state",,,,,,,DE,Brandenburg\n'
+...       'cstate,pnotes\n'
+...     ',1999-09-09,,,,,asdf,,,\n'  # missing last name
+...     '"wrong date",1981,,,,,,,,,\n'
+...     '"wrong sex_value",,m,,,,,,,\n'
+...     '"wrong kind",,,personal,,,,,,\n'
+...     '"wrong e-mail",,,private,i@me@de,,,,,\n'
+...     '"wrong home page address",,,,i@me.de,asdf,,,,\n'
+...     '"wrong country",,,,,,,D,,\n'
+...     '"country ISO code",,,,,,,AT,,\n'
+...     '"wrong state",,,,,,,DE,Schlesien,\n'
+...     '"state from different country",,,,,,,AT,Sachsen,\n'
+...     '"state without country",,,,,,,,Sachsen-Anhalt,\n'
+...     '"state",,,,,,,DE,Brandenburg,\n'
 ...     '"not enough fields",,female,,,,,\n'
 ...     '" nice "," 2006-06-06"," male",work, r6@ab.info,'
-...       '" http://www.r6.sf.net",," Switzerland ",\n')
+...       '" http://www.r6.sf.net",," Switzerland ",," my  nice  notes    "\n')
 >>> file_data.seek(0)
 
 The upload and import works as usual:
@@ -95,6 +95,7 @@ http://localhost/++skin++AddressBook/ab/++attribute++importer/File/import/map
 >>> browser.getControl('birth date').displayValue = [
 ...     'birth_date (1999-09-09, 1981)']
 >>> browser.getControl('sex').displayValue = ['s_e_x (m)']
+>>> browser.getControl('notes', index=0).displayValue = ['pnotes']
 >>> browser.getControl('kind', index=0).displayValue = ['all_kind']
 >>> browser.getControl('kind', index=2).displayValue = ['all_kind']
 >>> browser.getControl('e-mail address').displayValue = ['e_mail_addr']
@@ -550,6 +551,7 @@ Errors:
 <td colspan="23">
 Errors:
 <ul class="errors">
+<li>person: Not enough data fields in row.</li>
 <li>postal address: Not enough data fields in row.</li>
 </ul>
 </td>
@@ -560,7 +562,7 @@ Errors:
       <td>2006-06-06</td>
       <td>male</td>
       <td></td>
-      <td></td>
+      <td>my  nice  notes</td>
       <td>work</td>
       <td></td>
       <td></td>
@@ -589,9 +591,32 @@ As there are errors, there is no `next` button:
 >>> get_submit_control_names(browser)
 ['form.buttons.back']
 
-As the user can't go further he could change the import file again or
-abort the import right now by selecting any link outside the
-importer. None of the data rows got imported as there wehere errors:
+Selecting the `back` button shows that the selected mapping has been kept:
+
+>>> browser.getControl('Back').click()
+>>> browser.getControl('last name').displayValue
+['last_name (wrong date, wrong sex_value)']
+>>> browser.getControl('birth date').displayValue
+['birth_date (1999-09-09, 1981)']
+>>> browser.getControl('sex').displayValue
+['s_e_x (m)']
+>>> browser.getControl('notes', index=0).displayValue
+['pnotes']
+>>> browser.getControl('kind', index=0).displayValue
+['all_kind']
+>>> browser.getControl('kind', index=2).displayValue
+['all_kind']
+>>> browser.getControl('e-mail address').displayValue
+['e_mail_addr']
+>>> browser.getControl('country').displayValue
+['countries']
+>>> browser.getControl('state').displayValue
+['cstate']
+>>> browser.getControl('URL').displayValue
+['www']
+>>> browser.getControl('Next').click()
+
+As the user can't go further from the review step he could upload another import file or abort the import right now by selecting any link outside the importer. None of the data rows got imported as there were errors:
 
 >>> browser.getLink('Person list').click()
 >>> browser.url

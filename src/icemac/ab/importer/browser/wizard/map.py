@@ -7,6 +7,7 @@ import gocept.reference.field
 import icemac.ab.importer.browser.wizard.base
 import icemac.ab.importer.interfaces
 import icemac.addressbook.interfaces
+import persistent.mapping
 import z3c.form.field
 import zc.sourcefactory.contextual
 import zope.component
@@ -21,6 +22,10 @@ NONE_REPLACEMENT = object()
 
 
 def get_reader(session):
+    if not hasattr(session, 'cache'):
+        # we are in a dict below the session (storing field group
+        # data), so we have to use the "uplink"
+        session = session['__parent__']
     reader = session.cache.get('reader', None)
     if reader is not None:
         return reader
@@ -327,6 +332,14 @@ class FieldsGroup(z3c.form.group.Group):
             choice.__name__ = field_name
             fields.append(choice)
         self.fields = z3c.form.field.Fields(*fields, **dict(prefix=prefix))
+
+    def getContent(self):
+        if self.prefix not in self.context:
+            self.context[self.prefix] = persistent.mapping.PersistentMapping()
+            # We need to store the parent here to find the way back to
+            # the parent in `get_reader`.
+            self.context[self.prefix]['__parent__'] = self.context
+        return self.context[self.prefix]
 
 
 class MapFields(z3c.form.group.GroupForm,
