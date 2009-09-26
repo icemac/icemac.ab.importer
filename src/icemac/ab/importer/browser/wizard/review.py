@@ -3,6 +3,7 @@
 # See also LICENSE.txt
 
 from icemac.addressbook.i18n import MessageFactory as _
+import icemac.ab.importer.browser.table
 import icemac.addressbook.browser.table
 import icemac.addressbook.interfaces
 import icemac.addressbook.sources
@@ -54,15 +55,15 @@ class ImportedTable(icemac.addressbook.browser.table.Table):
         "Create a single column according to `prefix` and `field_name`."
         kwargs = {}
         if prefix == 'person':
-            column = icemac.addressbook.browser.table.GetAttrColumn
+            column = icemac.ab.importer.browser.table.GetAttrColumn
             if field_name == 'keywords':
-                column = icemac.addressbook.browser.table.KeywordsGetAttrColumn
+                column = icemac.ab.importer.browser.table.KeywordsGetAttrColumn
         else:
-            column = icemac.addressbook.browser.table.AttrGetAttrColumn
+            column = icemac.ab.importer.browser.table.AttrGetAttrColumn
             kwargs['masterAttrName'] = 'default_' + prefix
             if field_name in ('country', 'state'):
                 column = (
-                    icemac.addressbook.browser.table.CountryAttrGetAttrColumn)
+                    icemac.ab.importer.browser.table.CountryAttrGetAttrColumn)
 
         return z3c.table.column.addColumn(
             self, column, field_name, weight=weight, header=header,
