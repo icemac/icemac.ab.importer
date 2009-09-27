@@ -291,9 +291,10 @@ class ImportObjectBuilder(object):
 
     def _create(self, prefix, parent, data, creation_required):
         field_mapping = getattr(self, prefix)
+        len_data = len(data)
         field_values = [data[index]
                         for index in field_mapping.values()
-                        if data[index]]
+                        if index < len_data and data[index]]
         if not (field_values or creation_required):
             # When there are no values to be stored and creation is
             # not required do nothing.

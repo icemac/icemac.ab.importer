@@ -30,11 +30,11 @@ numbers as example:
 >>> from StringIO import StringIO
 >>> file_data = StringIO()
 >>> file_data.write(
-...     'last_name,1st_phone,2nd_phone\n'
-...     'One,112,110\n'
-...     'Two,,116116\n'
-...     'Three,1111,\n'
-...     'Four,,\n')
+...     'last_name,1st_phone,2nd_phone,3rd_phone\n'
+...     'One,112,110,108\n'
+...     'Two,,116116,\n'
+...     'Three,1111,,2222\n'
+...     'Four,,,\n')
 >>> file_data.seek(0)
 
 The upload and import works as usual:
@@ -51,7 +51,7 @@ per person:
 
 >>> browser.getControl('Number of e.g. phone numbers per person').value
 '1'
->>> browser.getControl('Number of e.g. phone numbers per person').value = '2'
+>>> browser.getControl('Number of e.g. phone numbers per person').value = '3'
 >>> browser.getControl('Next').click()
 >>> print browser.url
 http://localhost/++skin++AddressBook/ab/++attribute++importer/File/import/map
@@ -64,6 +64,8 @@ Now it is possible to map the fields:
 ...     '1st_phone (112, 1111)']
 >>> browser.getControl('number', index=1).displayValue = [
 ...     '2nd_phone (110, 116116)']
+>>> browser.getControl('number', index=2).displayValue = [
+...     '3rd_phone (108, 2222)']
 >>> browser.getControl('Next').click()
 
 The review step shows the import result, the first phone number is the
@@ -98,7 +100,18 @@ http://localhost/.../ab/++attribute++importer/File/import/review
       <th><br />country</th>
       <th><br />state</th>
       <th><br />notes</th>
+      <th><i>other postal address</i><br />kind</th>
+      <th><br />address prefix</th>
+      <th><br />street</th>
+      <th><br />city</th>
+      <th><br />zip</th>
+      <th><br />country</th>
+      <th><br />state</th>
+      <th><br />notes</th>
       <th><i>main phone number</i><br />kind</th>
+      <th><br />number</th>
+      <th><br />notes</th>
+      <th><i>other phone number</i><br />kind</th>
       <th><br />number</th>
       <th><br />notes</th>
       <th><i>other phone number</i><br />kind</th>
@@ -110,7 +123,13 @@ http://localhost/.../ab/++attribute++importer/File/import/review
       <th><i>other e-mail address</i><br />kind</th>
       <th><br />e-mail address</th>
       <th><br />notes</th>
+      <th><i>other e-mail address</i><br />kind</th>
+      <th><br />e-mail address</th>
+      <th><br />notes</th>
       <th><i>main home page address</i><br />kind</th>
+      <th><br />URL</th>
+      <th><br />notes</th>
+      <th><i>other home page address</i><br />kind</th>
       <th><br />URL</th>
       <th><br />notes</th>
       <th><i>other home page address</i><br />kind</th>
@@ -143,10 +162,27 @@ http://localhost/.../ab/++attribute++importer/File/import/review
       <td></td>
       <td></td>
       <td></td>
+      <td></td>
+      <td></td>
+      <td></td>
+      <td></td>
+      <td></td>
+      <td></td>
+      <td></td>
+      <td></td>
       <td>112</td>
       <td></td>
       <td></td>
       <td>110</td>
+      <td></td>
+      <td></td>
+      <td>108</td>
+      <td></td>
+      <td></td>
+      <td></td>
+      <td></td>
+      <td></td>
+      <td></td>
       <td></td>
       <td></td>
       <td></td>
@@ -189,7 +225,24 @@ http://localhost/.../ab/++attribute++importer/File/import/review
       <td></td>
       <td></td>
       <td></td>
+      <td></td>
+      <td></td>
+      <td></td>
+      <td></td>
+      <td></td>
+      <td></td>
+      <td></td>
+      <td></td>
       <td>116116</td>
+      <td></td>
+      <td></td>
+      <td></td>
+      <td></td>
+      <td></td>
+      <td></td>
+      <td></td>
+      <td></td>
+      <td></td>
       <td></td>
       <td></td>
       <td></td>
@@ -229,7 +282,24 @@ http://localhost/.../ab/++attribute++importer/File/import/review
       <td></td>
       <td></td>
       <td></td>
+      <td></td>
+      <td></td>
+      <td></td>
+      <td></td>
+      <td></td>
+      <td></td>
+      <td></td>
+      <td></td>
       <td>1111</td>
+      <td></td>
+      <td></td>
+      <td>2222</td>
+      <td></td>
+      <td></td>
+      <td></td>
+      <td></td>
+      <td></td>
+      <td></td>
       <td></td>
       <td></td>
       <td></td>
@@ -289,9 +359,25 @@ http://localhost/.../ab/++attribute++importer/File/import/review
       <td></td>
       <td></td>
       <td></td>
+      <td></td>
+      <td></td>
+      <td></td>
+      <td></td>
+      <td></td>
+      <td></td>
+      <td></td>
+      <td></td>
+      <td></td>
+      <td></td>
+      <td></td>
+      <td></td>
+      <td></td>
+      <td></td>
+      <td></td>
+      <td></td>
+      <td></td>
     </tr>
-<BLANKLINE>
-  </tbody>
+ </tbody>
 </table>...
 
 After completing the import the imported data can be inspected:
@@ -310,7 +396,7 @@ The first phone number is the main one:
 
 >>> browser.getLink('One').click()
 >>> browser.getControl('main phone number').displayOptions
-['unknown: 112', 'unknown: 110']
+['unknown: 112', 'unknown: 110', 'unknown: 108']
 >>> browser.getControl('main phone number').displayValue
 ['unknown: 112']
 
@@ -323,12 +409,14 @@ When there is no first one an empty main number is created:
 >>> browser.getControl('main phone number').displayValue
 ['unknown']
 
-Empty non-main phone numbers are not created:
+Empty non-main phone numbers are not created, so the missing 2nd
+number is left out and the third one gets the one and only non-main
+phone number:
 
 >>> browser.getControl('Cancel').click()
 >>> browser.getLink('Three').click()
 >>> browser.getControl('main phone number').displayOptions
-['unknown: 1111']
+['unknown: 1111', 'unknown: 2222']
 
 But there must be a default number which is always created:
 
