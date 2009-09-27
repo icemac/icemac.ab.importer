@@ -42,7 +42,6 @@ The upload and import works as usual:
 >>> browser.getLink('file').click()
 >>> browser.getControl('file').add_file(file_data, 'text/plain', 'multi.csv')
 >>> browser.getControl('Add').click()
->>> browser.handleErrors = False
 >>> browser.getLink('Import').click()
 >>> browser.url
 'http://localhost/++skin++AddressBook/ab/++attribute++importer/File/@@import'
@@ -140,7 +139,7 @@ http://localhost/.../ab/++attribute++importer/File/import/review
       <td></td>
       <td></td>
       <td></td>
-      <td>DE</td>
+      <td></td>
       <td></td>
       <td></td>
       <td></td>
@@ -183,7 +182,7 @@ http://localhost/.../ab/++attribute++importer/File/import/review
       <td></td>
       <td></td>
       <td></td>
-      <td>DE</td>
+      <td></td>
       <td></td>
       <td></td>
       <td></td>
@@ -226,7 +225,7 @@ http://localhost/.../ab/++attribute++importer/File/import/review
       <td></td>
       <td></td>
       <td></td>
-      <td>DE</td>
+      <td></td>
       <td></td>
       <td></td>
       <td></td>
@@ -269,7 +268,7 @@ http://localhost/.../ab/++attribute++importer/File/import/review
       <td></td>
       <td></td>
       <td></td>
-      <td>DE</td>
+      <td></td>
       <td></td>
       <td></td>
       <td></td>
@@ -306,15 +305,34 @@ After completing the import the imported data can be inspected:
 >>> browser.getLink('Person list').click()
 >>> browser.url
 'http://localhost/++skin++AddressBook/ab/@@index.html'
+
+The first phone number is the main one:
+
 >>> browser.getLink('One').click()
 >>> browser.getControl('main phone number').displayOptions
 ['unknown: 112', 'unknown: 110']
 >>> browser.getControl('main phone number').displayValue
 ['unknown: 112']
->>> browser.getControl('Cancel').click()
 
+When there is no first one an empty main number is created:
+
+>>> browser.getControl('Cancel').click()
 >>> browser.getLink('Two').click()
 >>> browser.getControl('main phone number').displayOptions
 ['unknown', 'unknown: 116116']
 >>> browser.getControl('main phone number').displayValue
+['unknown']
+
+Empty non-main phone numbers are not created:
+
+>>> browser.getControl('Cancel').click()
+>>> browser.getLink('Three').click()
+>>> browser.getControl('main phone number').displayOptions
+['unknown: 1111']
+
+But there must be a default number which is always created:
+
+>>> browser.getControl('Cancel').click()
+>>> browser.getLink('Four').click()
+>>> browser.getControl('main phone number').displayOptions
 ['unknown']

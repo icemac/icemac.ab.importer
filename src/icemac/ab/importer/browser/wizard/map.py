@@ -273,31 +273,42 @@ class ImportObjectBuilder(object):
 
         data ... import data row, mapping between field index and value."""
         self.errors = set()
-        person = self._create('person-0', self.address_book, data)
+        person = self._create('person-0', self.address_book, data, True)
         self._validate(
             icemac.ab.importer.browser.wizard.base.person_mapping['interface'],
             person)
         for address in icemac.addressbook.address.address_mapping:
             for index in xrange(self.entries_number):
                 prefix = "%s-%s" % (address['prefix'], index)
-                obj = self._create(prefix, person, data)
-                if index == 0:
-                    # set the created address as default address of its kind
+                main_entry = (index == 0)
+                obj = self._create(prefix, person, data, main_entry)
+                if main_entry:
+                    # set the created address as main address of its kind
                     setattr(person, 'default_'+address['prefix'], obj)
-                self._validate(address['interface'], obj)
+                if obj is not None:
+                    self._validate(address['interface'], obj)
         return person, sorted(list(self.errors))
 
-    def _create(self, prefix, parent, data):
-        # map address book field name to value
+    def _create(self, prefix, parent, data, creation_required):
+        field_mapping = getattr(self, prefix)
+        field_values = [data[index]
+                        for index in field_mapping.values()
+                        if data[index]]
+        if not (field_values or creation_required):
+            # When there are no values to be stored and creation is
+            # not required do nothing.
+            return
+
+        # instantiate the object
         row_prefix, row_index = prefix.split('-')
         row = (
             icemac.ab.importer.browser.wizard.base.
             getImportMappingRowForPrefix(row_prefix))
         obj = icemac.addressbook.utils.create_obj(row['class_'])
 
+        # set the values
         iface = row['interface']
-        for field_name, index in getattr(self, prefix).iteritems():
-            # get, convert and set values
+        for field_name, index in field_mapping.iteritems():
             field = iface[field_name]
             try:
                 value = data[index]

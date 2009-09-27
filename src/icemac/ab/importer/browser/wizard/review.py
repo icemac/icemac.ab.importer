@@ -27,7 +27,9 @@ class ContainerColumn(z3c.table.column.GetAttrColumn):
             return container
         candidates = list(icemac.addressbook.utils.iter_by_interface(
                 container, self.interface))
-        return candidates[self.index]
+        if self.index < len(candidates):
+            return candidates[self.index]
+        return None
 
     def getRawValue(self, item):
         return self.getValue(self.getObject(item))
@@ -47,7 +49,7 @@ class CountryColumn(ContainerColumn):
 
     def getRawValue(self, obj):
         country = super(CountryColumn, self).getRawValue(obj)
-        if country is not None:
+        if country:
             country = country.token
         return country
 
