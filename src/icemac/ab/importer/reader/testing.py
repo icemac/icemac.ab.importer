@@ -34,7 +34,7 @@ class ReaderTest(unittest.TestCase):
 
     def test_getFieldNames(self):
         field_names = list(self.getReader().getFieldNames())
-        self.assertEqual([u'firstname', u'birth_date', u'last name'],
+        self.assertEqual([u'last name', u'firstname', u'birth_date'],
                          field_names)
         self.assert_(isinstance(field_names[0], unicode))
         self.assert_(isinstance(field_names[1], unicode))
@@ -71,10 +71,10 @@ class ReaderTest(unittest.TestCase):
         self.assert_(isinstance(samples[0], unicode))
 
     def test___iter__(self):
-        result = [[u'Andreas', datetime.date(1976, 1, 24), u'Koch'],
-                  [u'Hanna', datetime.date(2000, 1, 1), u'Hula'],
-                  [u'Jens', None, u'Jänsen'],
-                  [None, datetime.date(2001, 12, 31), u'Fruma']]
+        result = [[u'Koch', u'Andreas', datetime.date(1976, 1, 24)],
+                  [u'Hula', u'Hanna', datetime.date(2000, 1, 1)],
+                  [u'Jänsen', u'Jens', None],
+                  [u'Fruma', None, datetime.date(2001, 12, 31)]]
         for index, line in enumerate(self.getReader()):
             self.assertEqual(result[index], line)
             for value in line:
@@ -84,7 +84,7 @@ class ReaderTest(unittest.TestCase):
                              repr(value))
 
     def test___iter__short(self):
-        result = [[None, datetime.date(1976, 1, 24), u'Koch']]
+        result = [[u'Koch', None, datetime.date(1976, 1, 24)]]
         for index, line in enumerate(self.getReader(self.import_file_short)):
             self.assertEqual(result[index], line)
             for value in line:

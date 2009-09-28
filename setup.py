@@ -11,15 +11,6 @@ def read(*path_elements):
 version = '0.1dev'
 long_description = (
     read('README.txt') +
-    read('src', 'icemac', 'ab', 'importer', 'browser', 'masterdata.txt') +
-    read('src', 'icemac', 'ab', 'importer', 'browser', 'importer.txt') +
-    read('src', 'icemac', 'ab', 'importer', 'browser', 'wizard', 'wizard.txt') +
-    read('src', 'icemac', 'ab', 'importer', 'browser', 'wizard',
-         'constraints.txt') +
-    read('src', 'icemac', 'ab', 'importer', 'browser', 'wizard',
-         'keywords.txt') +
-    read('src', 'icemac', 'ab', 'importer', 'browser', 'wizard',
-         'edgecases.txt') +
     read('CHANGES.txt')
     )
 
