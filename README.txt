@@ -113,10 +113,12 @@ must fulfill the following conventions:
      **last name**  **firstname**  **birth_date**
      Koch           Andreas        1976-01-24
      Hula           Hanna          2000-01-01
-     Jänsen         Jens
+     J |ae| nsen      Jens
      Fruma                         2001-12-31
      =============  =============  ==============
 
+.. |ae| unicode:: U+000e4
+   :trim:
 
 3. Register the reader class
 ============================
