@@ -43,7 +43,7 @@ setuptools.setup(
     zip_safe=False,
     install_requires=[
         'gocept.cache',
-        'icemac.addressbook',
+        'icemac.addressbook >= 0.5dev',
         'icemac.truncatetext >= 0.2',
         'pytz',
         'setuptools',
