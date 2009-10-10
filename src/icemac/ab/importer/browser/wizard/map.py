@@ -346,9 +346,9 @@ class FieldsGroup(z3c.form.group.Group):
         self.label = label
         self.prefix = prefix
         fields = []
-        fields_util = zope.component.getUtility(
-            icemac.addressbook.interfaces.IFields)
-        for field_name, field in fields_util.getFieldsInOrder(interface):
+        entity = zope.component.getUtility(
+            icemac.addressbook.interfaces.IEntities).getEntity(interface)
+        for field_name, field in entity.getFieldsInOrder():
             choice = zope.schema.Choice(
                 title=field.title, description=field.description,
                 required=False, source=import_fields)

@@ -5,7 +5,7 @@
 1.0 (unreleased)
 ================
 
-- Nothing changed yet.
+- Supporting user defined fields feature of address book.
 
 
 0.9.1 (2009-09-28)
