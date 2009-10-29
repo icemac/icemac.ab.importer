@@ -7,15 +7,6 @@ User defined fields are importable like other fields.
 Set up
 ======
 
-Register the postal address entity as utility so postal addresses can
-have user defined fields:
-
->>> import icemac.addressbook.address
->>> import zope.component
->>> zope.component.provideUtility(
-...    icemac.addressbook.address.postal_address_entity,
-...    name=u'icemac.addressbook.address.PostalAddress')
-
 Create an address book and a browser to access it. Log in as `Administrator`:
 
 >>> from icemac.addressbook.testing import create_addressbook
@@ -29,9 +20,9 @@ Create some user defined fields:
 
 >>> browser.getLink('Master data').click()
 >>> browser.getLink('Edit entities').click()
->>> browser.getLink('Edit fields', index=2).click()
+>>> browser.getLink('Edit fields', index=7).click()
 >>> browser.url
-'http://lo.../ab/++attribute++entities/icemac.addressbook.address.PostalAddress'
+'http://l.../ab/++attribute++entities/icemac.addressbook.address.PostalAddress'
 >>> browser.getLink('field').click()
 >>> browser.url
 'http://localhost/.../icemac.addressbook.address.PostalAddress/@@addField.html'
@@ -48,7 +39,7 @@ A choice field:
 >>> browser.getControl(name='form.widgets.values.2').value = 'Brandenburg'
 >>> browser.getControl(name='form.buttons.add').click()
 >>> browser.url
-'http://lo.../ab/++attribute++entities/icemac.addressbook.address.PostalAddress'
+'http://l.../ab/++attribute++entities/icemac.addressbook.address.PostalAddress'
 
 A number field:
 
@@ -105,6 +96,7 @@ http://localhost/++skin++AddressBook/ab/++attribute++importer/File/import/map
 ...     'states (Berlin, Berlin, Berlin)']
 >>> browser.getControl('number of letters').displayValue = [
 ...     'numbers (1, asd, 1.3)']
+
 >>> browser.getControl('Next').click()
 
 The review step shows the error messages:
@@ -113,13 +105,3 @@ The review step shows the error messages:
 http://localhost/.../ab/++attribute++importer/File/import/review
 >>> print browser.contents
 
-
-
-
-Tear down
-=========
-
->>> zope.component.getGlobalSiteManager().unregisterUtility(
-...    icemac.addressbook.address.postal_address_entity,
-...    name=u'icemac.addressbook.address.PostalAddress')
-True
