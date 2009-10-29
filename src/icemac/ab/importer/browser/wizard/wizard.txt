@@ -112,7 +112,6 @@ the address book. The user can decide to keep the values:
       <th><br />city</th>
       <th><br />zip</th>
       <th><br />country</th>
-      <th><br />state</th>
       <th><br />notes</th>
       <th><i>main phone number</i><br />kind</th>
       <th><br />number</th>
@@ -149,8 +148,7 @@ the address book. The user can decide to keep the values:
       <td></td>
       <td></td>
       <td></td>
-      <td></td>
-    </tr>
+   </tr>
     <tr class="table-odd-row">
       <td>Jurgen</td>
       <td>Krafft</td>
@@ -174,8 +172,7 @@ the address book. The user can decide to keep the values:
       <td></td>
       <td></td>
       <td></td>
-      <td></td>
-    </tr>
+   </tr>
   </tbody>
 </table>...
 

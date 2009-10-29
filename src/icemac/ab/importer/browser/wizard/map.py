@@ -98,7 +98,7 @@ def uri_field(value, field):
 
 @zope.component.adapter(None, zope.schema.interfaces.IChoice)
 @zope.interface.implementer(IFieldValue)
-def country_or_state_field(value, field):
+def country_field(value, field):
     if value is None:
         # We can't return None, as this means that the adapter can't adapt.
         return NONE_REPLACEMENT
@@ -150,7 +150,7 @@ def choice_constraint_not_satisfield(field, exc):
 @zope.component.adapter(zope.schema.interfaces.IChoice,
                         zope.schema.interfaces.ConstraintNotSatisfied)
 @zope.interface.implementer(IErrorMessage)
-def country_or_state_constraint_not_satisfield(field, exc):
+def country_constraint_not_satisfield(field, exc):
     value = exc.args[0]
     titles = [_(u'%s resp. %s') % (x.token, field.source.factory.getTitle(x))
               for x in field.source.factory.getValues()]

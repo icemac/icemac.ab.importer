@@ -40,12 +40,6 @@ together:
 
   - country must be either the ISO country code or the country name
 
-  - state must be either the ISO subdivision code or the state name
-
-  - state must belong to country
-
-  - state without country is not allowed
-
   - data line must contain enough fields
 
 Not each field must be selected on mapping fields. (Field `asdf` is used as an example here.). A field in the import file might be associated to more than one field in the addressbook (Field `all_kind` is used to show this).
@@ -58,22 +52,18 @@ Let's construct an import file which containts errors for this constraints:
 >>> file_data = StringIO()
 >>> file_data.write(
 ...     'last_name,birth_date,s_e_x,all_kind,e_mail_addr,www,asdf,countries,'
-...       'cstate,pnotes\n'
-...     ',1999-09-09,,,,,asdf,,,\n'  # missing last name
-...     '"wrong date",1981,,,,,,,,,\n'
-...     '"wrong sex_value",,m,,,,,,,\n'
-...     '"wrong kind",,,personal,,,,,,\n'
-...     '"wrong e-mail",,,private,i@me@de,,,,,\n'
-...     '"wrong home page address",,,,i@me.de,asdf,,,,\n'
-...     '"wrong country",,,,,,,D,,\n'
-...     '"country ISO code",,,,,,,AT,,\n'
-...     '"wrong state",,,,,,,DE,Schlesien,\n'
-...     '"state from different country",,,,,,,AT,Sachsen,\n'
-...     '"state without country",,,,,,,,Sachsen-Anhalt,\n'
-...     '"state",,,,,,,DE,Brandenburg,\n'
-...     '"not enough fields",,female,,,,,\n'
+...       'pnotes\n'
+...     ',1999-09-09,,,,,asdf,,\n'  # missing last name
+...     '"wrong date",1981,,,,,,,,\n'
+...     '"wrong sex_value",,m,,,,,,\n'
+...     '"wrong kind",,,personal,,,,,\n'
+...     '"wrong e-mail",,,private,i@me@de,,,,\n'
+...     '"wrong home page address",,,,i@me.de,asdf,,,\n'
+...     '"wrong country",,,,,,,D,\n'
+...     '"country ISO code",,,,,,,AT,\n'
+...     '"not enough fields",,female,,\n'
 ...     '" nice "," 2006-06-06"," male",work, r6@ab.info,'
-...       '" http://www.r6.sf.net",," Switzerland ",,'
+...       '" http://www.r6.sf.net",," Switzerland ",'
 ...       '"  my r e a l l y   long, but also really nice  notes    "\n')
 >>> file_data.seek(0)
 
@@ -101,7 +91,6 @@ http://localhost/++skin++AddressBook/ab/++attribute++importer/File/import/map
 >>> browser.getControl('kind', index=2).displayValue = ['all_kind']
 >>> browser.getControl('e-mail address').displayValue = ['e_mail_addr']
 >>> browser.getControl('country').displayValue = ['countries']
->>> browser.getControl('state').displayValue = ['cstate']
 >>> browser.getControl('URL').displayValue = ['www']
 >>> browser.getControl('Next').click()
 
@@ -126,7 +115,6 @@ http://localhost/.../ab/++attribute++importer/File/import/review
       <th><br />city</th>
       <th><br />zip</th>
       <th><br />country</th>
-      <th><br />state</th>
       <th><br />notes</th>
       <th><i>main phone number</i><br />kind</th>
       <th><br />number</th>
@@ -163,10 +151,9 @@ http://localhost/.../ab/++attribute++importer/File/import/review
       <td></td>
       <td></td>
       <td></td>
-      <td></td>
     </tr>
 <tr class="table-even-row">
-<td colspan="23">
+<td colspan="22">
 Errors:
 <ul class="errors">
 <li>person - last name: Required input is missing.</li>
@@ -196,10 +183,9 @@ Errors:
       <td></td>
       <td></td>
       <td></td>
-      <td></td>
     </tr>
 <tr class="table-odd-row">
-<td colspan="23">
+<td colspan="22">
 Errors:
 <ul class="errors">
 <li>person - birth date: 1981 is no valid date.</li>
@@ -229,10 +215,9 @@ Errors:
       <td></td>
       <td></td>
       <td></td>
-      <td></td>
     </tr>
 <tr class="table-even-row">
-<td colspan="23">
+<td colspan="22">
 Errors:
 <ul class="errors">
 <li>person - sex: Value m not allowed. Allowed values: male, female</li>
@@ -262,10 +247,9 @@ Errors:
       <td></td>
       <td></td>
       <td></td>
-      <td></td>
     </tr>
 <tr class="table-odd-row">
-<td colspan="23">
+<td colspan="22">
 Errors:
 <ul class="errors">
 <li>e-mail address - kind: Value personal not allowed. Allowed values: private, work, other</li>
@@ -290,7 +274,6 @@ Errors:
       <td></td>
       <td></td>
       <td></td>
-      <td></td>
       <td>private</td>
       <td></td>
       <td></td>
@@ -299,7 +282,7 @@ Errors:
       <td></td>
     </tr>
 <tr class="table-even-row">
-<td colspan="23">
+<td colspan="22">
 Errors:
 <ul class="errors">
 <li>e-mail address - e-mail address: i@me@de is not a valid e-mail address.</li>
@@ -324,7 +307,6 @@ Errors:
       <td></td>
       <td></td>
       <td></td>
-      <td></td>
       <td>i@me.de</td>
       <td></td>
       <td></td>
@@ -332,7 +314,7 @@ Errors:
       <td></td>
     </tr>
 <tr class="table-odd-row">
-<td colspan="23">
+<td colspan="22">
 Errors:
 <ul class="errors">
 <li>home page address - URL: The specified URI is not valid.</li>
@@ -362,10 +344,9 @@ Errors:
       <td></td>
       <td></td>
       <td></td>
-      <td></td>
     </tr>
 <tr class="table-even-row">
-<td colspan="23">
+<td colspan="22">
 Errors:
 <ul class="errors">
 <li>postal address - country: Value D not allowed. Allowed values: AF resp. Afghanistan, AX resp. Åland Islands, ...
@@ -395,132 +376,6 @@ Errors:
       <td></td>
       <td></td>
       <td></td>
-      <td></td>
-    </tr>
-<BLANKLINE>
-    <tr class="table-even-row">
-      <td></td>
-      <td>wrong state</td>
-      <td></td>
-      <td></td>
-      <td></td>
-      <td></td>
-      <td></td>
-      <td></td>
-      <td></td>
-      <td></td>
-      <td></td>
-      <td>DE</td>
-      <td></td>
-      <td></td>
-      <td></td>
-      <td></td>
-      <td></td>
-      <td></td>
-      <td></td>
-      <td></td>
-      <td></td>
-      <td></td>
-      <td></td>
-    </tr>
-<tr class="table-even-row">
-<td colspan="23">
-Errors:
-<ul class="errors">
-<li>postal address - state: Value Schlesien not allowed. Allowed values: DE-BW resp. Baden-Württemberg, DE-BY resp. Bayern, DE-HB resp. Bremen, ...
-</ul>
-</td>
-</tr>
-    <tr class="table-odd-row">
-      <td></td>
-      <td>state from different country</td>
-      <td></td>
-      <td></td>
-      <td></td>
-      <td></td>
-      <td></td>
-      <td></td>
-      <td></td>
-      <td></td>
-      <td></td>
-      <td>AT</td>
-      <td>DE-SN</td>
-      <td></td>
-      <td></td>
-      <td></td>
-      <td></td>
-      <td></td>
-      <td></td>
-      <td></td>
-      <td></td>
-      <td></td>
-      <td></td>
-    </tr>
-<tr class="table-odd-row">
-<td colspan="23">
-Errors:
-<ul class="errors">
-<li>postal address: The selected state does not belong to the selected country.</li>
-</ul>
-</td>
-</tr>
-    <tr class="table-even-row">
-      <td></td>
-      <td>state without country</td>
-      <td></td>
-      <td></td>
-      <td></td>
-      <td></td>
-      <td></td>
-      <td></td>
-      <td></td>
-      <td></td>
-      <td></td>
-      <td></td>
-      <td>DE-ST</td>
-      <td></td>
-      <td></td>
-      <td></td>
-      <td></td>
-      <td></td>
-      <td></td>
-      <td></td>
-      <td></td>
-      <td></td>
-      <td></td>
-    </tr>
-<tr class="table-even-row">
-<td colspan="23">
-Errors:
-<ul class="errors">
-<li>postal address: A country is required to choose a state.</li>
-</ul>
-</td>
-</tr>
-    <tr class="table-odd-row">
-      <td></td>
-      <td>state</td>
-      <td></td>
-      <td></td>
-      <td></td>
-      <td></td>
-      <td></td>
-      <td></td>
-      <td></td>
-      <td></td>
-      <td></td>
-      <td>DE</td>
-      <td>DE-BB</td>
-      <td></td>
-      <td></td>
-      <td></td>
-      <td></td>
-      <td></td>
-      <td></td>
-      <td></td>
-      <td></td>
-      <td></td>
-      <td></td>
     </tr>
 <BLANKLINE>
     <tr class="table-even-row">
@@ -535,8 +390,7 @@ Errors:
       <td></td>
       <td></td>
       <td></td>
-      <td></td>
-      <td></td>
+      <td>DE</td>
       <td></td>
       <td></td>
       <td></td>
@@ -549,9 +403,10 @@ Errors:
       <td></td>
     </tr>
 <tr class="table-even-row">
-<td colspan="23">
+<td colspan="22">
 Errors:
 <ul class="errors">
+<li>home page address: Not enough data fields in row.</li>
 <li>person: Not enough data fields in row.</li>
 <li>postal address: Not enough data fields in row.</li>
 </ul>
@@ -570,7 +425,6 @@ Errors:
       <td></td>
       <td></td>
       <td>CH</td>
-      <td></td>
       <td></td>
       <td></td>
       <td></td>
@@ -611,8 +465,6 @@ Selecting the `back` button shows that the selected mapping has been kept:
 ['e_mail_addr']
 >>> browser.getControl('country').displayValue
 ['countries']
->>> browser.getControl('state').displayValue
-['cstate']
 >>> browser.getControl('URL').displayValue
 ['www']
 >>> browser.getControl('Next').click()

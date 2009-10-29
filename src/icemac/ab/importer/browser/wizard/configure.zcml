@@ -69,13 +69,9 @@
            factory=".map.text_field" />
   <adapter factory=".map.uri_field" />
   <adapter factory=".map.keywords_field" name="keywords" />
-  <adapter factory=".map.country_or_state_field" name="country" />
-  <adapter factory=".map.country_or_state_field" name="state" />
+  <adapter factory=".map.country_field" name="country" />
   <adapter factory=".map.choice_constraint_not_satisfield" />
-  <adapter factory=".map.country_or_state_constraint_not_satisfield"
-           name="country" />
-  <adapter factory=".map.country_or_state_constraint_not_satisfield"
-           name="state" />
+  <adapter factory=".map.country_constraint_not_satisfield" name="country" />
   <adapter factory=".map.date_wrong_type" />
   <adapter factory=".map.index_error" />
   <adapter factory=".map.email_constraint_not_satisfield" name="email" />
@@ -83,10 +79,6 @@
            for="* zope.schema.interfaces.RequiredMissing" />
   <adapter factory=".map.simple_invalid"
            for="* zope.schema.interfaces.InvalidURI" />
-  <adapter factory=".map.simple_invalid"
-           for="* icemac.addressbook.interfaces.StateCountryMismatchError" />
-  <adapter factory=".map.simple_invalid"
-           for="* icemac.addressbook.interfaces.StateWithoutCountryError" />
 
   <z3c:wizardStep
      name="review"
@@ -126,13 +118,6 @@
      provides="z3c.table.interfaces.IColumn"
      factory=".review.CountryColumnFactory"
      name="country" />
-
-  <adapter
-     for="icemac.addressbook.file.interfaces.IFile
-          zope.schema.interfaces.IChoice"
-     provides="z3c.table.interfaces.IColumn"
-     factory=".review.CountryColumnFactory"
-     name="state" />
 
   <adapter
      for="icemac.addressbook.file.interfaces.IFile
