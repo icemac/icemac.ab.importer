@@ -179,20 +179,19 @@ def index_error(field, exc):
     return _(u'Not enough data fields in row.')
 
 
-def render_error(interface, field_name, exc):
+def render_error(entity, field_name, exc):
     "Render the error text using the error render adapters."
-    obj_title = icemac.ab.importer.browser.wizard.base.\
-        getImportMappingRowForInterface(interface)['title']
+    obj_title = entity.title
 
     if field_name is None:
         field = ''
         title = obj_title
-        # need to set the field name to the default here, as
-        # queryMultiAdapter call with name=None behaves strange, it
-        # seems to delete all adapters matching objects and interface.
+        # Need to set the field name to the default here, as a
+        # queryMultiAdapter call with name=None behaves strange: it
+        # seems to delete all adapters matching object and interface.
         field_name = u''
     else:
-        field = interface[field_name]
+        field = entity.getField(field_name)
         title = '%s - %s' % (obj_title, field.title)
 
     # try named adapter first
@@ -205,9 +204,10 @@ def render_error(interface, field_name, exc):
 
     return u'%s: %s' % (title, message)
 
+
 class KeywordBuilder(object):
 
-    KEYWORD_FIELD_NAME = "person-0.keywords"
+    KEYWORD_FIELD_NAME = "IcemacAddressbookPersonPerson-0.keywords"
     keyword_index = None
     keywords = None
 
@@ -215,8 +215,8 @@ class KeywordBuilder(object):
         """Expects a mapping between name of the field in the address book and
         field index in import file.
 
-        Example: person-0.first_name --> 0
-                 home_page_address-2.notes --> 11
+        Example: IcemacAddressbookPersonPerson-0.first_name --> 0
+                 IcemacAddressbookAddressHomePageAddress-2.notes --> 11
         """
         if self.KEYWORD_FIELD_NAME in user_data:
             self.keyword_index = user_data[self.KEYWORD_FIELD_NAME]
@@ -239,6 +239,15 @@ class KeywordBuilder(object):
         return created
 
 
+def get_default_key(interface):
+    "Find the name of a default value attribute on person."
+    names_descrs = (
+        icemac.addressbook.interfaces.IPersonDefaults.namesAndDescriptions())
+    for name, descr in names_descrs:
+        if descr.source.factory.interface == interface:
+            return name
+
+
 class ImportObjectBuilder(object):
     """Build the objects the user wants to import."""
 
@@ -247,8 +256,8 @@ class ImportObjectBuilder(object):
         field index in import file and
         .
 
-        Example: person-0.first_name --> 0
-                 home_page_address-3.notes --> 11
+        Example: IcemacAddressbookPersonPerson-0.first_name --> 0
+                 IcemacAddressbookAddressHomePageAddress-3.notes --> 11
 
         Stores the address book field names in dictionaries on
         attributes mapping to the index in the import file.
@@ -259,9 +268,12 @@ class ImportObjectBuilder(object):
         """
         self.address_book = address_book
         self.entries_number = entries_number
-        for row in icemac.ab.importer.browser.wizard.base.import_mapping:
+        self.import_entities = (
+            icemac.ab.importer.browser.wizard.base.get_import_entities())
+        for entity in self.import_entities:
             for index in xrange(self.entries_number):
-                setattr(self, "%s-%s" % (row['prefix'], index), {})
+                key = "%s-%s" % (entity.name, index)
+                setattr(self, key, {})
         for field_desc, index in user_data.iteritems():
             if index is None:
                 continue # field was not selected for import
@@ -273,20 +285,25 @@ class ImportObjectBuilder(object):
 
         data ... import data row, mapping between field index and value."""
         self.errors = set()
-        person = self._create('person-0', self.address_book, data, True)
-        self._validate(
-            icemac.ab.importer.browser.wizard.base.person_mapping['interface'],
-            person)
-        for address in icemac.addressbook.address.address_mapping:
+        person_entity = zope.component.getUtility(
+            icemac.addressbook.interfaces.IEntity,
+            name='icemac.addressbook.person.Person')
+        person = self._create('%s-0' % person_entity.name, self.address_book,
+                              data, True)
+        self._validate(person_entity, person)
+        for entity in self.import_entities:
+            if entity.class_name == 'icemac.addressbook.person.Person':
+                # already handled
+                continue
             for index in xrange(self.entries_number):
-                prefix = "%s-%s" % (address['prefix'], index)
+                prefix = "%s-%s" % (entity.name, index)
                 main_entry = (index == 0)
                 obj = self._create(prefix, person, data, main_entry)
                 if main_entry:
                     # set the created address as main address of its kind
-                    setattr(person, 'default_'+address['prefix'], obj)
+                    setattr(person, get_default_key(entity.interface), obj)
                 if obj is not None:
-                    self._validate(address['interface'], obj)
+                    self._validate(entity, obj)
         return person, sorted(list(self.errors))
 
     def _create(self, prefix, parent, data, creation_required):
@@ -301,20 +318,19 @@ class ImportObjectBuilder(object):
             return
 
         # instantiate the object
-        row_prefix, row_index = prefix.split('-')
-        row = (
-            icemac.ab.importer.browser.wizard.base.
-            getImportMappingRowForPrefix(row_prefix))
-        obj = icemac.addressbook.utils.create_obj(row['class_'])
+        entity_name, row_index = prefix.split('-')
+        entities = zope.component.getUtility(
+            icemac.addressbook.interfaces.IEntities)
+        entity = entities.getEntity(entity_name)
+        obj = icemac.addressbook.utils.create_obj(entity.getClass())
 
         # set the values
-        iface = row['interface']
         for field_name, index in field_mapping.iteritems():
-            field = iface[field_name]
+            field = entity.getField(field_name)
             try:
                 value = data[index]
             except IndexError, e:
-                self.errors.add(render_error(iface, None, e))
+                self.errors.add(render_error(entity, None, e))
             else:
                 # try named converter first
                 conv_value = zope.component.queryMultiAdapter(
@@ -328,26 +344,25 @@ class ImportObjectBuilder(object):
                 try:
                     field.set(obj, conv_value)
                 except zope.interface.Invalid, e:
-                    self.errors.add(render_error(iface, field_name, e))
+                    self.errors.add(render_error(entity, field_name, e))
 
         icemac.addressbook.utils.add(parent, obj)
         return obj
 
-    def _validate(self, interface, obj):
-        for field_name, exc in zope.schema.getValidationErrors(interface, obj):
-            self.errors.add(render_error(interface, field_name, exc))
+    def _validate(self, entity, obj):
+        errors = zope.schema.getValidationErrors(entity.interface, obj)
+        for field_name, exc in errors:
+            self.errors.add(render_error(entity, field_name, exc))
 
 
 class FieldsGroup(z3c.form.group.Group):
     "Fields grouped by object."
 
-    def __init__(self, context, request, parent, interface, label, prefix):
+    def __init__(self, context, request, parent, entity, label, prefix):
         super(FieldsGroup, self).__init__(context, request, parent)
         self.label = label
         self.prefix = prefix
         fields = []
-        entity = zope.component.getUtility(
-            icemac.addressbook.interfaces.IEntities).getEntity(interface)
         for field_name, field in entity.getFieldsInOrder():
             choice = zope.schema.Choice(
                 title=field.title, description=field.description,
@@ -376,8 +391,10 @@ class MapFields(z3c.form.group.GroupForm,
         session = self.getContent()
         request = self.request
         self.groups = []
-        for row in icemac.ab.importer.browser.wizard.base.import_mapping:
-            if row['prefix'] == 'person':
+        import_entities = (
+            icemac.ab.importer.browser.wizard.base.get_import_entities())
+        for entity in import_entities:
+            if entity.class_name  == 'icemac.addressbook.person.Person':
                 entries_number = 1
                 main_prefix = ''
             else:
@@ -388,11 +405,10 @@ class MapFields(z3c.form.group.GroupForm,
                     row_title_prefix = main_prefix
                 else:
                     row_title_prefix = _(u'other')
-                title = row_title_prefix + ' ' + row['title']
-                prefix = '%s-%s' % (row['prefix'], index)
+                title = row_title_prefix + ' ' + entity.title
+                prefix = '%s-%s' % (entity.name, index)
                 self.groups.append(
-                    FieldsGroup(session, request, self, row['interface'],
-                                title, prefix))
+                    FieldsGroup(session, request, self, entity, title, prefix))
 
     @property
     def fields(self):

@@ -103,17 +103,16 @@ class ImportedTable(icemac.addressbook.browser.table.Table):
     def setUpColumns(self):
         cols = []
         weight = 0
-        entities = zope.component.getUtility(
-            icemac.addressbook.interfaces.IEntities)
-        for row in icemac.ab.importer.browser.wizard.base.import_mapping:
-            if row['prefix'] == 'person':
+        import_entities = (
+            icemac.ab.importer.browser.wizard.base.get_import_entities())
+        for entity in import_entities:
+            if entity.class_name == 'icemac.addressbook.person.Person':
                 entries_number = 1
                 main_prefix = ''
             else:
                entries_number = self.session['entries_number']
                main_prefix = _(u'main')
             for index in xrange(entries_number):
-                entity = entities.getEntity(row['interface'])
                 first = True
                 for field_name, field in entity.getFieldsInOrder():
                     weight += 1
@@ -122,7 +121,7 @@ class ImportedTable(icemac.addressbook.browser.table.Table):
                             title_prefix = main_prefix
                         else:
                             title_prefix = _(u'other')
-                        title = title_prefix + ' ' + row['title']
+                        title = title_prefix + ' ' + entity.title
                         header = '<i>%s</i><br />%s' % (title, field.title)
                         first = False
                     else:

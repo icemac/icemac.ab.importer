@@ -72,24 +72,17 @@ class FileSessionStorageStep(Step):
         return get_file_session(self.context, self.request)
 
 
-person_mapping = dict(interface=icemac.addressbook.interfaces.IPerson,
-                      title=u'person',
-                      prefix='person',
-                      class_=icemac.addressbook.person.Person)
-import_mapping =  ((person_mapping,) +
-                   icemac.addressbook.address.address_mapping)
-
-
-def getImportMappingRowForPrefix(prefix):
-    for row in import_mapping:
-        if prefix == row['prefix']:
-            return row
-
-
-def getImportMappingRowForInterface(interface):
-    for row in import_mapping:
-        if interface == row['interface']:
-            return row
+def get_import_entities():
+    "Get the entities relevant for the import."
+    name_suffixes = ['person.Person',
+                     'address.PostalAddress',
+                     'address.PhoneNumber',
+                     'address.EMailAddress',
+                     'address.HomePageAddress']
+    return [zope.component.getUtility(
+                icemac.addressbook.interfaces.IEntity,
+                name='icemac.addressbook.'+suffix)
+            for suffix in name_suffixes]
 
 
 @zope.interface.implementer(icemac.addressbook.interfaces.IAddressBook)

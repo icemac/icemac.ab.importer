@@ -13,6 +13,7 @@ def test_suite():
         "keywords.txt",
         "multientries.txt",
         "wizard.txt",
+        "userfields.txt",
         package='icemac.ab.importer.browser.wizard',
         layer=icemac.ab.importer.browser.testing.ImporterLayer,
         )
