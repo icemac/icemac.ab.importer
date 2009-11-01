@@ -30,8 +30,6 @@ together:
 
   - birth date column must be empty or contain a valid date
 
-  - sex must be `male` or `female`
-
   - values of address kind fields must be contained in soure's values
 
   - e-mail address must be valid
@@ -51,18 +49,17 @@ Let's construct an import file which containts errors for this constraints:
 >>> from StringIO import StringIO
 >>> file_data = StringIO()
 >>> file_data.write(
-...     'last_name,birth_date,s_e_x,all_kind,e_mail_addr,www,asdf,countries,'
+...     'last_name,birth_date,all_kind,e_mail_addr,www,asdf,countries,'
 ...       'pnotes\n'
-...     ',1999-09-09,,,,,asdf,,\n'  # missing last name
-...     '"wrong date",1981,,,,,,,,\n'
-...     '"wrong sex_value",,m,,,,,,\n'
-...     '"wrong kind",,,personal,,,,,\n'
-...     '"wrong e-mail",,,private,i@me@de,,,,\n'
-...     '"wrong home page address",,,,i@me.de,asdf,,,\n'
-...     '"wrong country",,,,,,,D,\n'
-...     '"country ISO code",,,,,,,AT,\n'
-...     '"not enough fields",,female,,\n'
-...     '" nice "," 2006-06-06"," male",work, r6@ab.info,'
+...     ',1999-09-09,,,,asdf,,\n'  # missing last name
+...     '"wrong date",1981,,,,,,,\n'
+...     '"wrong kindval",,personal,,,,,\n'
+...     '"wrong e-mail",,private,i@me@de,,,,\n'
+...     '"wrong home page address",,,i@me.de,asdf,,,\n'
+...     '"wrong country",,,,,,D,\n'
+...     '"country ISO code",,,,,,AT,\n'
+...     '"not enough fields",,,\n'
+...     '" nice "," 2006-06-06",work, r6@ab.info,'
 ...       '" http://www.r6.sf.net",," Switzerland ",'
 ...       '"  my r e a l l y   long, but also really nice  notes    "\n')
 >>> file_data.seek(0)
@@ -82,13 +79,12 @@ The user chooses the reader as usual and maps the fields:
 >>> print browser.url
 http://localhost/++skin++AddressBook/ab/++attribute++importer/File/import/map
 >>> browser.getControl('last name').displayValue = [
-...     'last_name (wrong date, wrong sex_value)']
+...     'last_name (wrong date, wrong kindval)']
 >>> browser.getControl('birth date').displayValue = [
 ...     'birth_date (1999-09-09, 1981)']
->>> browser.getControl('sex').displayValue = ['s_e_x (m)']
 >>> browser.getControl('notes', index=0).displayValue = ['pnotes']
->>> browser.getControl('kind', index=0).displayValue = ['all_kind']
->>> browser.getControl('kind', index=2).displayValue = ['all_kind']
+>>> browser.getControl('kind', index=0).displayValue = ['all_kind (personal)']
+>>> browser.getControl('kind', index=2).displayValue = ['all_kind (personal)']
 >>> browser.getControl('e-mail address').displayValue = ['e_mail_addr']
 >>> browser.getControl('country').displayValue = ['countries']
 >>> browser.getControl('URL').displayValue = ['www']
@@ -106,7 +102,6 @@ http://localhost/.../ab/++attribute++importer/File/import/review
       <th><i> person</i><br />first name</th>
       <th><br />last name</th>
       <th><br />birth date</th>
-      <th><br />sex</th>
       <th><br />keywords</th>
       <th><br />notes</th>
       <th><i>main postal address</i><br />kind</th>
@@ -150,10 +145,9 @@ http://localhost/.../ab/++attribute++importer/File/import/review
       <td></td>
       <td></td>
       <td></td>
-      <td></td>
     </tr>
 <tr class="table-even-row">
-<td colspan="22">
+<td colspan="21">
 Errors:
 <ul class="errors">
 <li>person - last name: Required input is missing.</li>
@@ -182,10 +176,9 @@ Errors:
       <td></td>
       <td></td>
       <td></td>
-      <td></td>
     </tr>
 <tr class="table-odd-row">
-<td colspan="22">
+<td colspan="21">
 Errors:
 <ul class="errors">
 <li>person - birth date: 1981 is no valid date.</li>
@@ -194,8 +187,7 @@ Errors:
 </tr>
     <tr class="table-even-row">
       <td></td>
-      <td>wrong sex_value</td>
-      <td></td>
+      <td>wrong kindval</td>
       <td></td>
       <td></td>
       <td></td>
@@ -217,39 +209,7 @@ Errors:
       <td></td>
     </tr>
 <tr class="table-even-row">
-<td colspan="22">
-Errors:
-<ul class="errors">
-<li>person - sex: Value m not allowed. Allowed values: male, female</li>
-</ul>
-</td>
-</tr>
-    <tr class="table-odd-row">
-      <td></td>
-      <td>wrong kind</td>
-      <td></td>
-      <td></td>
-      <td></td>
-      <td></td>
-      <td></td>
-      <td></td>
-      <td></td>
-      <td></td>
-      <td></td>
-      <td></td>
-      <td></td>
-      <td></td>
-      <td></td>
-      <td></td>
-      <td></td>
-      <td></td>
-      <td></td>
-      <td></td>
-      <td></td>
-      <td></td>
-    </tr>
-<tr class="table-odd-row">
-<td colspan="22">
+<td colspan="21">
 Errors:
 <ul class="errors">
 <li>e-mail address - kind: Value personal not allowed. Allowed values: private, work, other</li>
@@ -257,10 +217,9 @@ Errors:
 </ul>
 </td>
 </tr>
-    <tr class="table-even-row">
+    <tr class="table-odd-row">
       <td></td>
       <td>wrong e-mail</td>
-      <td></td>
       <td></td>
       <td></td>
       <td></td>
@@ -281,18 +240,17 @@ Errors:
       <td></td>
       <td></td>
     </tr>
-<tr class="table-even-row">
-<td colspan="22">
+<tr class="table-odd-row">
+<td colspan="21">
 Errors:
 <ul class="errors">
 <li>e-mail address - e-mail address: i@me@de is not a valid e-mail address.</li>
 </ul>
 </td>
 </tr>
-    <tr class="table-odd-row">
+    <tr class="table-even-row">
       <td></td>
       <td>wrong home page address</td>
-      <td></td>
       <td></td>
       <td></td>
       <td></td>
@@ -313,18 +271,17 @@ Errors:
       <td></td>
       <td></td>
     </tr>
-<tr class="table-odd-row">
-<td colspan="22">
+<tr class="table-even-row">
+<td colspan="21">
 Errors:
 <ul class="errors">
 <li>home page address - URL: The specified URI is not valid.</li>
 </ul>
 </td>
 </tr>
-    <tr class="table-even-row">
+    <tr class="table-odd-row">
       <td></td>
       <td>wrong country</td>
-      <td></td>
       <td></td>
       <td></td>
       <td></td>
@@ -345,18 +302,17 @@ Errors:
       <td></td>
       <td></td>
     </tr>
-<tr class="table-even-row">
-<td colspan="22">
+<tr class="table-odd-row">
+<td colspan="21">
 Errors:
 <ul class="errors">
 <li>postal address - country: Value D not allowed. Allowed values: AF resp. Afghanistan, AX resp. Åland Islands, ...
 </ul>
 </td>
 </tr>
-    <tr class="table-odd-row">
+    <tr class="table-even-row">
       <td></td>
       <td>country ISO code</td>
-      <td></td>
       <td></td>
       <td></td>
       <td></td>
@@ -378,11 +334,10 @@ Errors:
       <td></td>
     </tr>
 <BLANKLINE>
-    <tr class="table-even-row">
+    <tr class="table-odd-row">
       <td></td>
       <td>not enough fields</td>
       <td></td>
-      <td>female</td>
       <td></td>
       <td></td>
       <td></td>
@@ -402,8 +357,8 @@ Errors:
       <td></td>
       <td></td>
     </tr>
-<tr class="table-even-row">
-<td colspan="22">
+<tr class="table-odd-row">
+<td colspan="21">
 Errors:
 <ul class="errors">
 <li>home page address: Not enough data fields in row.</li>
@@ -412,11 +367,10 @@ Errors:
 </ul>
 </td>
 </tr>
-    <tr class="table-odd-row">
+    <tr class="table-even-row">
       <td></td>
       <td>nice</td>
       <td>2006-06-06</td>
-      <td>male</td>
       <td></td>
       <td>my r e a l l y   long, …</td>
       <td>work</td>
@@ -450,17 +404,15 @@ Selecting the `back` button shows that the selected mapping has been kept:
 
 >>> browser.getControl('Back').click()
 >>> browser.getControl('last name').displayValue
-['last_name (wrong date, wrong sex_value)']
+['last_name (wrong date, wrong kindval)']
 >>> browser.getControl('birth date').displayValue
 ['birth_date (1999-09-09, 1981)']
->>> browser.getControl('sex').displayValue
-['s_e_x (m)']
 >>> browser.getControl('notes', index=0).displayValue
 ['pnotes']
 >>> browser.getControl('kind', index=0).displayValue
-['all_kind']
+['all_kind (personal)']
 >>> browser.getControl('kind', index=2).displayValue
-['all_kind']
+['all_kind (personal)']
 >>> browser.getControl('e-mail address').displayValue
 ['e_mail_addr']
 >>> browser.getControl('country').displayValue
