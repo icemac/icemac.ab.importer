@@ -68,11 +68,19 @@
   <adapter for="* zope.schema.interfaces.IChoice"
            factory=".map.text_field" />
   <adapter factory=".map.uri_field" />
+  <adapter factory=".map.int_field" />
+  <adapter factory=".map.decimal_field" />
+  <adapter factory=".map.bool_field" />
+  <adapter factory=".map.datetime_field" />
   <adapter factory=".map.keywords_field" name="keywords" />
   <adapter factory=".map.country_field" name="country" />
   <adapter factory=".map.choice_constraint_not_satisfield" />
   <adapter factory=".map.country_constraint_not_satisfield" name="country" />
   <adapter factory=".map.date_wrong_type" />
+  <adapter factory=".map.int_wrong_type" />
+  <adapter factory=".map.decimal_wrong_type" />
+  <adapter factory=".map.bool_wrong_type" />
+  <adapter factory=".map.datetime_wrong_type" />
   <adapter factory=".map.index_error" />
   <adapter factory=".map.email_constraint_not_satisfield" name="email" />
   <adapter factory=".map.simple_invalid"

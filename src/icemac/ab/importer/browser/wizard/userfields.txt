@@ -7,67 +7,63 @@ User defined fields are importable like other fields.
 Set up
 ======
 
-Create an address book and a browser to access it. Log in as `Administrator`:
+Create an address book:
 
 >>> from icemac.addressbook.testing import create_addressbook
->>> from zope.testbrowser.testing import Browser
 >>> ab = create_addressbook()
->>> browser = Browser()
->>> browser.addHeader('Authorization', 'Basic mgr:mgrpw')
->>> browser.open('http://localhost/++skin++AddressBook/ab')
 
-Create some user defined fields:
+Add some user defined fields:
 
->>> browser.getLink('Master data').click()
->>> browser.getLink('Edit entities').click()
->>> browser.getLink('Edit fields', index=7).click()
->>> browser.url
-'http://l.../ab/++attribute++entities/icemac.addressbook.address.PostalAddress'
->>> browser.getLink('field').click()
->>> browser.url
-'http://localhost/.../icemac.addressbook.address.PostalAddress/@@addField.html'
+>>> from icemac.addressbook.testing import create_field
+>>> import icemac.addressbook.interfaces
+>>> import zope.component
 
-A choice field:
-
->>> browser.getControl('type').displayValue = ['choice']
->>> browser.getControl('title').value = 'state'
->>> browser.getControl(name='form.widgets.values.buttons.add').click()
->>> browser.getControl(name='form.widgets.values.0').value = 'Sachsen'
->>> browser.getControl(name='form.widgets.values.buttons.add').click()
->>> browser.getControl(name='form.widgets.values.1').value = 'Sachsen-Anhalt'
->>> browser.getControl(name='form.widgets.values.buttons.add').click()
->>> browser.getControl(name='form.widgets.values.2').value = 'Brandenburg'
->>> browser.getControl(name='form.buttons.add').click()
->>> browser.url
-'http://l.../ab/++attribute++entities/icemac.addressbook.address.PostalAddress'
-
-A number field:
-
->>> browser.getLink('field').click()
->>> browser.getControl('type').displayValue = ['integer']
->>> browser.getControl('title').value = 'number of letters'
->>> browser.getControl(name='form.buttons.add').click()
->>> browser.url
-'http://lo.../ab/++attribute++entities/icemac.addressbook.address.PostalAddress'
+>>> create_field(ab, 'icemac.addressbook.person.Person',
+...     u'Bool', u'photo permission?')
+>>> create_field(ab, 'icemac.addressbook.person.Person',
+...     u'Datetime', u'last seen')
+>>> create_field(ab, 'icemac.addressbook.address.PostalAddress',
+...     u'Choice', u'state',
+...     values=[u'Sachsen', u'Sachsen-Anhalt', u'Brandenburg'])
+>>> create_field(ab, 'icemac.addressbook.address.PostalAddress',
+...     u'Int', u'number of letters')
+>>> create_field(ab, 'icemac.addressbook.address.PhoneNumber',
+...     u'Decimal', u'cost per minute')
+>>> create_field(ab, 'icemac.addressbook.address.PhoneNumber',
+...     u'Text', u'mail box text')
 
 Create two import files, one with errors and one without errors:
 
 >>> from StringIO import StringIO
 >>> error_data = StringIO()
 >>> error_data.write(
-...     'last_name,states,numbers\n'
-...     'wrong statename,Berlin,1\n'
-...     'wrong number,Berlin,asd\n'
-...     'wrong number 2,Berlin,1.3\n'
-...     'no statename,,1\n'
-...     'no number,Sachsen,\n')
+...     'last_name,foto,meet,states,numbers,costs,mailbox\n'
+...     'wrong bool,2009-10-31,,,,,\n'
+...     'wrong bool 2,asdf,,,,,\n'
+...     'wrong datetime,,2.2.2002 13.24,,,,\n'
+...     'wrong statename,,,Berlin,,,\n'
+...     'wrong int,,,,asd,,\n'
+...     'wrong int 2,,,,1.3,,\n'
+...     'wrong decimal,,,,,qwe,\n')
 >>> error_data.seek(0)
 
 >>> fine_data = StringIO()
 >>> fine_data.write(
-...     'last_name,states,numbers\n'
-...     'Utzer,Sachsen-Anhalt,3\n')
+...     'last_name,foto,meet,states,numbers,costs,mailbox\n'
+...     'Utzer,True,2009-10-31 11:31, Sachsen-Anhalt,3,4.3,'
+...       'I do not like long an boring mail box texts where people tell a '
+...       'whole story instead of saying: I am not here leave a message.\n'
+...     'User,Yes,, Sachsen,,1e3,\n'
+...     'Nobody,False,,,,,\n')
 >>> fine_data.seek(0)
+
+Create a browser to access the addressbook. Log in as `Administrator`:
+
+>>> from zope.testbrowser.testing import Browser
+>>> browser = Browser()
+>>> browser.addHeader('Authorization', 'Basic mgr:mgrpw')
+>>> browser.open('http://localhost/++skin++AddressBook/ab')
+
 
 
 Import with failing constraints
@@ -91,12 +87,14 @@ The user chooses the reader as usual and maps the fields:
 >>> print browser.url
 http://localhost/++skin++AddressBook/ab/++attribute++importer/File/import/map
 >>> browser.getControl('last name').displayValue = [
-...     'last_name (wrong statename, wrong number, wrong number 2)']
->>> browser.getControl('state').displayValue = [
-...     'states (Berlin, Berlin, Berlin)']
->>> browser.getControl('number of letters').displayValue = [
-...     'numbers (1, asd, 1.3)']
-
+...     'last_name (wrong bool, wrong bool 2, wrong datetime)']
+>>> browser.getControl('photo permission?').displayValue = [
+...     'foto (2009-10-31, asdf)']
+>>> browser.getControl('last seen').displayValue = ['meet (2.2.2002 13.24)']
+>>> browser.getControl('state').displayValue = ['states']
+>>> browser.getControl('number of letters').displayValue = ['numbers']
+>>> browser.getControl('cost per minute').displayValue = ['costs']
+>>> browser.getControl('mail box text').displayValue = ['mailbox']
 >>> browser.getControl('Next').click()
 
 The review step shows the error messages:
@@ -104,4 +102,505 @@ The review step shows the error messages:
 >>> print browser.url
 http://localhost/.../ab/++attribute++importer/File/import/review
 >>> print browser.contents
+<!DOCTYPE ...
+  <table>
+  <thead>
+    <tr>
+      <th><i> person</i><br />first name</th>
+      <th><br />last name</th>
+      <th><br />birth date</th>
+      <th><br />sex</th>
+      <th><br />keywords</th>
+      <th><br />notes</th>
+      <th><br />photo permission?</th>
+      <th><br />last seen</th>
+      <th><i>main postal address</i><br />kind</th>
+      <th><br />address prefix</th>
+      <th><br />street</th>
+      <th><br />city</th>
+      <th><br />zip</th>
+      <th><br />country</th>
+      <th><br />notes</th>
+      <th><br />number of letters</th>
+      <th><br />state</th>
+      <th><i>main phone number</i><br />kind</th>
+      <th><br />number</th>
+      <th><br />notes</th>
+      <th><br />cost per minute</th>
+      <th><br />mail box text</th>
+      <th><i>main e-mail address</i><br />kind</th>
+      <th><br />e-mail address</th>
+      <th><br />notes</th>
+      <th><i>main home page address</i><br />kind</th>
+      <th><br />URL</th>
+      <th><br />notes</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr class="table-even-row">
+      <td></td>
+      <td>wrong bool</td>
+      <td></td>
+      <td></td>
+      <td></td>
+      <td></td>
+      <td>2009-10-31</td>
+      <td></td>
+      <td></td>
+      <td></td>
+      <td></td>
+      <td></td>
+      <td></td>
+      <td>DE</td>
+      <td></td>
+      <td></td>
+      <td></td>
+      <td></td>
+      <td></td>
+      <td></td>
+      <td></td>
+      <td></td>
+      <td></td>
+      <td></td>
+      <td></td>
+      <td></td>
+      <td></td>
+      <td></td>
+    </tr>
+<tr class="table-even-row">
+<td colspan="28">
+Errors:
+<ul class="errors">
+<li>person - photo permission?: Value 2009-10-31 not allowed. Allowed values: yes, true, no, false</li>
+</ul>
+</td>
+</tr>
+    <tr class="table-odd-row">
+      <td></td>
+      <td>wrong bool 2</td>
+      <td></td>
+      <td></td>
+      <td></td>
+      <td></td>
+      <td>asdf</td>
+      <td></td>
+      <td></td>
+      <td></td>
+      <td></td>
+      <td></td>
+      <td></td>
+      <td>DE</td>
+      <td></td>
+      <td></td>
+      <td></td>
+      <td></td>
+      <td></td>
+      <td></td>
+      <td></td>
+      <td></td>
+      <td></td>
+      <td></td>
+      <td></td>
+      <td></td>
+      <td></td>
+      <td></td>
+    </tr>
+<tr class="table-odd-row">
+<td colspan="28">
+Errors:
+<ul class="errors">
+<li>person - photo permission?: Value asdf not allowed. Allowed values: yes, true, no, false</li>
+</ul>
+</td>
+</tr>
+    <tr class="table-even-row">
+      <td></td>
+      <td>wrong datetime</td>
+      <td></td>
+      <td></td>
+      <td></td>
+      <td></td>
+      <td></td>
+      <td>2.2.2002 13.24</td>
+      <td></td>
+      <td></td>
+      <td></td>
+      <td></td>
+      <td></td>
+      <td>DE</td>
+      <td></td>
+      <td></td>
+      <td></td>
+      <td></td>
+      <td></td>
+      <td></td>
+      <td></td>
+      <td></td>
+      <td></td>
+      <td></td>
+      <td></td>
+      <td></td>
+      <td></td>
+      <td></td>
+    </tr>
+<tr class="table-even-row">
+<td colspan="28">
+Errors:
+<ul class="errors">
+<li>person - last seen: 2.2.2002 13.24 is no valid datetime. Must match to format string '%Y-%m-%d %H:%M'.</li>
+</ul>
+</td>
+</tr>
+    <tr class="table-odd-row">
+      <td></td>
+      <td>wrong statename</td>
+      <td></td>
+      <td></td>
+      <td></td>
+      <td></td>
+      <td></td>
+      <td></td>
+      <td></td>
+      <td></td>
+      <td></td>
+      <td></td>
+      <td></td>
+      <td>DE</td>
+      <td></td>
+      <td></td>
+      <td>Berlin</td>
+      <td></td>
+      <td></td>
+      <td></td>
+      <td></td>
+      <td></td>
+      <td></td>
+      <td></td>
+      <td></td>
+      <td></td>
+      <td></td>
+      <td></td>
+    </tr>
+<tr class="table-odd-row">
+<td colspan="28">
+Errors:
+<ul class="errors">
+<li>postal address - state: Value Berlin not allowed. Allowed values: Sachsen, Sachsen-Anhalt, Brandenburg</li>
+</ul>
+</td>
+</tr>
+    <tr class="table-even-row">
+      <td></td>
+      <td>wrong int</td>
+      <td></td>
+      <td></td>
+      <td></td>
+      <td></td>
+      <td></td>
+      <td></td>
+      <td></td>
+      <td></td>
+      <td></td>
+      <td></td>
+      <td></td>
+      <td>DE</td>
+      <td></td>
+      <td>asd</td>
+      <td></td>
+      <td></td>
+      <td></td>
+      <td></td>
+      <td></td>
+      <td></td>
+      <td></td>
+      <td></td>
+      <td></td>
+      <td></td>
+      <td></td>
+      <td></td>
+    </tr>
+<tr class="table-even-row">
+<td colspan="28">
+Errors:
+<ul class="errors">
+<li>postal address - number of letters: asd is not a valid integer number.</li>
+</ul>
+</td>
+</tr>
+    <tr class="table-odd-row">
+      <td></td>
+      <td>wrong int 2</td>
+      <td></td>
+      <td></td>
+      <td></td>
+      <td></td>
+      <td></td>
+      <td></td>
+      <td></td>
+      <td></td>
+      <td></td>
+      <td></td>
+      <td></td>
+      <td>DE</td>
+      <td></td>
+      <td>1.3</td>
+      <td></td>
+      <td></td>
+      <td></td>
+      <td></td>
+      <td></td>
+      <td></td>
+      <td></td>
+      <td></td>
+      <td></td>
+      <td></td>
+      <td></td>
+      <td></td>
+    </tr>
+<tr class="table-odd-row">
+<td colspan="28">
+Errors:
+<ul class="errors">
+<li>postal address - number of letters: 1.3 is not a valid integer number.</li>
+</ul>
+</td>
+</tr>
+    <tr class="table-even-row">
+      <td></td>
+      <td>wrong decimal</td>
+      <td></td>
+      <td></td>
+      <td></td>
+      <td></td>
+      <td></td>
+      <td></td>
+      <td></td>
+      <td></td>
+      <td></td>
+      <td></td>
+      <td></td>
+      <td>DE</td>
+      <td></td>
+      <td></td>
+      <td></td>
+      <td></td>
+      <td></td>
+      <td></td>
+      <td>qwe</td>
+      <td></td>
+      <td></td>
+      <td></td>
+      <td></td>
+      <td></td>
+      <td></td>
+      <td></td>
+    </tr>
+<tr class="table-even-row">
+<td colspan="28">
+Errors:
+<ul class="errors">
+<li>phone number - cost per minute: qwe is not a valid decimal number.</li>
+</ul>
+</td>
+</tr>
+  </tbody>
+</table>...
 
+Fine import
+===========
+
+The second import file can be imported without errors:
+
+>>> browser.getControl('Back').click()
+>>> browser.getControl('Back').click()
+>>> browser.getControl('Back').click()
+>>> browser.url
+'http://localhost/.../ab/++attribute++importer/File/import/editFile'
+>>> browser.getControl('file').add_file(fine_data, 'text/plain', 'fine.csv')
+>>> browser.getControl('Next').click()
+>>> browser.getControl('Next').click()
+>>> browser.getControl('Next').click()
+
+The imported data is shown in the preview, the contents of the `mail
+box text` column is abbreviated:
+
+>>> browser.url
+'http://localhost/.../ab/++attribute++importer/File/import/review'
+>>> print browser.contents
+<!DOCTYPE ...
+  <table>
+  <thead>
+    <tr>
+      <th><i> person</i><br />first name</th>
+      <th><br />last name</th>
+      <th><br />birth date</th>
+      <th><br />sex</th>
+      <th><br />keywords</th>
+      <th><br />notes</th>
+      <th><br />photo permission?</th>
+      <th><br />last seen</th>
+      <th><i>main postal address</i><br />kind</th>
+      <th><br />address prefix</th>
+      <th><br />street</th>
+      <th><br />city</th>
+      <th><br />zip</th>
+      <th><br />country</th>
+      <th><br />notes</th>
+      <th><br />number of letters</th>
+      <th><br />state</th>
+      <th><i>main phone number</i><br />kind</th>
+      <th><br />number</th>
+      <th><br />notes</th>
+      <th><br />cost per minute</th>
+      <th><br />mail box text</th>
+      <th><i>main e-mail address</i><br />kind</th>
+      <th><br />e-mail address</th>
+      <th><br />notes</th>
+      <th><i>main home page address</i><br />kind</th>
+      <th><br />URL</th>
+      <th><br />notes</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr class="table-even-row">
+      <td></td>
+      <td>Utzer</td>
+      <td></td>
+      <td></td>
+      <td></td>
+      <td></td>
+      <td>True</td>
+      <td>2009-10-31 11:31:00</td>
+      <td></td>
+      <td></td>
+      <td></td>
+      <td></td>
+      <td></td>
+      <td>DE</td>
+      <td></td>
+      <td>3</td>
+      <td>Sachsen-Anhalt</td>
+      <td></td>
+      <td></td>
+      <td></td>
+      <td>4.3</td>
+      <td>I do not like long an …</td>
+      <td></td>
+      <td></td>
+      <td></td>
+      <td></td>
+      <td></td>
+      <td></td>
+    </tr>
+<BLANKLINE>
+    <tr class="table-odd-row">
+      <td></td>
+      <td>User</td>
+      <td></td>
+      <td></td>
+      <td></td>
+      <td></td>
+      <td>True</td>
+      <td></td>
+      <td></td>
+      <td></td>
+      <td></td>
+      <td></td>
+      <td></td>
+      <td>DE</td>
+      <td></td>
+      <td></td>
+      <td>Sachsen</td>
+      <td></td>
+      <td></td>
+      <td></td>
+      <td>1E+3</td>
+      <td></td>
+      <td></td>
+      <td></td>
+      <td></td>
+      <td></td>
+      <td></td>
+      <td></td>
+    </tr>
+<BLANKLINE>
+    <tr class="table-even-row">
+      <td></td>
+      <td>Nobody</td>
+      <td></td>
+      <td></td>
+      <td></td>
+      <td></td>
+      <td>False</td>
+      <td></td>
+      <td></td>
+      <td></td>
+      <td></td>
+      <td></td>
+      <td></td>
+      <td>DE</td>
+      <td></td>
+      <td></td>
+      <td></td>
+      <td></td>
+      <td></td>
+      <td></td>
+      <td></td>
+      <td></td>
+      <td></td>
+      <td></td>
+      <td></td>
+      <td></td>
+      <td></td>
+      <td></td>
+    </tr>
+<BLANKLINE>
+  </tbody>
+</table>...
+
+>>> browser.getControl('Next').click()
+>>> print browser.contents
+<!DOCTYPE ...Import complete...
+>>> browser.getControl('Complete').click()
+>>> browser.url
+'http://localhost/++skin++AddressBook/ab/++attribute++importer'
+
+The imported data is also displayed in the person edit forms:
+
+>>> browser.getLink('Person list').click()
+>>> browser.getLink('Utzer').click()
+>>> browser.getControl('yes')
+<ItemControl name='form.widgets.Field-1:list' type='radio' ...
+>>> browser.getControl('yes').selected
+True
+>>> browser.getControl('last seen').value
+'09/10/31 11:31'
+>>> browser.getControl('state').displayValue
+['Sachsen-Anhalt']
+>>> browser.getControl('number of letters').value
+'3'
+>>> browser.getControl('cost per minute').value
+'4.3'
+>>> print browser.getControl('mail box text').value
+I do not like long an boring mail box texts where people tell a whole story
+instead of saying: I am not here leave a message.
+>>> browser.getControl('Cancel').click()
+
+>>> browser.getLink('User').click()
+>>> browser.getControl('yes')
+<ItemControl name='form.widgets.Field-1:list' type='radio' ...
+>>> browser.getControl('yes').selected
+True
+>>> browser.getControl('state').displayValue
+['Sachsen']
+>>> browser.getControl('cost per minute').value
+'1,000'
+>>> browser.getControl('Cancel').click()
+
+>>> browser.getLink('Nobody').click()
+>>> browser.getControl('yes').selected
+False
+>>> browser.getControl('no', index=1)
+<ItemControl name='form.widgets.Field-1:list' type='radio' ...
+>>> browser.getControl('no', index=1).selected
+True

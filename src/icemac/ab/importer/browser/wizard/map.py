@@ -3,12 +3,16 @@
 # See also LICENSE.txt
 
 from icemac.addressbook.i18n import MessageFactory as _
+import datetime
+import decimal
 import gocept.reference.field
 import icemac.ab.importer.browser.wizard.base
 import icemac.ab.importer.interfaces
 import icemac.addressbook.interfaces
 import persistent.mapping
+import time
 import z3c.form.field
+import z3c.form.interfaces
 import zc.sourcefactory.contextual
 import zope.component
 import zope.event
@@ -19,6 +23,9 @@ import zope.site.hooks
 
 
 NONE_REPLACEMENT = object()
+TRUE_VALUES = ['yes', 'true']
+FALSE_VALUES = ['no', 'false']
+DATETIME_FORMAT = '%Y-%m-%d %H:%M'
 
 
 def get_reader(session):
@@ -87,6 +94,64 @@ def text_field(value, field):
     return value.strip()
 
 
+@zope.component.adapter(None, zope.schema.interfaces.IInt)
+@zope.interface.implementer(IFieldValue)
+def int_field(value, field):
+    "Adapter for `Int` fields."
+    if value is None:
+        # We can't return None, as this means that the adapter can't adapt.
+        return NONE_REPLACEMENT
+    try:
+        return int(value)
+    except (TypeError, ValueError):
+        return value
+
+
+@zope.component.adapter(None, zope.schema.interfaces.IDecimal)
+@zope.interface.implementer(IFieldValue)
+def decimal_field(value, field):
+    "Adapter for `Decimal` fields."
+    if value is None:
+        # We can't return None, as this means that the adapter can't adapt.
+        return NONE_REPLACEMENT
+    try:
+        return decimal.Decimal(value)
+    except (TypeError, ValueError, decimal.InvalidOperation):
+        return value
+
+
+@zope.component.adapter(None, zope.schema.interfaces.IBool)
+@zope.interface.implementer(IFieldValue)
+def bool_field(value, field):
+    "Adapter for `Bool` fields."
+    if value is None:
+        # We can't return None, as this means that the adapter can't adapt.
+        return NONE_REPLACEMENT
+    if not isinstance(value, unicode):
+        return value # produces an error in validation
+    value = value.lower()
+    if value in TRUE_VALUES:
+        return True
+    if value in FALSE_VALUES:
+        return False
+    return value
+
+
+@zope.component.adapter(None, zope.schema.interfaces.IDatetime)
+@zope.interface.implementer(IFieldValue)
+def datetime_field(value, field):
+    "Adapter for `Datetime` fields."
+    if value is None:
+        # We can't return None, as this means that the adapter can't adapt.
+        return NONE_REPLACEMENT
+    try:
+        time_tuple = time.strptime(value.strip(), DATETIME_FORMAT)
+    except (TypeError, ValueError):
+        return value
+    else:
+        return datetime.datetime(*time_tuple[:5])
+
+
 @zope.component.adapter(None, zope.schema.interfaces.IURI)
 @zope.interface.implementer(IFieldValue)
 def uri_field(value, field):
@@ -143,8 +208,12 @@ def simple_invalid(field, exc):
 @zope.interface.implementer(IErrorMessage)
 def choice_constraint_not_satisfield(field, exc):
     value = exc.args[0]
+    if zope.schema.interfaces.IVocabulary.providedBy(field.source):
+        allowed = [x.value for x in field.source]
+    else:
+        allowed = [str(x) for x in field.source.factory.getValues()]
     return _(u'Value %s not allowed. Allowed values: %s') % (
-        value, ', '.join(str(x) for x in field.source.factory.getValues()))
+        value, ', '.join(allowed))
 
 
 @zope.component.adapter(zope.schema.interfaces.IChoice,
@@ -164,6 +233,38 @@ def country_constraint_not_satisfield(field, exc):
 def date_wrong_type(field, exc):
     value = exc.args[0]
     return _(u'%s is no valid date.') % value
+
+@zope.component.adapter(zope.schema.interfaces.IDatetime,
+                        zope.schema.interfaces.WrongType)
+@zope.interface.implementer(IErrorMessage)
+def datetime_wrong_type(field, exc):
+    value = exc.args[0]
+    return _(u'%s is no valid datetime. Must match to format string %r.') % (
+        value, DATETIME_FORMAT)
+
+@zope.component.adapter(zope.schema.interfaces.IInt,
+                        zope.schema.interfaces.WrongType)
+@zope.interface.implementer(IErrorMessage)
+def int_wrong_type(field, exc):
+    value = exc.args[0]
+    return _(u'%s is not a valid integer number.') % value
+
+
+@zope.component.adapter(zope.schema.interfaces.IDecimal,
+                        zope.schema.interfaces.WrongType)
+@zope.interface.implementer(IErrorMessage)
+def decimal_wrong_type(field, exc):
+    value = exc.args[0]
+    return _(u'%s is not a valid decimal number.') % value
+
+
+@zope.component.adapter(zope.schema.interfaces.IBool,
+                        zope.schema.interfaces.WrongType)
+@zope.interface.implementer(IErrorMessage)
+def bool_wrong_type(field, exc):
+    value = exc.args[0]
+    return _(u'Value %s not allowed. Allowed values: %s') % (
+        value, ', '.join(TRUE_VALUES + FALSE_VALUES))
 
 
 @zope.component.adapter(None, zope.schema.interfaces.ConstraintNotSatisfied)
@@ -341,8 +442,9 @@ class ImportObjectBuilder(object):
                         (value, field), IFieldValue)
                 if conv_value is NONE_REPLACEMENT:
                     conv_value = None
+                context = field.interface(obj)
                 try:
-                    field.set(obj, conv_value)
+                    field.set(context, conv_value)
                 except zope.interface.Invalid, e:
                     self.errors.add(render_error(entity, field_name, e))
 
@@ -350,9 +452,14 @@ class ImportObjectBuilder(object):
         return obj
 
     def _validate(self, entity, obj):
-        errors = zope.schema.getValidationErrors(entity.interface, obj)
-        for field_name, exc in errors:
-            self.errors.add(render_error(entity, field_name, exc))
+        for field_name, field in entity.getFieldsInOrder():
+            context = field.interface(obj)
+            field = field.bind(context)
+            value = field.get(context)
+            try:
+                field.validate(value)
+            except zope.schema.ValidationError, exc:
+                self.errors.add(render_error(entity, field_name, exc))
 
 
 class FieldsGroup(z3c.form.group.Group):

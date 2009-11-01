@@ -11,15 +11,18 @@ import xml.sax.saxutils
 import z3c.table.column
 import zope.interface
 import zope.schema
+import zope.security.proxy
 
 
 class ContainerColumn(z3c.table.column.GetAttrColumn):
     "Context is a container, search values in container items."
-    interface = None # search only objects providinf this interface
+    interface = None # search only objects providing this interface
     container_interface = None # when value provides this interface, lookup
                                # atribute on container
     index = 0 # index in the list of found objects
     attrName = None # attr to look up
+    attrInterface = None # interface of the attribute (needed to look up user
+                         # defined fields)
 
     def getObject(self, container):
         if (self.container_interface and
@@ -32,7 +35,13 @@ class ContainerColumn(z3c.table.column.GetAttrColumn):
         return None
 
     def getRawValue(self, item):
-        return self.getValue(self.getObject(item))
+        # user fields are stored in annotation which are not
+        # accessible with security proxy. This is no security hole
+        # here as only administators may access the importer.
+        obj = zope.security.proxy.getObject(self.getObject(item))
+        if obj is not None:
+            obj = self.attrInterface(obj)
+        return self.getValue(obj)
 
     def getRenderedValue(self, item):
         value = self.getRawValue(item)
@@ -127,7 +136,7 @@ class ImportedTable(icemac.addressbook.browser.table.Table):
                     else:
                         header = '<br />%s' % field.title
                     cols.append(self._create_col(
-                        field, field_name, weight, header, index))
+                        entity, field, field_name, weight, header, index))
         return cols
 
     def renderRow(self, row, cssClass=None):
@@ -137,7 +146,7 @@ class ImportedTable(icemac.addressbook.browser.table.Table):
         return u'\n'.join((rendered_row,
                            self._renderErrors(row[0][0], cssClass)))
 
-    def _create_col(self, field, field_name, weight, header, index):
+    def _create_col(self, entity, field, field_name, weight, header, index):
         "Create a single column for the field."
         # try named adapter first
         column = zope.component.queryMultiAdapter(
@@ -151,7 +160,8 @@ class ImportedTable(icemac.addressbook.browser.table.Table):
         return z3c.table.column.addColumn(
             self, column, field_name, weight=weight, header=header,
             container_interface=icemac.addressbook.interfaces.IPerson,
-            interface=field.interface, attrName=field_name, index=index)
+            interface=entity.interface, attrInterface=field.interface,
+            attrName=field_name, index=index)
 
     def _renderErrors(self, item, cssClass):
         errors = self.session['import_errors'][item.__name__]
