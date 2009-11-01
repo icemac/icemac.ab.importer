@@ -340,15 +340,6 @@ class KeywordBuilder(object):
         return created
 
 
-def get_default_field(interface):
-    "Find the name of a default value attribute on person."
-    names_descrs = (
-        icemac.addressbook.interfaces.IPersonDefaults.namesAndDescriptions())
-    for name, descr in names_descrs:
-        if descr.source.factory.interface == interface:
-            return icemac.addressbook.interfaces.IPersonDefaults[name]
-
-
 class ImportObjectBuilder(object):
     """Build the objects the user wants to import."""
 
@@ -402,7 +393,8 @@ class ImportObjectBuilder(object):
                 obj = self._create(prefix, person, data, main_entry)
                 if main_entry:
                     # set the created address as main address of its kind
-                    get_default_field(entity.interface).set(obj, person)
+                    icemac.addressbook.person.get_default_field(
+                        entity.interface).set(obj, person)
                 if obj is not None:
                     self._validate(entity, obj)
         return person, sorted(list(self.errors))
