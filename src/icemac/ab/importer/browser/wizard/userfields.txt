@@ -15,9 +15,6 @@ Create an address book:
 Add some user defined fields:
 
 >>> from icemac.addressbook.testing import create_field
->>> import icemac.addressbook.interfaces
->>> import zope.component
-
 >>> create_field(ab, 'icemac.addressbook.person.Person',
 ...     u'Bool', u'photo permission?')
 >>> create_field(ab, 'icemac.addressbook.person.Person',
