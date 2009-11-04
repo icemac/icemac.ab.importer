@@ -36,7 +36,6 @@ To upload a file the add file link can be used:
 >>> browser.getLink('file').click()
 >>> fd, filename = write_temp_file('Import data file', '.txt')
 >>> browser.getControl('file').add_file(fd, 'text/plain', filename)
->>> browser.getControl('notes').value = 'first\nimporttest'
 >>> browser.getControl('Add').click()
 >>> browser.url
 'http://localhost/++skin++AddressBook/ab/++attribute++importer'
@@ -61,9 +60,6 @@ one:
 True
 >>> browser.getControl('Mime Type').value
 'text/plain'
->>> print browser.getControl('notes').value
-first
-importtest
 >>> browser.getLink('Download file').click()
 >>> browser.headers['content-type']
 'text/plain'
@@ -75,7 +71,6 @@ True
 
 >>> fd, filename2 = write_temp_file('Import2 data2 file2', '.csv')
 >>> browser.getControl('file').add_file(fd, 'text/csv', filename2)
->>> browser.getControl('notes').value = '2nd\nimporttest'
 >>> browser.getControl('Apply').click()
 >>> browser.url
 'http://localhost/++skin++AddressBook/ab/++attribute++importer'
@@ -148,14 +143,13 @@ There is a `delete` link to delete a file (The first link is the one
 in the table header to sort te columns, so we use the second one
 here):
 
+>>> browser.handleErrors = False
 >>> browser.getLink('Delete').click()
 >>> print browser.url
 http://localhost/++skin++AddressBook/ab/++attribute++importer/File/@@delete.html
 >>> print browser.contents
 <!DOCTYPE ...
 ...csv...
-...2nd
-importtest...
 >>> browser.getControl('Yes, delete it').click()
 >>> browser.url
 'http://localhost/++skin++AddressBook/ab/++attribute++importer'

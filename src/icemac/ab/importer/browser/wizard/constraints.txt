@@ -40,9 +40,14 @@ together:
 
   - data line must contain enough fields
 
-Not each field must be selected on mapping fields. (Field `asdf` is used as an example here.). A field in the import file might be associated to more than one field in the addressbook (Field `all_kind` is used to show this).
+Not each field must be selected on mapping fields. (Field `asdf` is
+used as an example here.). A field in the import file might be
+associated to more than one field in the addressbook (Field `all_kind`
+is used to show this).
 
-Whitespaces at beginning and end are striped. When a notes field contains more then 20 characters it get nicely truncated. (See line with `last_name` ``nice`` for both cases.)
+Whitespaces at beginning and end are striped. When a notes field
+contains more then 20 characters it get nicely truncated. (See line
+with `last_name` ``nice`` for both cases.)
 
 Let's construct an import file which containts errors for this constraints:
 
@@ -62,6 +67,7 @@ Let's construct an import file which containts errors for this constraints:
 ...     '" nice "," 2006-06-06",work, r6@ab.info,'
 ...       '" http://www.r6.sf.net",," Switzerland ",'
 ...       '"  my r e a l l y   long, but also really nice  notes    "\n')
+
 >>> file_data.seek(0)
 
 The upload and import works as usual:
@@ -110,16 +116,12 @@ http://localhost/.../ab/++attribute++importer/File/import/review
       <th><br />city</th>
       <th><br />zip</th>
       <th><br />country</th>
-      <th><br />notes</th>
       <th><i>main phone number</i><br />kind</th>
       <th><br />number</th>
-      <th><br />notes</th>
       <th><i>main e-mail address</i><br />kind</th>
       <th><br />e-mail address</th>
-      <th><br />notes</th>
       <th><i>main home page address</i><br />kind</th>
       <th><br />URL</th>
-      <th><br />notes</th>
     </tr>
   </thead>
   <tbody>
@@ -141,13 +143,9 @@ http://localhost/.../ab/++attribute++importer/File/import/review
       <td></td>
       <td></td>
       <td></td>
-      <td></td>
-      <td></td>
-      <td></td>
-      <td></td>
     </tr>
 <tr class="table-even-row">
-<td colspan="21">
+<td colspan="17">
 Errors:
 <ul class="errors">
 <li>person - last name: Required input is missing.</li>
@@ -172,13 +170,9 @@ Errors:
       <td></td>
       <td></td>
       <td></td>
-      <td></td>
-      <td></td>
-      <td></td>
-      <td></td>
     </tr>
 <tr class="table-odd-row">
-<td colspan="21">
+<td colspan="17">
 Errors:
 <ul class="errors">
 <li>person - birth date: 1981 is no valid date.</li>
@@ -203,13 +197,9 @@ Errors:
       <td></td>
       <td></td>
       <td></td>
-      <td></td>
-      <td></td>
-      <td></td>
-      <td></td>
     </tr>
 <tr class="table-even-row">
-<td colspan="21">
+<td colspan="17">
 Errors:
 <ul class="errors">
 <li>e-mail address - kind: Value personal not allowed. Allowed values: private, work, other</li>
@@ -231,17 +221,13 @@ Errors:
       <td></td>
       <td></td>
       <td></td>
-      <td></td>
-      <td></td>
       <td>private</td>
-      <td></td>
-      <td></td>
       <td></td>
       <td></td>
       <td></td>
     </tr>
 <tr class="table-odd-row">
-<td colspan="21">
+<td colspan="17">
 Errors:
 <ul class="errors">
 <li>e-mail address - e-mail address: i@me@de is not a valid e-mail address.</li>
@@ -263,16 +249,12 @@ Errors:
       <td></td>
       <td></td>
       <td></td>
-      <td></td>
-      <td></td>
       <td>i@me.de</td>
-      <td></td>
-      <td></td>
       <td></td>
       <td></td>
     </tr>
 <tr class="table-even-row">
-<td colspan="21">
+<td colspan="17">
 Errors:
 <ul class="errors">
 <li>home page address - URL: The specified URI is not valid.</li>
@@ -297,13 +279,9 @@ Errors:
       <td></td>
       <td></td>
       <td></td>
-      <td></td>
-      <td></td>
-      <td></td>
-      <td></td>
     </tr>
 <tr class="table-odd-row">
-<td colspan="21">
+<td colspan="17">
 Errors:
 <ul class="errors">
 <li>postal address - country: Value D not allowed. Allowed values: AF resp. Afghanistan, AX resp. Åland Islands, ...
@@ -322,10 +300,6 @@ Errors:
       <td></td>
       <td></td>
       <td>AT</td>
-      <td></td>
-      <td></td>
-      <td></td>
-      <td></td>
       <td></td>
       <td></td>
       <td></td>
@@ -352,13 +326,9 @@ Errors:
       <td></td>
       <td></td>
       <td></td>
-      <td></td>
-      <td></td>
-      <td></td>
-      <td></td>
     </tr>
 <tr class="table-odd-row">
-<td colspan="21">
+<td colspan="17">
 Errors:
 <ul class="errors">
 <li>home page address: Not enough data fields in row.</li>
@@ -381,14 +351,10 @@ Errors:
       <td>CH</td>
       <td></td>
       <td></td>
-      <td></td>
-      <td></td>
       <td>work</td>
       <td>r6@ab.info</td>
       <td></td>
-      <td></td>
       <td>http://www.r6.sf.net</td>
-      <td></td>
     </tr>
  </tbody>
 </table>...

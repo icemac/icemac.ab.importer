@@ -89,48 +89,36 @@ http://localhost/.../ab/++attribute++importer/File/import/review
       <th><br />city</th>
       <th><br />zip</th>
       <th><br />country</th>
-      <th><br />notes</th>
       <th><i>other postal address</i><br />kind</th>
       <th><br />address prefix</th>
       <th><br />street</th>
       <th><br />city</th>
       <th><br />zip</th>
       <th><br />country</th>
-      <th><br />notes</th>
       <th><i>other postal address</i><br />kind</th>
       <th><br />address prefix</th>
       <th><br />street</th>
       <th><br />city</th>
       <th><br />zip</th>
       <th><br />country</th>
-      <th><br />notes</th>
       <th><i>main phone number</i><br />kind</th>
       <th><br />number</th>
-      <th><br />notes</th>
       <th><i>other phone number</i><br />kind</th>
       <th><br />number</th>
-      <th><br />notes</th>
       <th><i>other phone number</i><br />kind</th>
       <th><br />number</th>
-      <th><br />notes</th>
       <th><i>main e-mail address</i><br />kind</th>
       <th><br />e-mail address</th>
-      <th><br />notes</th>
       <th><i>other e-mail address</i><br />kind</th>
       <th><br />e-mail address</th>
-      <th><br />notes</th>
       <th><i>other e-mail address</i><br />kind</th>
       <th><br />e-mail address</th>
-      <th><br />notes</th>
       <th><i>main home page address</i><br />kind</th>
       <th><br />URL</th>
-      <th><br />notes</th>
       <th><i>other home page address</i><br />kind</th>
       <th><br />URL</th>
-      <th><br />notes</th>
       <th><i>other home page address</i><br />kind</th>
       <th><br />URL</th>
-      <th><br />notes</th>
     </tr>
   </thead>
   <tbody>
@@ -159,23 +147,11 @@ http://localhost/.../ab/++attribute++importer/File/import/review
       <td></td>
       <td></td>
       <td></td>
-      <td></td>
-      <td></td>
-      <td></td>
       <td>112</td>
-      <td></td>
       <td></td>
       <td>110</td>
       <td></td>
-      <td></td>
       <td>108</td>
-      <td></td>
-      <td></td>
-      <td></td>
-      <td></td>
-      <td></td>
-      <td></td>
-      <td></td>
       <td></td>
       <td></td>
       <td></td>
@@ -217,19 +193,7 @@ http://localhost/.../ab/++attribute++importer/File/import/review
       <td></td>
       <td></td>
       <td></td>
-      <td></td>
-      <td></td>
-      <td></td>
-      <td></td>
       <td>116116</td>
-      <td></td>
-      <td></td>
-      <td></td>
-      <td></td>
-      <td></td>
-      <td></td>
-      <td></td>
-      <td></td>
       <td></td>
       <td></td>
       <td></td>
@@ -271,21 +235,9 @@ http://localhost/.../ab/++attribute++importer/File/import/review
       <td></td>
       <td></td>
       <td></td>
-      <td></td>
-      <td></td>
-      <td></td>
       <td>1111</td>
       <td></td>
-      <td></td>
       <td>2222</td>
-      <td></td>
-      <td></td>
-      <td></td>
-      <td></td>
-      <td></td>
-      <td></td>
-      <td></td>
-      <td></td>
       <td></td>
       <td></td>
       <td></td>
@@ -314,18 +266,6 @@ http://localhost/.../ab/++attribute++importer/File/import/review
       <td></td>
       <td></td>
       <td>DE</td>
-      <td></td>
-      <td></td>
-      <td></td>
-      <td></td>
-      <td></td>
-      <td></td>
-      <td></td>
-      <td></td>
-      <td></td>
-      <td></td>
-      <td></td>
-      <td></td>
       <td></td>
       <td></td>
       <td></td>
