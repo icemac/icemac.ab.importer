@@ -83,49 +83,36 @@ http://localhost/.../ab/++attribute++importer/File/import/review
       <th><br />birth date</th>
       <th><br />keywords</th>
       <th><br />notes</th>
-      <th><i>main postal address</i><br />kind</th>
-      <th><br />address prefix</th>
+      <th><i>main postal address</i><br />address prefix</th>
       <th><br />street</th>
       <th><br />city</th>
       <th><br />zip</th>
       <th><br />country</th>
-      <th><i>other postal address</i><br />kind</th>
-      <th><br />address prefix</th>
+      <th><i>other postal address</i><br />address prefix</th>
       <th><br />street</th>
       <th><br />city</th>
       <th><br />zip</th>
       <th><br />country</th>
-      <th><i>other postal address</i><br />kind</th>
-      <th><br />address prefix</th>
+      <th><i>other postal address</i><br />address prefix</th>
       <th><br />street</th>
       <th><br />city</th>
       <th><br />zip</th>
       <th><br />country</th>
-      <th><i>main phone number</i><br />kind</th>
-      <th><br />number</th>
-      <th><i>other phone number</i><br />kind</th>
-      <th><br />number</th>
-      <th><i>other phone number</i><br />kind</th>
-      <th><br />number</th>
-      <th><i>main e-mail address</i><br />kind</th>
-      <th><br />e-mail address</th>
-      <th><i>other e-mail address</i><br />kind</th>
-      <th><br />e-mail address</th>
-      <th><i>other e-mail address</i><br />kind</th>
-      <th><br />e-mail address</th>
-      <th><i>main home page address</i><br />kind</th>
-      <th><br />URL</th>
-      <th><i>other home page address</i><br />kind</th>
-      <th><br />URL</th>
-      <th><i>other home page address</i><br />kind</th>
-      <th><br />URL</th>
+      <th><i>main phone number</i><br />number</th>
+      <th><i>other phone number</i><br />number</th>
+      <th><i>other phone number</i><br />number</th>
+      <th><i>main e-mail address</i><br />e-mail address</th>
+      <th><i>other e-mail address</i><br />e-mail address</th>
+      <th><i>other e-mail address</i><br />e-mail address</th>
+      <th><i>main home page address</i><br />URL</th>
+      <th><i>other home page address</i><br />URL</th>
+      <th><i>other home page address</i><br />URL</th>
     </tr>
   </thead>
   <tbody>
     <tr class="table-even-row">
       <td></td>
       <td>One</td>
-      <td></td>
       <td></td>
       <td></td>
       <td></td>
@@ -144,20 +131,9 @@ http://localhost/.../ab/++attribute++importer/File/import/review
       <td></td>
       <td></td>
       <td></td>
-      <td></td>
-      <td></td>
-      <td></td>
       <td>112</td>
-      <td></td>
       <td>110</td>
-      <td></td>
       <td>108</td>
-      <td></td>
-      <td></td>
-      <td></td>
-      <td></td>
-      <td></td>
-      <td></td>
       <td></td>
       <td></td>
       <td></td>
@@ -176,12 +152,7 @@ http://localhost/.../ab/++attribute++importer/File/import/review
       <td></td>
       <td></td>
       <td></td>
-      <td></td>
       <td>DE</td>
-      <td></td>
-      <td></td>
-      <td></td>
-      <td></td>
       <td></td>
       <td></td>
       <td></td>
@@ -201,19 +172,11 @@ http://localhost/.../ab/++attribute++importer/File/import/review
       <td></td>
       <td></td>
       <td></td>
-      <td></td>
-      <td></td>
-      <td></td>
-      <td></td>
-      <td></td>
-      <td></td>
-      <td></td>
     </tr>
 <BLANKLINE>
     <tr class="table-even-row">
       <td></td>
       <td>Three</td>
-      <td></td>
       <td></td>
       <td></td>
       <td></td>
@@ -232,19 +195,8 @@ http://localhost/.../ab/++attribute++importer/File/import/review
       <td></td>
       <td></td>
       <td></td>
-      <td></td>
-      <td></td>
-      <td></td>
       <td>1111</td>
-      <td></td>
       <td>2222</td>
-      <td></td>
-      <td></td>
-      <td></td>
-      <td></td>
-      <td></td>
-      <td></td>
-      <td></td>
       <td></td>
       <td></td>
       <td></td>
@@ -264,19 +216,7 @@ http://localhost/.../ab/++attribute++importer/File/import/review
       <td></td>
       <td></td>
       <td></td>
-      <td></td>
       <td>DE</td>
-      <td></td>
-      <td></td>
-      <td></td>
-      <td></td>
-      <td></td>
-      <td></td>
-      <td></td>
-      <td></td>
-      <td></td>
-      <td></td>
-      <td></td>
       <td></td>
       <td></td>
       <td></td>
@@ -316,18 +256,18 @@ The first phone number is the main one:
 
 >>> browser.getLink('One').click()
 >>> browser.getControl('main phone number').displayOptions
-['unknown: 112', 'unknown: 110', 'unknown: 108']
+['112', '110', '108']
 >>> browser.getControl('main phone number').displayValue
-['unknown: 112']
+['112']
 
 When there is no first one an empty main number is created:
 
 >>> browser.getControl('Cancel').click()
 >>> browser.getLink('Two').click()
 >>> browser.getControl('main phone number').displayOptions
-['unknown', 'unknown: 116116']
+['none', '116116']
 >>> browser.getControl('main phone number').displayValue
-['unknown']
+['none']
 
 Empty non-main phone numbers are not created, so the missing 2nd
 number is left out and the third one gets the one and only non-main
@@ -336,11 +276,11 @@ phone number:
 >>> browser.getControl('Cancel').click()
 >>> browser.getLink('Three').click()
 >>> browser.getControl('main phone number').displayOptions
-['unknown: 1111', 'unknown: 2222']
+['1111', '2222']
 
 But there must be a default number which is always created:
 
 >>> browser.getControl('Cancel').click()
 >>> browser.getLink('Four').click()
 >>> browser.getControl('main phone number').displayOptions
-['unknown']
+['none']
