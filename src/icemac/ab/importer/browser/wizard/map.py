@@ -102,7 +102,7 @@ def int_field(value, field):
         # We can't return None, as this means that the adapter can't adapt.
         return NONE_REPLACEMENT
     try:
-        return int(value)
+        return int(float(value))
     except (TypeError, ValueError):
         return value
 
