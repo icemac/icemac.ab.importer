@@ -24,6 +24,7 @@
   <subscriber handler=".install.install_importer" />
 
   <include package=".browser" />
+  <include package=".generations" />
   <include package=".reader" />
 
 </configure>

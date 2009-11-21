@@ -52,6 +52,7 @@ setuptools.setup(
         'zope.container',
         'zope.interface',
         'zope.schema',
+        'zope.app.generations',
         ],
     extras_require = dict(
         test=[

@@ -7,6 +7,8 @@
 
 - Supporting the user defined fields feature of address book.
 
+- Added migration code to add importer to exising address books.
+
 
 0.9.1 (2009-09-28)
 ==================
