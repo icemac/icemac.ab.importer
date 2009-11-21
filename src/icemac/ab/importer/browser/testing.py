@@ -3,7 +3,6 @@
 # See also LICENSE.txt
 # $Id$
 
-import os.path
 import zope.app.testing.functional
 
 

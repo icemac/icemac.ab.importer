@@ -4,7 +4,6 @@
 # $Id$
 
 import icemac.addressbook.testing
-import zope.app.testing.functional
 import icemac.ab.importer.browser.testing
 
 

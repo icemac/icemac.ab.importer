@@ -5,9 +5,7 @@
 from icemac.addressbook.i18n import MessageFactory as _
 import gocept.cache.property
 import icemac.ab.importer.interfaces
-import icemac.addressbook.address
 import icemac.addressbook.interfaces
-import icemac.addressbook.person
 import persistent.mapping
 import z3c.form.field
 import z3c.wizard.wizard

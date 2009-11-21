@@ -3,7 +3,6 @@
 # See also LICENSE.txt
 
 from icemac.addressbook.i18n import MessageFactory as _
-import icemac.ab.importer.browser.table
 import icemac.addressbook.browser.table
 import icemac.addressbook.interfaces
 import icemac.addressbook.sources

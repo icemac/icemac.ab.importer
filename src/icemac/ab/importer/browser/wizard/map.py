@@ -12,14 +12,11 @@ import icemac.addressbook.interfaces
 import persistent.mapping
 import time
 import z3c.form.field
-import z3c.form.interfaces
 import zc.sourcefactory.contextual
 import zope.component
-import zope.event
 import zope.interface
 import zope.schema
 import zope.security.proxy
-import zope.site.hooks
 
 
 NONE_REPLACEMENT = object()
