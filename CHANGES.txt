@@ -2,7 +2,7 @@
  Changelog
 ===========
 
-1.0 (unreleased)
+1.0 (2009-11-21)
 ================
 
 - Supporting the user defined fields feature of address book.
