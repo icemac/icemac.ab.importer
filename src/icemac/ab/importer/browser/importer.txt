@@ -150,7 +150,7 @@ http://localhost/++skin++AddressBook/ab/++attribute++importer/File/@@delete.html
 >>> print browser.contents
 <!DOCTYPE ...
 ...csv...
->>> browser.getControl('Yes, delete it').click()
+>>> browser.getControl('Yes, delete').click()
 >>> browser.url
 'http://localhost/++skin++AddressBook/ab/++attribute++importer'
 >>> 'csv' in browser.contents
