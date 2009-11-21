@@ -143,7 +143,6 @@ There is a `delete` link to delete a file (The first link is the one
 in the table header to sort te columns, so we use the second one
 here):
 
->>> browser.handleErrors = False
 >>> browser.getLink('Delete').click()
 >>> print browser.url
 http://localhost/++skin++AddressBook/ab/++attribute++importer/File/@@delete.html
