@@ -394,7 +394,7 @@ class ImportObjectBuilder(object):
                 if main_entry:
                     # set the created address as main address of its kind
                     icemac.addressbook.person.get_default_field(
-                        entity.interface).set(obj, person)
+                        entity.interface).set(person, obj)
                 if obj is not None:
                     self._validate(entity, obj)
         return person, sorted(list(self.errors))

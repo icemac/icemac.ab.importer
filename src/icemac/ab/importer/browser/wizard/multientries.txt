@@ -252,13 +252,41 @@ After completing the import the imported data can be inspected:
 >>> browser.url
 'http://localhost/++skin++AddressBook/ab/@@index.html'
 
-The first phone number is the main one:
+The first phone number is the main one and it is displayed as the main
+phone number in he form below, too:
 
 >>> browser.getLink('One').click()
+>>> file('response.html', 'w').write(browser.contents)
 >>> browser.getControl('main phone number').displayOptions
 ['112', '110', '108']
 >>> browser.getControl('main phone number').displayValue
 ['112']
+>>> print browser.contents
+<!DOCTYPE ...
+        <fieldset>
+          <legend>main phone number</legend>
+<BLANKLINE>
+<BLANKLINE>
+<BLANKLINE>
+<BLANKLINE>
+<BLANKLINE>
+<BLANKLINE>
+          <div id="phone_number_0-widgets-phone_number_0-number-row"
+               class="row">
+<BLANKLINE>
+              <div class="label">
+                <label for="phone_number_0-widgets-phone_number_0-number">
+                  <span>number</span>
+<BLANKLINE>
+                </label>
+              </div>
+              <div class="widget">
+    <input id="phone_number_0-widgets-phone_number_0-number"
+           name="phone_number_0.widgets.phone_number_0.number"
+           class="text-widget textline-field" value="112"
+           type="text" />
+<BLANKLINE>
+</div>...
 
 When there is no first one an empty main number is created:
 
