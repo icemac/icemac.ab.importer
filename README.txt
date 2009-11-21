@@ -132,9 +132,10 @@ To register the reader class with `icemac.addressbook` write a `configure.zcml` 
        factory="<path>" />
   </configure>
 
-The ``name`` attribute contains a unique name to identify the importer
-internally. The ``factory`` attribute contains the python path to the reader
-class.
+The ``icemac.ab.importer`` package is necessary to integrate the
+importer UI into the address book.  The ``name`` attribute contains a
+unique name to identify the importer internally. The ``factory``
+attribute contains the python path to the reader class.
 
 4. Create a python package
 ==========================
