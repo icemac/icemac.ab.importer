@@ -5,7 +5,8 @@
 1.1 (unreleased)
 ================
 
-- Nothing changed yet.
+- Importing persons, deleting them and importing them again led to an
+  exception.
 
 
 1.0 (2009-11-21)

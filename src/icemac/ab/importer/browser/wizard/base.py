@@ -95,7 +95,12 @@ def delete_imported_data(self):
     addressbook = icemac.addressbook.interfaces.IAddressBook(self.context)
     session = self.getContent()
     for id in session.get('imported', []):
-        del addressbook[id]
+        try:
+            del addressbook[id]
+        except KeyError:
+            # This can occur when importing the same data again after
+            # delting it
+            pass
     session['imported'] = []
     keywords = zope.component.getUtility(
         icemac.addressbook.interfaces.IKeywords)

@@ -1,6 +1,6 @@
-===============================
- Edge caes when importing data
-===============================
+=============================
+Edge caes when importing data
+=============================
 
 Importing has some edge cases which are demonstrated here:
 
@@ -114,4 +114,85 @@ The new import file has replaced the old one:
 >>> print browser.contents
 <!DOCTYPE ...
 <td><a href="http://localhost/++skin++AddressBook/ab/++attribute++importer/File">header.csv</a></td>...
+
+
+Delete persons after import and start new import
+================================================
+
+There was a bug which occurred when doing the following steps:
+
+  * importing persons
+  * deleting all persons
+  * importing the same import file as in the first step
+
+Set up
+------
+
+>>> file_data = StringIO()
+>>> file_data.write("last_name\n"
+...                 "Vipraschil")
+>>> file_data.seek(0)
+
+
+Import persons
+--------------
+
+>>> browser.getLink('file').click()
+>>> browser.getControl('file').add_file(file_data, 'text/plain', 'del.csv')
+>>> browser.getControl('Add').click()
+>>> browser.url
+'http://localhost/++skin++AddressBook/ab/++attribute++importer'
+
+>>> browser.getLink('Import').click()
+>>> print browser.url
+http://localhost/++skin++AddressBook/ab/++attribute++importer/File-2/@@import
+
+>>> browser.getControl('Next').click()
+>>> print browser.url
+http://localhost/.../ab/++attribute++importer/File-2/import/map
+
+>>> browser.getControl('last name').displayValue = ['last_name']
+>>> browser.getControl('Next').click()
+>>> browser.url
+'http://localhost/.../ab/++attribute++importer/File-2/import/review'
+
+>>> browser.getControl('Next').click()
+>>> browser.url
+'http://localhost/++skin++.../ab/++attribute++importer/File-2/import/complete'
+
+>>> browser.getControl('Complete').click()
+>>> browser.url
+'http://localhost/++skin++AddressBook/ab/++attribute++importer'
+
+Delete all persons in address book
+----------------------------------
+
+This function can be found on the `Edit address book` tab:
+
+>>> browser.getLink('Edit address book').click()
+>>> browser.getControl('Delete all persons in address book').click()
+>>> browser.url
+'http://localhost/++skin++AddressBook/ab/@@delete_content.html'
+>>> browser.getControl('Yes, delete').click()
+
+Import persons again
+--------------------
+
+When importing the same import file, previously an error occurred:
+
+>>> browser.getLink('Master data').click()
+>>> browser.getLink('Import data').click()
+>>> browser.getLink('Import').click()
+>>> print browser.url
+http://localhost/++skin++AddressBook/ab/++attribute++importer/File-2/@@import
+>>> browser.getControl('Next').click()
+>>> browser.url
+'http://localhost/++skin++AddressBook/ab/++attribute++importer/File-2/import/map'
+>>> print browser.contents
+<!DOCTYPE ...
+          <div class="currStep">
+            <span>Current step:</span>
+            <span>Map fields</span>
+          </div>...
+
 
