@@ -1,8 +1,9 @@
-
-<h2 i18n:translate="">Registered import file readers</h2>
-<ul>
-  <li tal:repeat="reader view/readers"
-      tal:content="reader" />
-</ul>
-<br />
-<a href="." i18n:translate="">Go back</a>
+<tal:domain i18n:domain="icemac.addressbook">
+  <h2 i18n:translate="">Registered import file readers</h2>
+  <ul>
+    <li tal:repeat="reader view/readers"
+        tal:content="reader" />
+  </ul>
+  <br />
+  <a href="." i18n:translate="">Go back</a>
+</tal:domain>

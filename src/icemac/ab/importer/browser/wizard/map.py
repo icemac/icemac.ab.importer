@@ -209,8 +209,8 @@ def choice_constraint_not_satisfield(field, exc):
         allowed = [x.value for x in field.source]
     else:
         allowed = [str(x) for x in field.source.factory.getValues()]
-    return _(u'Value %s not allowed. Allowed values: %s') % (
-        value, ', '.join(allowed))
+    return _(u'Value ${value} is not allowed. Allowed values are: ${values}',
+             mapping=dict(value=value, values=', '.join(allowed)))
 
 
 @zope.component.adapter(zope.schema.interfaces.IChoice,
@@ -218,10 +218,9 @@ def choice_constraint_not_satisfield(field, exc):
 @zope.interface.implementer(IErrorMessage)
 def country_constraint_not_satisfield(field, exc):
     value = exc.args[0]
-    titles = [_(u'%s resp. %s') % (x.token, field.source.factory.getTitle(x))
-              for x in field.source.factory.getValues()]
-    return _(u'Value %s not allowed. Allowed values: %s') % (
-        value, ', '.join(titles))
+    titles = [x.token for x in field.source.factory.getValues()]
+    return _(u'Value ${value} is not allowed. Allowed values are: ${values}',
+             mapping=dict(value=value, values=', '.join(titles)))
 
 
 @zope.component.adapter(zope.schema.interfaces.IDate,
@@ -229,22 +228,24 @@ def country_constraint_not_satisfield(field, exc):
 @zope.interface.implementer(IErrorMessage)
 def date_wrong_type(field, exc):
     value = exc.args[0]
-    return _(u'%s is no valid date.') % value
+    return _(u'${value} is no valid date.', mapping=dict(value=value))
 
 @zope.component.adapter(zope.schema.interfaces.IDatetime,
                         zope.schema.interfaces.WrongType)
 @zope.interface.implementer(IErrorMessage)
 def datetime_wrong_type(field, exc):
     value = exc.args[0]
-    return _(u'%s is no valid datetime. Must match to format string %r.') % (
-        value, DATETIME_FORMAT)
+    return _(u'${value} is no valid datetime. '
+             u'Must match to format string "${format}".',
+             mapping=dict(value=value, format=DATETIME_FORMAT))
 
 @zope.component.adapter(zope.schema.interfaces.IInt,
                         zope.schema.interfaces.WrongType)
 @zope.interface.implementer(IErrorMessage)
 def int_wrong_type(field, exc):
     value = exc.args[0]
-    return _(u'%s is not a valid integer number.') % value
+    return _(u'${value} is not a valid integer number.',
+             mapping=dict(value=value))
 
 
 @zope.component.adapter(zope.schema.interfaces.IDecimal,
@@ -252,7 +253,8 @@ def int_wrong_type(field, exc):
 @zope.interface.implementer(IErrorMessage)
 def decimal_wrong_type(field, exc):
     value = exc.args[0]
-    return _(u'%s is not a valid decimal number.') % value
+    return _(u'${value} is not a valid decimal number.',
+             mapping=dict(value=value))
 
 
 @zope.component.adapter(zope.schema.interfaces.IBool,
@@ -260,15 +262,17 @@ def decimal_wrong_type(field, exc):
 @zope.interface.implementer(IErrorMessage)
 def bool_wrong_type(field, exc):
     value = exc.args[0]
-    return _(u'Value %s not allowed. Allowed values: %s') % (
-        value, ', '.join(TRUE_VALUES + FALSE_VALUES))
+    return _(u'Value ${value} is not allowed. Allowed values are: ${values}',
+             mapping=dict(value=value,
+                          values=', '.join(TRUE_VALUES + FALSE_VALUES)))
 
 
 @zope.component.adapter(None, zope.schema.interfaces.ConstraintNotSatisfied)
 @zope.interface.implementer(IErrorMessage)
 def email_constraint_not_satisfield(field, exc):
     value = exc.args[0]
-    return _(u'%s is not a valid e-mail address.') % value
+    return _(u'${value} is not a valid e-mail address.',
+             mapping=dict(value=value))
 
 
 @zope.component.adapter(None, IndexError)
@@ -290,7 +294,8 @@ def render_error(entity, field_name, exc):
         field_name = u''
     else:
         field = entity.getField(field_name)
-        title = '%s - %s' % (obj_title, field.title)
+        title = _('${prefix} -- ${title}',
+                  mapping=dict(prefix=obj_title, title=field.title))
 
     # try named adapter first
     message = zope.component.queryMultiAdapter(
@@ -300,7 +305,11 @@ def render_error(entity, field_name, exc):
         message = zope.component.getMultiAdapter(
             (field, exc), IErrorMessage)
 
-    return u'%s: %s' % (title, message)
+    # The rendered errors are stored in a set, so put title and
+    # message here, as the message id is equal for all errors.
+    mapping = (('title', title), ('message', message))
+    return (mapping,
+            _(u'${title}: ${message}', mapping=dict(mapping)))
 
 
 class KeywordBuilder(object):
@@ -394,7 +403,10 @@ class ImportObjectBuilder(object):
                         entity.interface).set(person, obj)
                 if obj is not None:
                     self._validate(entity, obj)
-        return person, sorted(list(self.errors))
+        # self.errors contains the mapping and a message id, so sort
+        # by mapping but return only the message id
+        errors = sorted(list(self.errors), key=lambda x: x[0])
+        return person, [x[1] for x in errors]
 
     def _create(self, prefix, parent, data, creation_required):
         field_mapping = getattr(self, prefix)
@@ -501,7 +513,9 @@ class MapFields(z3c.form.group.GroupForm,
                     row_title_prefix = main_prefix
                 else:
                     row_title_prefix = _(u'other')
-                title = row_title_prefix + ' ' + entity.title
+                title = _(
+                    '${prefix} ${title}',
+                    mapping=dict(prefix=row_title_prefix, title=entity.title))
                 prefix = '%s-%s' % (entity.name, index)
                 self.groups.append(
                     FieldsGroup(session, request, self, entity, title, prefix))

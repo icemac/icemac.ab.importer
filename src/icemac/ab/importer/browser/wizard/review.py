@@ -8,6 +8,7 @@ import icemac.addressbook.interfaces
 import icemac.addressbook.sources
 import xml.sax.saxutils
 import z3c.table.column
+import zope.i18n
 import zope.interface
 import zope.schema
 import zope.security.proxy
@@ -129,11 +130,16 @@ class ImportedTable(icemac.addressbook.browser.table.Table):
                             title_prefix = main_prefix
                         else:
                             title_prefix = _(u'other')
-                        title = title_prefix + ' ' + entity.title
-                        header = '<i>%s</i><br />%s' % (title, field.title)
+                        title = _('${prefix} ${title}',
+                                  mapping=dict(prefix=title_prefix,
+                                               title=entity.title))
+                        header = _(
+                            '<i>${prefix}</i><br />${title}',
+                            mapping=dict(prefix=title, title=field.title))
                         first = False
                     else:
-                        header = '<br />%s' % field.title
+                        header = _('<br />${title}',
+                                   mapping=dict(title=field.title))
                     cols.append(self._create_col(
                         entity, field, field_name, weight, header, index))
         return cols
@@ -168,11 +174,13 @@ class ImportedTable(icemac.addressbook.browser.table.Table):
         if errors:
             result.extend([u'<tr class="%s">' % cssClass,
                            u'<td colspan="%s">' % len(self.columns),
-                           _(u'Errors:'),
+                           zope.i18n.translate(_(u'Errors:'),
+                                               context=self.request),
                            u'<ul class="errors">'])
             for error in errors:
                 result.append(
-                    u'<li>%s</li>' % xml.sax.saxutils.escape(unicode(error)))
+                    u'<li>%s</li>' % xml.sax.saxutils.escape(unicode(
+                        zope.i18n.translate(error, context=self.request))))
             result.extend([u'</ul>',
                            u'</td>',
                            u'</tr>'])

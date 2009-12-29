@@ -1,4 +1,5 @@
-<div metal:use-macro="macro:import-wizard">
+<div metal:use-macro="macro:import-wizard"
+     i18n:domain="icemac.addressbook">
   <metal:info fill-slot="below-label">
     <span i18n:translate="">Import complete.</span>
   </metal:info>

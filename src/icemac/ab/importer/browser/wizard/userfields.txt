@@ -153,7 +153,7 @@ http://localhost/.../ab/++attribute++importer/File/import/review
 <td colspan="19">
 Errors:
 <ul class="errors">
-<li>person - photo permission?: Value 2009-10-31 not allowed. Allowed values: yes, true, no, false</li>
+<li>person -- photo permission?: Value 2009-10-31 is not allowed. Allowed values are: yes, true, no, false</li>
 </ul>
 </td>
 </tr>
@@ -182,7 +182,7 @@ Errors:
 <td colspan="19">
 Errors:
 <ul class="errors">
-<li>person - photo permission?: Value asdf not allowed. Allowed values: yes, true, no, false</li>
+<li>person -- photo permission?: Value asdf is not allowed. Allowed values are: yes, true, no, false</li>
 </ul>
 </td>
 </tr>
@@ -211,7 +211,7 @@ Errors:
 <td colspan="19">
 Errors:
 <ul class="errors">
-<li>person - last seen: 2.2.2002 13.24 is no valid datetime. Must match to format string '%Y-%m-%d %H:%M'.</li>
+<li>person -- last seen: 2.2.2002 13.24 is no valid datetime. Must match to format string "%Y-%m-%d %H:%M".</li>
 </ul>
 </td>
 </tr>
@@ -240,7 +240,7 @@ Errors:
 <td colspan="19">
 Errors:
 <ul class="errors">
-<li>postal address - state: Value Berlin not allowed. Allowed values: Sachsen, Sachsen-Anhalt, Brandenburg</li>
+<li>postal address -- state: Value Berlin is not allowed. Allowed values are: Sachsen, Sachsen-Anhalt, Brandenburg</li>
 </ul>
 </td>
 </tr>
@@ -269,7 +269,7 @@ Errors:
 <td colspan="19">
 Errors:
 <ul class="errors">
-<li>postal address - number of letters: asd is not a valid integer number.</li>
+<li>postal address -- number of letters: asd is not a valid integer number.</li>
 </ul>
 </td>
 </tr>
@@ -298,7 +298,7 @@ Errors:
 <td colspan="19">
 Errors:
 <ul class="errors">
-<li>phone number - cost per minute: qwe is not a valid decimal number.</li>
+<li>phone number -- cost per minute: qwe is not a valid decimal number.</li>
 </ul>
 </td>
 </tr>

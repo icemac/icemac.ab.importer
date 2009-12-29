@@ -133,7 +133,7 @@ http://localhost/.../ab/++attribute++importer/File/import/review
 <td colspan="13">
 Errors:
 <ul class="errors">
-<li>person - last name: Required input is missing.</li>
+<li>person -- last name: Required input is missing.</li>
 </ul>
 </td>
 </tr>
@@ -156,7 +156,7 @@ Errors:
 <td colspan="13">
 Errors:
 <ul class="errors">
-<li>person - birth date: 1981 is no valid date.</li>
+<li>person -- birth date: 1981 is no valid date.</li>
 </ul>
 </td>
 </tr>
@@ -179,7 +179,7 @@ Errors:
 <td colspan="13">
 Errors:
 <ul class="errors">
-<li>e-mail address - e-mail address: i@me@de is not a valid e-mail address.</li>
+<li>e-mail address -- e-mail address: i@me@de is not a valid e-mail address.</li>
 </ul>
 </td>
 </tr>
@@ -202,7 +202,7 @@ Errors:
 <td colspan="13">
 Errors:
 <ul class="errors">
-<li>home page address - URL: The specified URI is not valid.</li>
+<li>home page address -- URL: The specified URI is not valid.</li>
 </ul>
 </td>
 </tr>
@@ -225,7 +225,7 @@ Errors:
 <td colspan="13">
 Errors:
 <ul class="errors">
-<li>postal address - country: Value D not allowed. Allowed values: AF resp. Afghanistan, AX resp. Åland Islands, ...
+<li>postal address -- country: Value D is not allowed. Allowed values are: AF, AX, AL, DZ, AS, AD, AO, AI, ...
 </ul>
 </td>
 </tr>
