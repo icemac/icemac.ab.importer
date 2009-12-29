@@ -65,7 +65,7 @@ When the import file is not completely empty but contains at least field names a
 
 To upload the new file we use the step `edit import file`:
 
->>> browser.getControl('file').add_file(file_data, 'text/plain', 'header.csv')
+>>> browser.getControl('file', index=1).add_file(file_data, 'text/plain', 'header.csv')
 >>> browser.getControl('Next').click()
 >>> browser.url
 'http://localhost/.../ab/++attribute++importer/File/import/reader'

@@ -315,7 +315,7 @@ The second import file can be imported without errors:
 >>> browser.getControl('Back').click()
 >>> browser.url
 'http://localhost/.../ab/++attribute++importer/File/import/editFile'
->>> browser.getControl('file').add_file(fine_data, 'text/plain', 'fine.csv')
+>>> browser.getControl('file', index=1).add_file(fine_data, 'text/plain', 'fine.csv')
 >>> browser.getControl('Next').click()
 >>> browser.getControl('Next').click()
 >>> browser.getControl('Next').click()

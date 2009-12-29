@@ -21,8 +21,8 @@ A manager can see the importer in the master data:
 >>> manager.getLink('Master data').click()
 >>> print manager.contents
 <!DOCTYPE ...
-<li>
-  <a href="++attribute++importer">Import data</a>
+    <li>
+      <a href="http://localhost/++skin++AddressBook/ab/++attribute++importer"><span>Import data</span></a>
 </li>...
 
 Editor

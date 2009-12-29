@@ -70,7 +70,7 @@ True
 >>> browser.goBack()
 
 >>> fd, filename2 = write_temp_file('Import2 data2 file2', '.csv')
->>> browser.getControl('file').add_file(fd, 'text/csv', filename2)
+>>> browser.getControl('file', index=1).add_file(fd, 'text/csv', filename2)
 >>> browser.getControl('Apply').click()
 >>> browser.url
 'http://localhost/++skin++AddressBook/ab/++attribute++importer'
