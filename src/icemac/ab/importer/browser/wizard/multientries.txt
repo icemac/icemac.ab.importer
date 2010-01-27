@@ -263,8 +263,9 @@ phone number in he form below, too:
 ['112']
 >>> print browser.contents
 <!DOCTYPE ...
-        <fieldset>
-          <legend>main phone number</legend>
+     <fieldset>
+      <legend>main phone number</legend>
+       <div class="group">
 <BLANKLINE>
 <BLANKLINE>
 <BLANKLINE>
