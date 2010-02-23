@@ -256,7 +256,6 @@ The first phone number is the main one and it is displayed as the main
 phone number in he form below, too:
 
 >>> browser.getLink('One').click()
->>> file('response.html', 'w').write(browser.contents)
 >>> browser.getControl('main phone number').displayOptions
 ['112', '110', '108']
 >>> browser.getControl('main phone number').displayValue
