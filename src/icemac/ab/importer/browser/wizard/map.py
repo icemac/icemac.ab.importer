@@ -421,9 +421,7 @@ class ImportObjectBuilder(object):
 
         # instantiate the object
         entity_name, row_index = prefix.split('-')
-        entities = zope.component.getUtility(
-            icemac.addressbook.interfaces.IEntities)
-        entity = entities.getEntity(entity_name)
+        entity = icemac.addressbook.interfaces.IEntity(entity_name)
         obj = icemac.addressbook.utils.create_obj(entity.getClass())
 
         # set the values

@@ -5,7 +5,8 @@
 1.2.1 (unreleased)
 ==================
 
-- Nothing changed yet.
+- Adapted code to run with `icemac.addressbook` newer than version
+  1.2.0.
 
 
 1.2.0 (2010-02-06)
