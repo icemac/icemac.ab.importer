@@ -3,13 +3,13 @@
 
 import icemac.ab.importer.install
 import icemac.addressbook.addressbook
-import unittest
+import icemac.addressbook.testing
 import zope.component.globalregistry
 import zope.container.contained
 import zope.traversing.adapters
 
 
-class TestInstall(unittest.TestCase):
+class TestInstall(icemac.addressbook.testing.FunctionalTestCase):
 
     def assertLocalUtility(self, ab, iface):
         self.assertTrue(
@@ -25,23 +25,10 @@ class TestInstall(unittest.TestCase):
             ab, 'importer', icemac.ab.importer.interfaces.IImporter)
 
     def setUp(self):
-        self.ab = icemac.addressbook.addressbook.AddressBook()
-        gsm = zope.component.globalregistry.getGlobalSiteManager()
-        gsm.registerAdapter(zope.traversing.adapters.Traverser,
-                            required=[zope.interface.Interface])
-        gsm.registerAdapter(zope.traversing.adapters.DefaultTraversable,
-                            required=[zope.interface.Interface])
-        gsm.registerAdapter(zope.container.contained.NameChooser,
-                            required=[zope.interface.Interface])
-
-    def tearDown(self):
-        gsm = zope.component.globalregistry.getGlobalSiteManager()
-        gsm.unregisterAdapter(zope.traversing.adapters.Traverser,
-                              required=[zope.interface.Interface])
-        gsm.unregisterAdapter(zope.traversing.adapters.DefaultTraversable,
-                              required=[zope.interface.Interface])
-        gsm.unregisterAdapter(zope.container.contained.NameChooser,
-                              required=[zope.interface.Interface])
+        super(TestInstall, self).setUp()
+        root = self.getRootFolder()
+        root['ab'] = self.ab = icemac.addressbook.utils.create_obj(
+            icemac.addressbook.addressbook.AddressBook)
 
     def test_create(self):
         icemac.addressbook.addressbook.create_address_book_infrastructure(
