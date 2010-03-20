@@ -8,7 +8,7 @@ addressbook. But is not visible for all users.
 >>> from icemac.addressbook.testing import create_addressbook
 >>> from zope.testbrowser.testing import Browser
 >>> create_addressbook()
-<icemac.addressbook.addressbook.AddressBook object at 0x...>
+<AddressBook u'ab' (u'test address book')>
 
 Manager
 =======
