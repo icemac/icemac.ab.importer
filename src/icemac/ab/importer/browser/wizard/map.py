@@ -8,6 +8,7 @@ import decimal
 import gocept.reference.field
 import icemac.ab.importer.browser.wizard.base
 import icemac.ab.importer.interfaces
+import icemac.addressbook.entities
 import icemac.addressbook.interfaces
 import persistent.mapping
 import time
@@ -366,8 +367,7 @@ class ImportObjectBuilder(object):
         """
         self.address_book = address_book
         self.entries_number = entries_number
-        self.import_entities = (
-            icemac.ab.importer.browser.wizard.base.get_import_entities())
+        self.import_entities = icemac.addressbook.entities.get_main_entities()
         for entity in self.import_entities:
             for index in xrange(self.entries_number):
                 key = "%s-%s" % (entity.name, index)
@@ -497,8 +497,7 @@ class MapFields(z3c.form.group.GroupForm,
         session = self.getContent()
         request = self.request
         self.groups = []
-        import_entities = (
-            icemac.ab.importer.browser.wizard.base.get_import_entities())
+        import_entities = icemac.addressbook.entities.get_main_entities()
         for entity in import_entities:
             if entity.class_name  == 'icemac.addressbook.person.Person':
                 entries_number = 1

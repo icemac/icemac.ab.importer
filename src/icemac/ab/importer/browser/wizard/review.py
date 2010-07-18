@@ -3,7 +3,9 @@
 # See also LICENSE.txt
 
 from icemac.addressbook.i18n import MessageFactory as _
+import icemac.ab.importer.browser.wizard.base
 import icemac.addressbook.browser.table
+import icemac.addressbook.entities
 import icemac.addressbook.interfaces
 import icemac.addressbook.sources
 import xml.sax.saxutils
@@ -112,8 +114,7 @@ class ImportedTable(icemac.addressbook.browser.table.Table):
     def setUpColumns(self):
         cols = []
         weight = 0
-        import_entities = (
-            icemac.ab.importer.browser.wizard.base.get_import_entities())
+        import_entities = icemac.addressbook.entities.get_main_entities()
         for entity in import_entities:
             if entity.class_name == 'icemac.addressbook.person.Person':
                 entries_number = 1
