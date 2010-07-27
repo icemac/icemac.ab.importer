@@ -75,15 +75,6 @@ class TruncatedContentColumn(ContainerColumn):
         return icemac.truncatetext.truncate(value, self.length, self.ellipsis)
 
 
-class KeywordsColumn(z3c.table.column.GetAttrColumn):
-    """GetAttrColumn where attr is an iterable of keywords."""
-
-    def getValue(self, obj):
-        values = super(KeywordsColumn, self).getValue(obj)
-        return u', '.join(
-            icemac.addressbook.interfaces.ITitle(x) for x in values)
-
-
 def columnFactory(column):
     """Create a factory which returns the column, so the column can be used as
     an adapter without instanciating it."""
@@ -95,7 +86,8 @@ def columnFactory(column):
 ContainerColumnFactory = columnFactory(ContainerColumn)
 CountryColumnFactory = columnFactory(CountryColumn)
 TruncatedContentColumnFactory = columnFactory(TruncatedContentColumn)
-KeywordsColumnFactory = columnFactory(KeywordsColumn)
+KeywordsColumnFactory = columnFactory(
+    icemac.addressbook.browser.table.KeywordsColumn)
 
 
 class ReviewFields(zope.interface.Interface):
