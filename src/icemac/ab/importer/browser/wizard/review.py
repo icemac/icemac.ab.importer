@@ -8,6 +8,7 @@ import icemac.addressbook.browser.table
 import icemac.addressbook.entities
 import icemac.addressbook.interfaces
 import icemac.addressbook.sources
+import icemac.truncatetext
 import xml.sax.saxutils
 import z3c.table.column
 import zope.i18n
@@ -65,12 +66,18 @@ class CountryColumn(ContainerColumn):
         return country
 
 
-class TruncatedContentColumn(
-    ContainerColumn,
-    icemac.addressbook.browser.table.TruncatedContentColumn):
+class TruncatedContentColumn(ContainerColumn):
+    """Truncate content to `lenght` characters."""
+    # This class does not use
+    # icemac.addressbook.browser.table.TruncatedContentColumn as base
+    # class, as the value is computed completely differently.
 
-    getRawValue = (
-        icemac.addressbook.browser.table.TruncatedContentColumn.getValue)
+    length = 20 # number of characters to display
+    ellipsis = u'…' # ellipsis sign
+
+    def getRawValue(self, obj):
+        value = super(TruncatedContentColumn, self).getRawValue(obj)
+        return icemac.truncatetext.truncate(value, self.length, self.ellipsis)
 
 
 def columnFactory(column):
