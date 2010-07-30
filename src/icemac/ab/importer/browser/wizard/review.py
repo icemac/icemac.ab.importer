@@ -65,14 +65,12 @@ class CountryColumn(ContainerColumn):
         return country
 
 
-class TruncatedContentColumn(ContainerColumn):
+class TruncatedContentColumn(
+    ContainerColumn,
+    icemac.addressbook.browser.table.TruncatedContentColumn):
 
-    length = 20
-    ellipsis = u'…'
-
-    def getRawValue(self, obj):
-        value = super(TruncatedContentColumn, self).getRawValue(obj)
-        return icemac.truncatetext.truncate(value, self.length, self.ellipsis)
+    getRawValue = (
+        icemac.addressbook.browser.table.TruncatedContentColumn.getValue)
 
 
 def columnFactory(column):
@@ -98,8 +96,6 @@ class ReviewFields(zope.interface.Interface):
 
 class ImportedTable(icemac.addressbook.browser.table.Table):
 
-    cssClassEven = u'table-even-row'
-    cssClassOdd = u'table-odd-row'
     sortOn = None
     no_rows_message = _(u'There was nothing to import in the import file.')
 
