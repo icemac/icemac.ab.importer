@@ -48,3 +48,18 @@ class BaseReaderTest(unittest.TestCase):
                 return ['sdfg']
 
         self.assertEqual(True, Reader.canRead(None))
+
+    def test_getFieldNames(self):
+        self.assertRaises(
+            NotImplementedError,
+            icemac.ab.importer.reader.base.BaseReader().getFieldNames)
+
+    def test_getFieldSamples(self):
+        self.assertRaises(
+            NotImplementedError,
+            icemac.ab.importer.reader.base.BaseReader().getFieldSamples, None)
+
+    def test___iter__(self):
+        self.assertRaises(
+            NotImplementedError,
+            icemac.ab.importer.reader.base.BaseReader().__iter__)
