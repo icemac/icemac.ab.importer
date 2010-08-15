@@ -27,22 +27,6 @@
 
 - Prepared texts for translation.
 
-
-1.0.1 (2009-12-20)
-==================
-
-- Importing persons, deleting them and importing them again, led to an
-  exception.
-
-
-1.0 (2009-11-21)
-================
-
-- Supporting the user defined fields feature of address book.
-
-- Added migration code to add importer to exising address books.
-
-
 Previous Versions
 =================
 
