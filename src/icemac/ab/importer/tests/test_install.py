@@ -4,6 +4,7 @@
 import icemac.ab.importer.install
 import icemac.addressbook.addressbook
 import icemac.addressbook.testing
+import icemac.addressbook.utils
 import zope.component.globalregistry
 import zope.container.contained
 import zope.traversing.adapters
@@ -12,9 +13,8 @@ import zope.traversing.adapters
 class TestInstall(icemac.addressbook.testing.FunctionalTestCase):
 
     def assertLocalUtility(self, ab, iface):
-        self.assertTrue(
-            icemac.addressbook.addressbook.utility_locally_registered(ab, iface)
-            )
+        self.assertTrue(icemac.addressbook.utils.utility_locally_registered(
+            ab, iface))
 
     def assertAttribute(self, ab, attribute, iface):
         self.assertTrue(iface.providedBy(getattr(ab, attribute)))

@@ -84,7 +84,7 @@ The new keywords have been created:
 >>> from icemac.addressbook.interfaces import IKeywords
 >>> import zope.component
 >>> keywords = zope.component.getUtility(IKeywords, context=ab)
->>> [x.title for x in keywords.get_keywords()]
+>>> sorted(x.title for x in keywords.get_keywords())
 [u'company', u'family', u'friends']
 
 They have been associated to the persons:
@@ -159,7 +159,7 @@ Completing the import deletes the imported data and keywords:
 No new keywords have been created:
 
 >>> keywords = zope.component.getUtility(IKeywords, context=ab)
->>> [x.title for x in keywords.get_keywords()]
+>>> sorted(x.title for x in keywords.get_keywords())
 [u'company', u'family', u'friends']
 
 No new persons have been created:
