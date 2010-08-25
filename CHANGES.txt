@@ -5,13 +5,15 @@
 1.4.1 (unreleased)
 ==================
 
-- Nothing changed yet.
+- Adapted tests to run with `icemac.addressbook` version 1.4.1.
+
+- Dropped `zope.app.testing` test dependency.
 
 
 1.4.0 (2010-08-19)
 ==================
 
-- Adapted code an tests to run with `icemac.addressbook` version 1.4.
+- Adapted code and tests to run with `icemac.addressbook` version 1.4.
 
 
 1.3.0 (2010-03-20)
