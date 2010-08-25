@@ -8,7 +8,7 @@ Set up
 ======
 
 >>> from icemac.addressbook.testing import create_addressbook
->>> from zope.testbrowser.testing import Browser
+>>> from zope.app.wsgi.testlayer import Browser
 >>> ab = create_addressbook()
 
 

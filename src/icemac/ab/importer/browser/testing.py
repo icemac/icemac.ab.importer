@@ -1,10 +1,9 @@
-# -*- coding: latin-1 -*-
 # Copyright (c) 2008-2010 Michael Howitz
 # See also LICENSE.txt
 # $Id$
 
-import zope.app.testing.functional
+import zope.app.wsgi.testlayer
+import icemac.ab.importer.browser
 
-
-zope.app.testing.functional.defineLayer(
-    'ImporterLayer', 'ftesting.zcml', allow_teardown=True)
+ImporterLayer = zope.app.wsgi.testlayer.BrowserLayer(
+    icemac.ab.importer.browser)

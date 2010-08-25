@@ -11,7 +11,7 @@ Set up
 Create an addressbook and a browser to test the import:
 
 >>> from icemac.addressbook.testing import create_addressbook
->>> from zope.testbrowser.testing import Browser
+>>> from zope.app.wsgi.testlayer import Browser
 >>> ab = create_addressbook()
 
 >>> browser = Browser()

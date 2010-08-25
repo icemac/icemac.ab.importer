@@ -6,7 +6,7 @@ The importer shows up in the master data section of the
 addressbook. But is not visible for all users.
 
 >>> from icemac.addressbook.testing import create_addressbook
->>> from zope.testbrowser.testing import Browser
+>>> from zope.app.wsgi.testlayer import Browser
 >>> create_addressbook()
 <AddressBook u'ab' (u'test address book')>
 

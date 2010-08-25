@@ -26,7 +26,7 @@ class TestInstall(icemac.addressbook.testing.FunctionalTestCase):
 
     def setUp(self):
         super(TestInstall, self).setUp()
-        root = self.getRootFolder()
+        root = self.layer.getRootFolder()
         root['ab'] = self.ab = icemac.addressbook.utils.create_obj(
             icemac.addressbook.addressbook.AddressBook)
 

@@ -58,7 +58,6 @@ setuptools.setup(
     extras_require = dict(
         test=[
             'icemac.addressbook [test]',
-            'zope.app.testing',
             'zope.testing >= 3.8.0',
             'zope.traversing',
             ]),
