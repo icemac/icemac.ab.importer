@@ -109,8 +109,9 @@ class ImportedTable(icemac.addressbook.browser.table.Table):
     def setUpColumns(self):
         cols = []
         weight = 0
-        import_entities = icemac.addressbook.entities.get_main_entities()
-        for entity in import_entities:
+        entities = zope.component.getUtility(
+            icemac.addressbook.interfaces.IEntities)
+        for entity in entities.getMainEntities():
             if entity.class_name == 'icemac.addressbook.person.Person':
                 entries_number = 1
                 main_prefix = ''

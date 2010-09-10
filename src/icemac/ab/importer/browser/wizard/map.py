@@ -367,7 +367,9 @@ class ImportObjectBuilder(object):
         """
         self.address_book = address_book
         self.entries_number = entries_number
-        self.import_entities = icemac.addressbook.entities.get_main_entities()
+        entities = zope.component.getUtility(
+            icemac.addressbook.interfaces.IEntities)
+        self.import_entities = entities.getMainEntities()
         for entity in self.import_entities:
             for index in xrange(self.entries_number):
                 key = "%s-%s" % (entity.name, index)
@@ -497,8 +499,9 @@ class MapFields(z3c.form.group.GroupForm,
         session = self.getContent()
         request = self.request
         self.groups = []
-        import_entities = icemac.addressbook.entities.get_main_entities()
-        for entity in import_entities:
+        entities = zope.component.getUtility(
+            icemac.addressbook.interfaces.IEntities)
+        for entity in entities.getMainEntities():
             if entity.class_name  == 'icemac.addressbook.person.Person':
                 entries_number = 1
                 main_prefix = ''
