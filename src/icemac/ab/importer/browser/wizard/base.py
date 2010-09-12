@@ -5,6 +5,7 @@
 from icemac.addressbook.i18n import MessageFactory as _
 import gocept.cache.property
 import icemac.ab.importer.interfaces
+import icemac.addressbook.browser.resource
 import icemac.addressbook.interfaces
 import persistent.mapping
 import z3c.form.field
@@ -57,6 +58,10 @@ def get_file_session(file, request):
 
 
 class Step(z3c.wizard.step.Step):
+
+    def update(self):
+        icemac.addressbook.browser.resource.form_css.need()
+        super(Step, self).update()
 
     @property
     def fields(self):
