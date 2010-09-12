@@ -433,7 +433,7 @@ The imported data is also displayed in the person edit forms:
 >>> browser.getLink('Person list').click()
 >>> browser.getLink('Utzer').click()
 >>> browser.getControl('yes')
-<ItemControl name='form.widgets.Field-1:list' type='radio' ...
+<ItemControl name='IcemacAddressbookPersonPerson_0.widgets.IcemacAddressbookPersonPerson_0.Field-1:list' type='radio' ...
 >>> browser.getControl('yes').selected
 True
 >>> browser.getControl('last seen').value
@@ -451,7 +451,7 @@ instead of saying: I am not here leave a message.
 
 >>> browser.getLink('User').click()
 >>> browser.getControl('yes')
-<ItemControl name='form.widgets.Field-1:list' type='radio' ...
+<ItemControl name='IcemacAddressbookPersonPerson_0.widgets.IcemacAddressbookPersonPerson_0.Field-1:list' type='radio' ...
 >>> browser.getControl('yes').selected
 True
 >>> browser.getControl('state').displayValue
@@ -464,6 +464,6 @@ True
 >>> browser.getControl('yes').selected
 False
 >>> browser.getControl('no', index=0)
-<ItemControl name='form.widgets.Field-1:list' type='radio' ...
+<ItemControl name='IcemacAddressbookPersonPerson_0.widgets.IcemacAddressbookPersonPerson_0.Field-1:list' type='radio' ...
 >>> browser.getControl('no', index=0).selected
 True

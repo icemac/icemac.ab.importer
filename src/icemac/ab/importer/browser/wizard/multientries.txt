@@ -271,18 +271,18 @@ phone number in he form below, too:
 <BLANKLINE>
 <BLANKLINE>
 <BLANKLINE>
-          <div id="phone_number_0-widgets-phone_number_0-number-row"
+          <div id="IcemacAddressbookAddressPhonenumber_0-widgets-IcemacAddressbookAddressPhonenumber_0-number-row"
                class="row">
 <BLANKLINE>
               <div class="label">
-                <label for="phone_number_0-widgets-phone_number_0-number">
+                <label for="IcemacAddressbookAddressPhonenumber_0-widgets-IcemacAddressbookAddressPhonenumber_0-number">
                   <span>number</span>
 <BLANKLINE>
                 </label>
               </div>
               <div class="widget">
-    <input id="phone_number_0-widgets-phone_number_0-number"
-           name="phone_number_0.widgets.phone_number_0.number"
+    <input id="IcemacAddressbookAddressPhonenumber_0-widgets-IcemacAddressbookAddressPhonenumber_0-number"
+           name="IcemacAddressbookAddressPhonenumber_0.widgets.IcemacAddressbookAddressPhonenumber_0.number"
            class="text-widget textline-field" value="112"
            type="text" />
 <BLANKLINE>
