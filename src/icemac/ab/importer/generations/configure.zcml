@@ -3,7 +3,7 @@
 
   <utility
     name="icemac.ab.importer"
-    provides="zope.app.generations.interfaces.ISchemaManager"
+    provides="zope.generations.interfaces.ISchemaManager"
     component=".manager" />
 
 </configure>

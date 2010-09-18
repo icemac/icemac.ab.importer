@@ -43,17 +43,17 @@ setuptools.setup(
     zip_safe=False,
     install_requires=[
         'gocept.cache',
+        'icemac.ab.locales >= 0.2',
         'icemac.addressbook >= 1.4.0dev',
         'icemac.truncatetext >= 0.2',
-        'icemac.ab.locales >= 0.2',
         'pytz',
         'setuptools',
         'z3c.wizard',
         'zc.sourcefactory',
         'zope.container',
+        'zope.generations',
         'zope.interface',
         'zope.schema',
-        'zope.app.generations',
         ],
     extras_require = dict(
         test=[
