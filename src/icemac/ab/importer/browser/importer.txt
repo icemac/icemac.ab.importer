@@ -152,6 +152,7 @@ http://localhost/++skin++AddressBook/ab/++attribute++importer/File/@@delete.html
 >>> browser.getControl('Yes, delete').click()
 >>> browser.url
 'http://localhost/++skin++AddressBook/ab/++attribute++importer'
+>>> browser.open(browser.url)
 >>> 'csv' in browser.contents
 False
 
