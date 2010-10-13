@@ -10,7 +10,7 @@ Set up
 Create an addressbook and a browser to test the import:
 
 >>> from icemac.addressbook.testing import create_addressbook
->>> from zope.app.wsgi.testlayer import Browser
+>>> from z3c.etestbrowser.wsgi import ExtendedTestBrowser as Browser
 >>> ab = create_addressbook()
 
 >>> browser = Browser()
@@ -29,11 +29,14 @@ When the import file is empty, nothing can get imported:
 
 Upload the file:
 
+>>> from icemac.addressbook.testing import get_messages
 >>> browser.getLink('Master data').click()
 >>> browser.getLink('Import data').click()
 >>> browser.getLink('file').click()
 >>> browser.getControl('file').add_file(file_data, 'text/plain', 'empty.csv')
 >>> browser.getControl('Add').click()
+>>> get_messages(browser)
+['"empty.csv" added.']
 
 There is no import file reader, as the CSV reader expects a first line
 containing the field names:
@@ -140,6 +143,8 @@ Import persons
 >>> browser.getLink('file').click()
 >>> browser.getControl('file').add_file(file_data, 'text/plain', 'del.csv')
 >>> browser.getControl('Add').click()
+>>> get_messages(browser)
+['"del.csv" added.']
 >>> browser.url
 'http://localhost/++skin++AddressBook/ab/++attribute++importer'
 
@@ -174,6 +179,8 @@ This function can be found on the `Edit address book` tab:
 >>> browser.url
 'http://localhost/++skin++AddressBook/ab/@@delete_content.html'
 >>> browser.getControl('Yes, delete').click()
+>>> get_messages(browser)
+['Address book contents deleted.']
 
 Import persons again
 --------------------

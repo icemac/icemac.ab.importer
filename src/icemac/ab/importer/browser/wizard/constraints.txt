@@ -10,7 +10,7 @@ Set up
 Create an addressbook and a browser to test the import:
 
 >>> from icemac.addressbook.testing import create_addressbook
->>> from zope.app.wsgi.testlayer import Browser
+>>> from z3c.etestbrowser.wsgi import ExtendedTestBrowser as Browser
 >>> ab = create_addressbook()
 
 >>> browser = Browser()
@@ -66,9 +66,12 @@ Let's construct an import file which containts errors for this constraints:
 
 The upload and import works as usual:
 
+>>> from icemac.addressbook.testing import get_messages
 >>> browser.getLink('file').click()
 >>> browser.getControl('file').add_file(file_data, 'text/plain', 'errors.csv')
 >>> browser.getControl('Add').click()
+>>> get_messages(browser)
+['"errors.csv" added.']
 >>> browser.getLink('Import', index=0).click()
 >>> browser.url
 'http://localhost/++skin++AddressBook/ab/++attribute++importer/File/@@import'

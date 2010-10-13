@@ -59,7 +59,7 @@ two lines of the import file.
 
 Create a browser to access the addressbook. Log in as `Administrator`:
 
->>> from zope.app.wsgi.testlayer import Browser
+>>> from z3c.etestbrowser.wsgi import ExtendedTestBrowser as Browser
 >>> browser = Browser()
 >>> browser.addHeader('Authorization', 'Basic mgr:mgrpw')
 >>> browser.open('http://localhost/++skin++AddressBook/ab')
@@ -71,11 +71,14 @@ Import with failing constraints
 
 The first import file has data which lets some constraints fail:
 
+>>> from icemac.addressbook.testing import get_messages
 >>> browser.getLink('Master data').click()
 >>> browser.getLink('Import data').click()
 >>> browser.getLink('file').click()
 >>> browser.getControl('file').add_file(error_data, 'text/plain', 'fail.csv')
 >>> browser.getControl('Add').click()
+>>> get_messages(browser)
+['"fail.csv" added.']
 >>> browser.getLink('Import', index=0).click()
 >>> browser.url
 'http://localhost/++skin++AddressBook/ab/++attribute++importer/File/@@import'
@@ -448,6 +451,8 @@ True
 I do not like long an boring mail box texts where people tell a whole story
 instead of saying: I am not here leave a message.
 >>> browser.getControl('Cancel').click()
+>>> get_messages(browser)
+['No changes were applied.']
 
 >>> browser.getLink('User').click()
 >>> browser.getControl('yes')
@@ -459,6 +464,8 @@ True
 >>> browser.getControl('cost per minute').value
 '1,000'
 >>> browser.getControl('Cancel').click()
+>>> get_messages(browser)
+['No changes were applied.']
 
 >>> browser.getLink('Nobody').click()
 >>> browser.getControl('yes').selected
