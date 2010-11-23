@@ -6,6 +6,7 @@
 import icemac.addressbook.testing
 import icemac.ab.importer.browser.testing
 
+
 def test_suite():
     return icemac.addressbook.testing.FunctionalDocFileSuite(
         "constraints.txt",

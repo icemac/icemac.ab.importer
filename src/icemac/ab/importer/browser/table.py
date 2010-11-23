@@ -21,5 +21,3 @@ class ModifiedColumnLocalTime(z3c.table.column.ModifiedColumn):
                 timezone = pytz.timezone(timezone)
                 value = value.astimezone(timezone)
         return value
-
-

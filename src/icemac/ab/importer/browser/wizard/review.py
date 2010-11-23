@@ -18,13 +18,13 @@ import zope.security.proxy
 
 class ContainerColumn(z3c.table.column.GetAttrColumn):
     "Context is a container, search values in container items."
-    interface = None # search only objects providing this interface
-    container_interface = None # when value provides this interface, lookup
-                               # atribute on container
-    index = 0 # index in the list of found objects
-    attrName = None # attr to look up
-    attrInterface = None # interface of the attribute (needed to look up user
-                         # defined fields)
+    interface = None  # search only objects providing this interface
+    container_interface = None  # when value provides this interface, lookup
+                                # atribute on container
+    index = 0  # index in the list of found objects
+    attrName = None  # attr to look up
+    attrInterface = None  # interface of the attribute (needed to look up user
+                          # defined fields)
 
     def getObject(self, container):
         if (self.container_interface and
@@ -71,8 +71,8 @@ class TruncatedContentColumn(ContainerColumn):
     # icemac.addressbook.browser.table.TruncatedContentColumn as base
     # class, as the value is computed completely differently.
 
-    length = 20 # number of characters to display
-    ellipsis = u'…' # ellipsis sign
+    length = 20  # number of characters to display
+    ellipsis = u'…'  # ellipsis sign
 
     def getRawValue(self, obj):
         value = super(TruncatedContentColumn, self).getRawValue(obj)
@@ -115,8 +115,8 @@ class ImportedTable(icemac.addressbook.browser.table.Table):
                 entries_number = 1
                 main_prefix = ''
             else:
-               entries_number = self.session['entries_number']
-               main_prefix = _(u'main')
+                entries_number = self.session['entries_number']
+                main_prefix = _(u'main')
             for index in xrange(entries_number):
                 first = True
                 for field_name, field in entity.getFieldsInOrder():

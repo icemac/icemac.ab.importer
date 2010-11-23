@@ -12,7 +12,7 @@ class Importers(zc.sourcefactory.contextual.BasicContextualSourceFactory):
 
     def getValues(self, context):
         # Get all import file readers
-        adapters =  zope.component.getAdapters(
+        adapters = zope.component.getAdapters(
             (None, ), icemac.ab.importer.interfaces.IImportFileReader)
         file = icemac.ab.importer.interfaces.IImportFile(context)
 

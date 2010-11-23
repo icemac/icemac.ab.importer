@@ -62,8 +62,10 @@ class ImportFields(zc.sourcefactory.contextual.BasicContextualSourceFactory):
 
 import_fields = ImportFields()
 
+
 def split_keywords(keywords):
     return [x.strip() for x in keywords.split(',')]
+
 
 class IFieldValue(zope.interface.Interface):
     "Value for a specific field."
@@ -125,7 +127,7 @@ def bool_field(value, field):
         # We can't return None, as this means that the adapter can't adapt.
         return NONE_REPLACEMENT
     if not isinstance(value, unicode):
-        return value # produces an error in validation
+        return value  # produces an error in validation
     value = value.lower()
     if value in TRUE_VALUES:
         return True
@@ -230,6 +232,7 @@ def date_wrong_type(field, exc):
     value = exc.args[0]
     return _(u'${value} is no valid date.', mapping=dict(value=value))
 
+
 @zope.component.adapter(zope.schema.interfaces.IDatetime,
                         zope.schema.interfaces.WrongType)
 @zope.interface.implementer(IErrorMessage)
@@ -238,6 +241,7 @@ def datetime_wrong_type(field, exc):
     return _(u'${value} is no valid datetime. '
              u'Must match to format string "${format}".',
              mapping=dict(value=value, format=DATETIME_FORMAT))
+
 
 @zope.component.adapter(zope.schema.interfaces.IInt,
                         zope.schema.interfaces.WrongType)
@@ -375,7 +379,7 @@ class ImportObjectBuilder(object):
                 setattr(self, key, {})
         for field_desc, index in user_data.iteritems():
             if index is None:
-                continue # field was not selected for import
+                continue  # field was not selected for import
             prefix, field_name = field_desc.split('.')
             getattr(self, prefix)[field_name] = index
 
@@ -501,7 +505,7 @@ class MapFields(z3c.form.group.GroupForm,
         entities = zope.component.getUtility(
             icemac.addressbook.interfaces.IEntities)
         for entity in entities.getMainEntities():
-            if entity.class_name  == 'icemac.addressbook.person.Person':
+            if entity.class_name == 'icemac.addressbook.person.Person':
                 entries_number = 1
                 main_prefix = ''
             else:

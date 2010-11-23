@@ -36,4 +36,3 @@ class ReaderSettings(
         """Process back action and return True on sucess."""
         self.getContent()['edit_file_available'] = True
         return super(ReaderSettings, self).doBack(action)
-

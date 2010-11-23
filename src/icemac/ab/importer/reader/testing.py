@@ -13,9 +13,9 @@ import zope.interface.verify
 class ReaderTest(unittest.TestCase):
     "Test class for readers."
 
-    reader_class = None # reference to the reader's class object
-    import_file = None # name of the longer import file
-    import_file_short = None # name of the shorter import file
+    reader_class = None  # reference to the reader's class object
+    import_file = None  # name of the longer import file
+    import_file_short = None  # name of the shorter import file
 
     def getFileHandle(self, file_name=None):
         base_path = sys.modules[self.reader_class.__module__].__file__
