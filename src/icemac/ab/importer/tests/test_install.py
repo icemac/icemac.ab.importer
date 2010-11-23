@@ -5,9 +5,6 @@ import icemac.ab.importer.install
 import icemac.addressbook.addressbook
 import icemac.addressbook.testing
 import icemac.addressbook.utils
-import zope.component.globalregistry
-import zope.container.contained
-import zope.traversing.adapters
 
 
 class TestInstall(icemac.addressbook.testing.FunctionalTestCase):

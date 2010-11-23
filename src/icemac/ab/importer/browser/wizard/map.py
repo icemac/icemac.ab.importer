@@ -8,7 +8,6 @@ import decimal
 import gocept.reference.field
 import icemac.ab.importer.browser.wizard.base
 import icemac.ab.importer.interfaces
-import icemac.addressbook.entities
 import icemac.addressbook.interfaces
 import persistent.mapping
 import time

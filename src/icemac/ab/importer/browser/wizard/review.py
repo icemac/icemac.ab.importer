@@ -5,7 +5,6 @@
 from icemac.addressbook.i18n import MessageFactory as _
 import icemac.ab.importer.browser.wizard.base
 import icemac.addressbook.browser.table
-import icemac.addressbook.entities
 import icemac.addressbook.interfaces
 import icemac.addressbook.sources
 import icemac.truncatetext
