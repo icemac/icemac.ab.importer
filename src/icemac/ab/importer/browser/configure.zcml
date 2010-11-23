@@ -66,6 +66,13 @@
      template="readers.pt"
      />
 
+  <browser:resourceDirectory
+      name="import"
+      layer="icemac.addressbook.browser.interfaces.IAddressBookLayer"
+      directory="resources"
+      permission="zope.Public"
+      />
+
 
   <include package=".wizard" />
 

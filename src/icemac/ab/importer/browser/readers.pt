@@ -1,6 +1,6 @@
 <tal:domain i18n:domain="icemac.addressbook">
   <h2 i18n:translate="">Registered import file readers</h2>
-  <ul>
+  <ul class="bullet">
     <li tal:repeat="reader view/readers"
         tal:content="reader" />
   </ul>

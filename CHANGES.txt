@@ -9,6 +9,8 @@
 
 - Dropped `zope.app.testing` test dependency.
 
+- Moved CSS statements to separate file.
+
 
 1.4.0 (2010-08-19)
 ==================

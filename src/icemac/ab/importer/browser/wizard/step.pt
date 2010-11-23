@@ -3,25 +3,6 @@
   <metal:wizard use-macro="macro:wizard">
     <metal:header fill-slot="wizard-header">
       <metal:default-header use-macro="macro:wizard-header" />
-      <style>
-        <!--
-           div.header {
-             font-size: 150%;
-           }
-           .wizardMenu span,
-           .wizardMenu ol li,
-           .wizardMenu ol {
-             float:left;
-           }
-           .wizardMenu ol li {
-             margin-left: 2em;
-           }
-           div.currStep {
-             clear: both;
-             margin-bottom: 2ex;
-           }
-          -->
-      </style>
     </metal:header>
     <metal:menu fill-slot="menu">
       <div class="wizardMenu">

@@ -2,8 +2,9 @@
 # Copyright (c) 2009-2010 Michael Howitz
 # See also LICENSE.txt
 
-from icemac.addressbook.i18n import MessageFactory as _
+from icemac.addressbook.i18n import _
 import gocept.cache.property
+import icemac.ab.importer.browser.resource
 import icemac.ab.importer.interfaces
 import icemac.addressbook.browser.resource
 import icemac.addressbook.interfaces
@@ -21,6 +22,7 @@ class ImportWizard(z3c.wizard.wizard.Wizard):
     label = _(u'Import Wizard')
 
     def setUpSteps(self):
+        icemac.ab.importer.browser.resource.import_css.need()
         return [
             z3c.wizard.step.addStep(self, 'editFile', weight=1),
             z3c.wizard.step.addStep(self, 'reader', weight=2),
