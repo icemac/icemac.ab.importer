@@ -2,7 +2,7 @@
  Changelog
 ===========
 
-1.5.0 (unreleased)
+1.5.0 (2010-11-23)
 ==================
 
 - Adapted tests and code to run with `icemac.addressbook` version 1.5.
