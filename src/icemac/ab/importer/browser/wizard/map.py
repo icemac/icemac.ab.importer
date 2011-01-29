@@ -1,5 +1,5 @@
 # -*- coding: utf-8 -*-
-# Copyright (c) 2009-2010 Michael Howitz
+# Copyright (c) 2009-2011 Michael Howitz
 # See also LICENSE.txt
 
 from icemac.addressbook.i18n import MessageFactory as _
@@ -456,7 +456,7 @@ class ImportObjectBuilder(object):
         return obj
 
     def _validate(self, entity, obj):
-        for field_name, field in entity.getFieldsInOrder():
+        for field_name, field in entity.getFields():
             context = field.interface(obj)
             field = field.bind(context)
             value = field.get(context)
@@ -474,7 +474,7 @@ class FieldsGroup(z3c.form.group.Group):
         self.label = label
         self.prefix = prefix
         fields = []
-        for field_name, field in entity.getFieldsInOrder():
+        for field_name, field in entity.getFields():
             choice = zope.schema.Choice(
                 title=field.title, description=field.description,
                 required=False, source=import_fields)

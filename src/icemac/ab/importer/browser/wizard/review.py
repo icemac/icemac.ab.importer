@@ -1,5 +1,5 @@
 # -*- coding: utf-8 -*-
-# Copyright (c) 2009-2010 Michael Howitz
+# Copyright (c) 2009-2011 Michael Howitz
 # See also LICENSE.txt
 
 from icemac.addressbook.i18n import MessageFactory as _
@@ -119,7 +119,7 @@ class ImportedTable(icemac.addressbook.browser.table.Table):
                 main_prefix = _(u'main')
             for index in xrange(entries_number):
                 first = True
-                for field_name, field in entity.getFieldsInOrder():
+                for field_name, field in entity.getFields():
                     weight += 1
                     if first:
                         if index == 0:
