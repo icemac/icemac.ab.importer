@@ -70,7 +70,7 @@ def split_keywords(keywords):
 class IFieldValue(zope.interface.Interface):
     "Value for a specific field."
 
-    def __call__():
+    def __call__():  # pragma: no cover
         "Return the value."
 
 
@@ -192,7 +192,7 @@ def keywords_field(value, field):
 class IErrorMessage(zope.interface.Interface):
     """Render import error message."""
 
-    def __unicode__():
+    def __unicode__():  # pragma: no cover
         """Return error text."""
 
 
