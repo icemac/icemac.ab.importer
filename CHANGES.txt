@@ -5,7 +5,7 @@
 1.6.1 (unreleased)
 ==================
 
-- Nothing changed yet.
+- Stacked test layers for faster tests.
 
 
 1.6.0 (2011-02-03)

@@ -5,6 +5,14 @@
    xmlns:z3c="http://namespaces.zope.org/z3c"
    i18n_domain="icemac.addressbook">
 
+  <include package="gocept.pagelet" file="meta.zcml" />
+  <include package="z3c.macro" file="meta.zcml" />
+  <include package="z3c.menu.ready2go" file="meta.zcml"/>
+  <include package="z3c.pagelet" file="meta.zcml" />
+  <include package="zope.browserresource" file="meta.zcml" />
+  <include package="zope.publisher" file="meta.zcml" />
+  <include package="z3c.template" file="meta.zcml" />
+
   <z3c:siteMenuItem
      manager="icemac.addressbook.browser.masterdata.manager.IMasterData"
      layer="icemac.addressbook.browser.interfaces.IAddressBookLayer"

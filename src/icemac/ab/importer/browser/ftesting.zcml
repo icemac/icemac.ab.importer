@@ -2,10 +2,9 @@
    xmlns="http://namespaces.zope.org/zope"
    i18n_domain="icemac.addressbook">
 
-  <include package="icemac.addressbook" />
-  <include package="icemac.ab.importer" />
-  <include package="icemac.addressbook" file="base.zcml"/>
+  <include package="zope.securitypolicy" file="meta.zcml" />
 
-  <includeOverrides package="icemac.addressbook" file="ftesting.zcml" />
+  <include package="icemac.ab.importer" />
+  <grantAll role="zope.Manager" />
 
 </configure>
