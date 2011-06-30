@@ -9,6 +9,7 @@ import icemac.ab.importer.browser.table
 
 
 class Overview(icemac.addressbook.browser.table.PageletTable):
+    """List of already uploaded import files + action links."""
 
     no_rows_message = _(u'No import files uploaded, yet.')
 
