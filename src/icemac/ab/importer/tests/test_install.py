@@ -5,9 +5,12 @@ import icemac.ab.importer.install
 import icemac.addressbook.addressbook
 import icemac.addressbook.testing
 import icemac.addressbook.utils
+import unittest
 
 
-class TestInstall(icemac.addressbook.testing.FunctionalTestCase):
+class TestInstall(unittest.TestCase):
+
+    layer = icemac.addressbook.testing.ADDRESS_BOOK_FUNCTIONAL_LAYER
 
     def assertLocalUtility(self, ab, iface):
         self.assertTrue(icemac.addressbook.utils.utility_locally_registered(
@@ -22,10 +25,7 @@ class TestInstall(icemac.addressbook.testing.FunctionalTestCase):
             ab, 'importer', icemac.ab.importer.interfaces.IImporter)
 
     def setUp(self):
-        super(TestInstall, self).setUp()
-        root = self.layer.getRootFolder()
-        root['ab'] = self.ab = icemac.addressbook.utils.create_obj(
-            icemac.addressbook.addressbook.AddressBook)
+        self.ab = self.layer['addressbook']
 
     def test_create(self):
         icemac.addressbook.addressbook.create_address_book_infrastructure(

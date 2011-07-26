@@ -8,7 +8,7 @@ import icemac.ab.importer.browser.testing
 
 
 def test_suite():
-    return icemac.addressbook.testing.FunctionalDocFileSuite(
+    return icemac.addressbook.testing.DocFileSuite(
         "constraints.txt",
         "edgecases.txt",
         "keywords.txt",

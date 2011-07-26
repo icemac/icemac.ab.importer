@@ -8,7 +8,7 @@ import icemac.ab.importer.browser.testing
 
 
 def test_suite():
-    return icemac.addressbook.testing.FunctionalDocFileSuite(
+    return icemac.addressbook.testing.DocFileSuite(
         "importer.txt",
         "masterdata.txt",
         package='icemac.ab.importer.browser',

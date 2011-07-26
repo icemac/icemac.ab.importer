@@ -7,6 +7,9 @@
 
 - Using stacked test layers for faster tests.
 
+- Adapted test set up and tests to run with `icemac.addressbook` version
+  1.7.
+
 
 1.6.0 (2011-02-03)
 ==================

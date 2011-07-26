@@ -2,10 +2,13 @@
 # See also LICENSE.txt
 # $Id$
 
-import zope.app.wsgi.testlayer
 import icemac.ab.importer.browser
 import icemac.addressbook.testing
 
-ImporterLayer = zope.app.wsgi.testlayer.BrowserLayer(
-    icemac.ab.importer.browser)
-ImporterLayer.__bases__ = (icemac.addressbook.testing.FunctionalLayer,)
+class _ImporterLayer(icemac.addressbook.testing._ZCMLAndZODBLayer):
+
+    package = icemac.ab.importer.browser
+    defaultBases = (icemac.addressbook.testing.WSGI_TEST_BROWSER_LAYER,)
+
+
+ImporterLayer = _ImporterLayer(name='ImporterLayer')
