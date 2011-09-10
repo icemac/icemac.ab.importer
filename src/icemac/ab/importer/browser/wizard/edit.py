@@ -5,10 +5,11 @@
 from icemac.addressbook.i18n import MessageFactory as _
 import icemac.ab.importer.browser.wizard.base
 import icemac.addressbook.browser.file.file
+import icemac.addressbook.browser.wizard
 import icemac.addressbook.file.interfaces
 
 
-class EditFile(icemac.ab.importer.browser.wizard.base.Step):
+class EditFile(icemac.addressbook.browser.wizard.Step):
 
     interface = icemac.addressbook.file.interfaces.IFile
     label = _(u'Edit import file')

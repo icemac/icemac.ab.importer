@@ -7,14 +7,6 @@
   <include package="z3c.wizard" file="meta.zcml" />
   <include package="z3c.wizard" />
 
-  <!-- This adapter is not registered by default in z3c.form for
-       safety reasons but we need it here to edit PersistentMappings
-       stored in the session. -->
-  <adapter
-     for="persistent.mapping.PersistentMapping
-          zope.schema.interfaces.IField"
-     factory="z3c.form.datamanager.DictionaryField" />
-
   <adapter factory=".base.importfile_to_addressbook" />
   <adapter factory=".base.file_session_to_import_file" />
 
@@ -23,18 +15,6 @@
      for="icemac.ab.importer.interfaces.IImportFile"
      class=".base.ImportWizard"
      permission="icemac.addressbook.Import"
-     layer="icemac.addressbook.browser.interfaces.IAddressBookLayer"
-     />
-
-  <z3c:template
-     template="step.pt"
-     for=".base.Step"
-     layer="icemac.addressbook.browser.interfaces.IAddressBookLayer"
-     />
-
-  <z3c:macro
-     name="import-wizard"
-     template="step.pt"
      layer="icemac.addressbook.browser.interfaces.IAddressBookLayer"
      />
 

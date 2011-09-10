@@ -1,12 +1,12 @@
 # -*- coding: utf-8 -*-
 # Copyright (c) 2009-2011 Michael Howitz
 # See also LICENSE.txt
-
 from icemac.addressbook.i18n import _
 import gocept.cache.property
 import icemac.ab.importer.browser.resource
 import icemac.ab.importer.interfaces
-import icemac.addressbook.browser.resource
+import icemac.addressbook.browser.base
+import icemac.addressbook.browser.wizard
 import icemac.addressbook.interfaces
 import persistent.mapping
 import z3c.form.field
@@ -14,7 +14,6 @@ import z3c.wizard.wizard
 import zope.component
 import zope.interface
 import zope.security.proxy
-import zope.session.interfaces
 
 
 class ImportWizard(z3c.wizard.wizard.Wizard):
@@ -48,8 +47,7 @@ def file_session_to_import_file(file_session):
 
 def get_file_session(file, request):
     "Get the session associated with the file."
-    session = zope.session.interfaces.ISession(request)[
-        icemac.addressbook.interfaces.PACKAGE_ID]
+    session = icemac.addressbook.browser.base.get_session(request)
     key = 'import_%s' % file.__name__
     file_session = session.get(key, None)
     if file_session is None:
@@ -59,18 +57,7 @@ def get_file_session(file, request):
     return file_session
 
 
-class Step(z3c.wizard.step.Step):
-
-    def update(self):
-        icemac.addressbook.browser.resource.form_css.need()
-        super(Step, self).update()
-
-    @property
-    def fields(self):
-        return z3c.form.field.Fields(self.interface)
-
-
-class FileSessionStorageStep(Step):
+class FileSessionStorageStep(icemac.addressbook.browser.wizard.Step):
     "Step which stores its data in file's session."
 
     def getContent(self):
