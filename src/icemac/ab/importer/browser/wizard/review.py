@@ -95,12 +95,14 @@ KeywordsColumnFactory = columnFactory(
 
 
 class ReviewFields(zope.interface.Interface):
+    """Fields for review form."""
 
     keep = zope.schema.Choice(title=_(u'Keep imported data?'),
                               source=icemac.addressbook.sources.yes_no_source)
 
 
 class ImportedTable(icemac.addressbook.browser.table.Table):
+    """Table displaying imported data."""
 
     sortOn = None
     no_rows_message = _(u'There was nothing to import in the import file.')
