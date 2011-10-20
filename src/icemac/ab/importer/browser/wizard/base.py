@@ -3,7 +3,6 @@
 # See also LICENSE.txt
 from icemac.addressbook.i18n import _
 import gocept.cache.property
-import icemac.ab.importer.browser.resource
 import icemac.ab.importer.interfaces
 import icemac.addressbook.browser.base
 import icemac.addressbook.browser.wizard
@@ -16,12 +15,12 @@ import zope.interface
 import zope.security.proxy
 
 
-class ImportWizard(z3c.wizard.wizard.Wizard):
+class ImportWizard(icemac.addressbook.browser.wizard.Wizard):
+    """Wizard to import data."""
 
     label = _(u'Import Wizard')
 
     def setUpSteps(self):
-        icemac.ab.importer.browser.resource.import_css.need()
         return [
             z3c.wizard.step.addStep(self, 'editFile', weight=1),
             z3c.wizard.step.addStep(self, 'reader', weight=2),
