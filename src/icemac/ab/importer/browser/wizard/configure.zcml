@@ -62,7 +62,6 @@
   <adapter factory=".map.bool_wrong_type" />
   <adapter factory=".map.datetime_wrong_type" />
   <adapter factory=".map.index_error" />
-  <adapter factory=".map.email_constraint_not_satisfield" name="email" />
   <adapter factory=".map.simple_invalid"
            for="* zope.schema.interfaces.RequiredMissing" />
   <adapter factory=".map.simple_invalid"

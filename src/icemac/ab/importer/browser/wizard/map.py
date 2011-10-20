@@ -8,6 +8,8 @@ import decimal
 import gocept.reference.field
 import icemac.ab.importer.browser.wizard.base
 import icemac.ab.importer.interfaces
+import icemac.addressbook.browser.errormessage
+import icemac.addressbook.browser.interfaces
 import icemac.addressbook.interfaces
 import persistent.mapping
 import time
@@ -45,7 +47,7 @@ def get_reader(session):
 
 
 class ImportFields(zc.sourcefactory.contextual.BasicContextualSourceFactory):
-    "Where to put the imported data in the addressbook."
+    """Where to put the imported data in the addressbook."""
 
     def getValues(self, context):
         return xrange(len(list(get_reader(context).getFieldNames())))
@@ -67,14 +69,16 @@ def split_keywords(keywords):
     return [x.strip() for x in keywords.split(',')]
 
 
+#noinspection PyMethodParameters
 class IFieldValue(zope.interface.Interface):
-    "Value for a specific field."
+    """Value for a specific field."""
 
     def __call__():  # pragma: no cover
-        "Return the value."
+        """Return the value."""
 
 
 # field value converters
+
 @zope.component.adapter(None, None)
 @zope.interface.implementer(IFieldValue)
 def unchanged_field(value, field):
@@ -86,7 +90,7 @@ def unchanged_field(value, field):
 
 @zope.interface.implementer(IFieldValue)
 def text_field(value, field):
-    "Adapter for `Text`, `TextLine` and `Choice` fields."
+    """Adapter for `Text`, `TextLine` and `Choice` fields."""
     if value is None:
         # We can't return None, as this means that the adapter can't adapt.
         return NONE_REPLACEMENT
@@ -189,22 +193,16 @@ def keywords_field(value, field):
     return keywords
 
 
-class IErrorMessage(zope.interface.Interface):
-    """Render import error message."""
-
-    def __unicode__():  # pragma: no cover
-        """Return error text."""
-
-
 # Error renderers
-@zope.interface.implementer(IErrorMessage)
+
+@zope.interface.implementer(icemac.addressbook.browser.interfaces.IErrorMessage)
 def simple_invalid(field, exc):
     return exc.doc()
 
 
 @zope.component.adapter(zope.schema.interfaces.IChoice,
                         zope.schema.interfaces.ConstraintNotSatisfied)
-@zope.interface.implementer(IErrorMessage)
+@zope.interface.implementer(icemac.addressbook.browser.interfaces.IErrorMessage)
 def choice_constraint_not_satisfield(field, exc):
     value = exc.args[0]
     if zope.schema.interfaces.IVocabulary.providedBy(field.source):
@@ -217,7 +215,7 @@ def choice_constraint_not_satisfield(field, exc):
 
 @zope.component.adapter(zope.schema.interfaces.IChoice,
                         zope.schema.interfaces.ConstraintNotSatisfied)
-@zope.interface.implementer(IErrorMessage)
+@zope.interface.implementer(icemac.addressbook.browser.interfaces.IErrorMessage)
 def country_constraint_not_satisfield(field, exc):
     value = exc.args[0]
     titles = [x.token for x in field.source.factory.getValues()]
@@ -227,7 +225,7 @@ def country_constraint_not_satisfield(field, exc):
 
 @zope.component.adapter(zope.schema.interfaces.IDate,
                         zope.schema.interfaces.WrongType)
-@zope.interface.implementer(IErrorMessage)
+@zope.interface.implementer(icemac.addressbook.browser.interfaces.IErrorMessage)
 def date_wrong_type(field, exc):
     value = exc.args[0]
     return _(u'${value} is no valid date.', mapping=dict(value=value))
@@ -235,7 +233,7 @@ def date_wrong_type(field, exc):
 
 @zope.component.adapter(zope.schema.interfaces.IDatetime,
                         zope.schema.interfaces.WrongType)
-@zope.interface.implementer(IErrorMessage)
+@zope.interface.implementer(icemac.addressbook.browser.interfaces.IErrorMessage)
 def datetime_wrong_type(field, exc):
     value = exc.args[0]
     return _(u'${value} is no valid datetime. '
@@ -245,7 +243,7 @@ def datetime_wrong_type(field, exc):
 
 @zope.component.adapter(zope.schema.interfaces.IInt,
                         zope.schema.interfaces.WrongType)
-@zope.interface.implementer(IErrorMessage)
+@zope.interface.implementer(icemac.addressbook.browser.interfaces.IErrorMessage)
 def int_wrong_type(field, exc):
     value = exc.args[0]
     return _(u'${value} is not a valid integer number.',
@@ -254,7 +252,7 @@ def int_wrong_type(field, exc):
 
 @zope.component.adapter(zope.schema.interfaces.IDecimal,
                         zope.schema.interfaces.WrongType)
-@zope.interface.implementer(IErrorMessage)
+@zope.interface.implementer(icemac.addressbook.browser.interfaces.IErrorMessage)
 def decimal_wrong_type(field, exc):
     value = exc.args[0]
     return _(u'${value} is not a valid decimal number.',
@@ -263,7 +261,7 @@ def decimal_wrong_type(field, exc):
 
 @zope.component.adapter(zope.schema.interfaces.IBool,
                         zope.schema.interfaces.WrongType)
-@zope.interface.implementer(IErrorMessage)
+@zope.interface.implementer(icemac.addressbook.browser.interfaces.IErrorMessage)
 def bool_wrong_type(field, exc):
     value = exc.args[0]
     return _(u'Value ${value} is not allowed. Allowed values are: ${values}',
@@ -271,16 +269,8 @@ def bool_wrong_type(field, exc):
                           values=', '.join(TRUE_VALUES + FALSE_VALUES)))
 
 
-@zope.component.adapter(None, zope.schema.interfaces.ConstraintNotSatisfied)
-@zope.interface.implementer(IErrorMessage)
-def email_constraint_not_satisfield(field, exc):
-    value = exc.args[0]
-    return _(u'${value} is not a valid e-mail address.',
-             mapping=dict(value=value))
-
-
 @zope.component.adapter(None, IndexError)
-@zope.interface.implementer(IErrorMessage)
+@zope.interface.implementer(icemac.addressbook.browser.interfaces.IErrorMessage)
 def index_error(field, exc):
     return _(u'Not enough data fields in row.')
 
@@ -289,25 +279,15 @@ def render_error(entity, field_name, exc):
     "Render the error text using the error render adapters."
     obj_title = entity.title
 
-    if field_name is None:
-        field = ''
-        title = obj_title
-        # Need to set the field name to the default here, as a
-        # queryMultiAdapter call with name=None behaves strange: it
-        # seems to delete all adapters matching object and interface.
-        field_name = u''
-    else:
+    if field_name:
         field = entity.getField(field_name)
         title = _('${prefix} -- ${title}',
                   mapping=dict(prefix=obj_title, title=field.title))
+    else:
+        title = obj_title
 
-    # try named adapter first
-    message = zope.component.queryMultiAdapter(
-        (field, exc), IErrorMessage, name=field_name)
-    if message is None:
-        # fallback to default (unnamed) adapter
-        message = zope.component.getMultiAdapter(
-            (field, exc), IErrorMessage)
+    message = icemac.addressbook.browser.errormessage.render_error(
+        entity, field_name, exc)
 
     # The rendered errors are stored in a set, so put title and
     # message here, as the message id is equal for all errors.
@@ -435,7 +415,7 @@ class ImportObjectBuilder(object):
             try:
                 value = data[index]
             except IndexError, e:
-                self.errors.add(render_error(entity, None, e))
+                self.errors.add(render_error(entity, '', e))
             else:
                 # try named converter first
                 conv_value = zope.component.queryMultiAdapter(
