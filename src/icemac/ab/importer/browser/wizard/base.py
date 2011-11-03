@@ -8,8 +8,6 @@ import icemac.addressbook.browser.base
 import icemac.addressbook.browser.wizard
 import icemac.addressbook.interfaces
 import persistent.mapping
-import z3c.form.field
-import z3c.wizard.wizard
 import zope.component
 import zope.interface
 import zope.security.proxy
