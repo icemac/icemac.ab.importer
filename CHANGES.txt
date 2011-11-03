@@ -7,7 +7,9 @@
 
 - Using stacked test layers for faster tests.
 
-- Adapted test set up and tests to run with `icemac.addressbook` version
+- Extracted reuseable parts of import wizard to `icemac.addressbook`.
+
+- Adapted code, test set up and tests to run with `icemac.addressbook` version
   1.7.
 
 
@@ -26,31 +28,6 @@
 
 - Moved CSS statements to separate file.
 
-
-1.4.0 (2010-08-19)
-==================
-
-- Adapted code and tests to run with `icemac.addressbook` version 1.4.
-
-
-1.3.0 (2010-03-20)
-==================
-
-- Adapted code and tests to run with `icemac.addressbook` newer than
-  version 1.2.0.
-
-
-1.2.0 (2010-02-06)
-==================
-
-- Fixed tests to run together with `icemac.addressbook` version 1.1
-  and above.
-
-
-1.1.0 (2009-12-29)
-==================
-
-- Prepared texts for translation.
 
 Previous Versions
 =================
