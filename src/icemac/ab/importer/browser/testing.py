@@ -5,7 +5,9 @@
 import icemac.ab.importer.browser
 import icemac.addressbook.testing
 
+
 class _ImporterLayer(icemac.addressbook.testing._ZCMLAndZODBLayer):
+    """Layer to test the importer."""
 
     package = icemac.ab.importer.browser
     defaultBases = (icemac.addressbook.testing.WSGI_TEST_BROWSER_LAYER,)

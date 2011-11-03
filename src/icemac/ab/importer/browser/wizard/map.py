@@ -195,14 +195,16 @@ def keywords_field(value, field):
 
 # Error renderers
 
-@zope.interface.implementer(icemac.addressbook.browser.interfaces.IErrorMessage)
+@zope.interface.implementer(
+    icemac.addressbook.browser.interfaces.IErrorMessage)
 def simple_invalid(field, exc):
     return exc.doc()
 
 
 @zope.component.adapter(zope.schema.interfaces.IChoice,
                         zope.schema.interfaces.ConstraintNotSatisfied)
-@zope.interface.implementer(icemac.addressbook.browser.interfaces.IErrorMessage)
+@zope.interface.implementer(
+    icemac.addressbook.browser.interfaces.IErrorMessage)
 def choice_constraint_not_satisfield(field, exc):
     value = exc.args[0]
     if zope.schema.interfaces.IVocabulary.providedBy(field.source):
@@ -215,7 +217,8 @@ def choice_constraint_not_satisfield(field, exc):
 
 @zope.component.adapter(zope.schema.interfaces.IChoice,
                         zope.schema.interfaces.ConstraintNotSatisfied)
-@zope.interface.implementer(icemac.addressbook.browser.interfaces.IErrorMessage)
+@zope.interface.implementer(
+    icemac.addressbook.browser.interfaces.IErrorMessage)
 def country_constraint_not_satisfield(field, exc):
     value = exc.args[0]
     titles = [x.token for x in field.source.factory.getValues()]
@@ -225,7 +228,8 @@ def country_constraint_not_satisfield(field, exc):
 
 @zope.component.adapter(zope.schema.interfaces.IDate,
                         zope.schema.interfaces.WrongType)
-@zope.interface.implementer(icemac.addressbook.browser.interfaces.IErrorMessage)
+@zope.interface.implementer(
+    icemac.addressbook.browser.interfaces.IErrorMessage)
 def date_wrong_type(field, exc):
     value = exc.args[0]
     return _(u'${value} is no valid date.', mapping=dict(value=value))
@@ -233,7 +237,8 @@ def date_wrong_type(field, exc):
 
 @zope.component.adapter(zope.schema.interfaces.IDatetime,
                         zope.schema.interfaces.WrongType)
-@zope.interface.implementer(icemac.addressbook.browser.interfaces.IErrorMessage)
+@zope.interface.implementer(
+    icemac.addressbook.browser.interfaces.IErrorMessage)
 def datetime_wrong_type(field, exc):
     value = exc.args[0]
     return _(u'${value} is no valid datetime. '
@@ -243,7 +248,8 @@ def datetime_wrong_type(field, exc):
 
 @zope.component.adapter(zope.schema.interfaces.IInt,
                         zope.schema.interfaces.WrongType)
-@zope.interface.implementer(icemac.addressbook.browser.interfaces.IErrorMessage)
+@zope.interface.implementer(
+    icemac.addressbook.browser.interfaces.IErrorMessage)
 def int_wrong_type(field, exc):
     value = exc.args[0]
     return _(u'${value} is not a valid integer number.',
@@ -252,7 +258,8 @@ def int_wrong_type(field, exc):
 
 @zope.component.adapter(zope.schema.interfaces.IDecimal,
                         zope.schema.interfaces.WrongType)
-@zope.interface.implementer(icemac.addressbook.browser.interfaces.IErrorMessage)
+@zope.interface.implementer(
+    icemac.addressbook.browser.interfaces.IErrorMessage)
 def decimal_wrong_type(field, exc):
     value = exc.args[0]
     return _(u'${value} is not a valid decimal number.',
@@ -261,7 +268,8 @@ def decimal_wrong_type(field, exc):
 
 @zope.component.adapter(zope.schema.interfaces.IBool,
                         zope.schema.interfaces.WrongType)
-@zope.interface.implementer(icemac.addressbook.browser.interfaces.IErrorMessage)
+@zope.interface.implementer(
+    icemac.addressbook.browser.interfaces.IErrorMessage)
 def bool_wrong_type(field, exc):
     value = exc.args[0]
     return _(u'Value ${value} is not allowed. Allowed values are: ${values}',
@@ -270,7 +278,8 @@ def bool_wrong_type(field, exc):
 
 
 @zope.component.adapter(None, IndexError)
-@zope.interface.implementer(icemac.addressbook.browser.interfaces.IErrorMessage)
+@zope.interface.implementer(
+    icemac.addressbook.browser.interfaces.IErrorMessage)
 def index_error(field, exc):
     return _(u'Not enough data fields in row.')
 
