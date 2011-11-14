@@ -30,12 +30,14 @@ class TestInstall(unittest.TestCase):
     def test_create(self):
         icemac.addressbook.addressbook.create_address_book_infrastructure(
             self.ab)
-        icemac.ab.importer.install.install_importer(self.ab)
+        icemac.ab.importer.install.install_importer(
+            icemac.addressbook.addressbook.AddressBookCreated(self.ab))
         self.check_addressbook(self.ab)
 
     def test_recall_create(self):
         icemac.addressbook.addressbook.create_address_book_infrastructure(
             self.ab)
-        icemac.ab.importer.install.install_importer(self.ab)
-        icemac.ab.importer.install.install_importer(self.ab)
+        event = icemac.addressbook.addressbook.AddressBookCreated(self.ab)
+        icemac.ab.importer.install.install_importer(event)
+        icemac.ab.importer.install.install_importer(event)
         self.check_addressbook(self.ab)
