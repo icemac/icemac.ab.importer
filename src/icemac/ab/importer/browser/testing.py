@@ -4,13 +4,21 @@
 
 import icemac.ab.importer.browser
 import icemac.addressbook.testing
+import plone.testing.zca
 
 
-class _ImporterLayer(icemac.addressbook.testing._ZCMLAndZODBLayer):
-    """Layer to test the importer."""
-
-    package = icemac.ab.importer.browser
-    defaultBases = (icemac.addressbook.testing.WSGI_TEST_BROWSER_LAYER,)
+IMPORTER_ZCML_LAYER = plone.testing.zca.ZCMLSandbox(
+    name="ImporterZCML", filename="ftesting.zcml",
+    package=icemac.ab.importer.browser)
 
 
-ImporterLayer = _ImporterLayer(name='ImporterLayer')
+ImporterLayer = icemac.addressbook.testing._WSGITestBrowserLayer(
+    bases=[icemac.addressbook.testing.WSGILayer(
+        bases=[icemac.addressbook.testing._ZODBIsolatedTestLayer(
+            bases=[icemac.addressbook.testing._ZODBLayer(
+                bases=[icemac.addressbook.testing.ZCML_LAYER,
+                       IMPORTER_ZCML_LAYER],
+                name='ImporterZODBLayer')],
+            name='ImporterZODBIsolatedTestLayer')],
+        name='ImporterWSGILayer')],
+    name='ImporterLayer')
