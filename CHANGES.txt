@@ -2,6 +2,12 @@
  Changelog
 ===========
 
+1.7.2 (unreleased)
+==================
+
+- Fixed a missing import which was masked by the Python import bug.
+
+
 1.7.1 (2011-11-03)
 ==================
 
