@@ -8,6 +8,11 @@
 - Adapted test and test set up to run with `icemac.addressbook` version 1.8.
 
 
+1.7.2 (2011-11-22)
+==================
+
+- Fixed a missing import which was masked by the Python import bug.
+
 1.7.1 (2011-11-03)
 ==================
 
