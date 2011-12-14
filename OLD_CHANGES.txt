@@ -3,6 +3,16 @@ Old changes
 ===========
 
 
+1.5.0 (2010-11-23)
+==================
+
+- Adapted tests and code to run with `icemac.addressbook` version 1.5.
+
+- Dropped `zope.app.testing` test dependency.
+
+- Moved CSS statements to separate file.
+
+
 1.4.0 (2010-08-19)
 ==================
 

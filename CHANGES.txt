@@ -2,7 +2,7 @@
  Changelog
 ===========
 
-1.8.0 (unreleased)
+1.8.0 (2011-12-14)
 ==================
 
 - Adapted test and test set up to run with `icemac.addressbook` version 1.8.
@@ -34,16 +34,6 @@
 ==================
 
 - Adapted code and tests to run with `icemac.addressbook` version 1.6.
-
-
-1.5.0 (2010-11-23)
-==================
-
-- Adapted tests and code to run with `icemac.addressbook` version 1.5.
-
-- Dropped `zope.app.testing` test dependency.
-
-- Moved CSS statements to separate file.
 
 
 Previous Versions
