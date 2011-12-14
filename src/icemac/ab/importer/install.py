@@ -4,9 +4,7 @@
 
 import icemac.ab.importer.importer
 import icemac.ab.importer.interfaces
-import icemac.addressbook.interfaces
 import zope.component
-import zope.container.interfaces
 
 
 @zope.component.adapter(
