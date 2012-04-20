@@ -2,10 +2,10 @@
  Changelog
 ===========
 
-1.9.0 (unreleased)
+1.8.1 (2012-04-20)
 ==================
 
-- Adapted test set up to run with `icemac.addressbook` version 1.9.
+- Adapted test set up to run with `icemac.addressbook` version 1.8.1.
 
 
 1.8.0 (2011-12-14)
