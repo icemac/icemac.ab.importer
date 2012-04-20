@@ -8,7 +8,7 @@ import setuptools
 def read(*path_elements):
     return "\n\n" + file(os.path.join(*path_elements)).read()
 
-version = '1.8.1'
+version = '1.8.2dev'
 long_description = (
     read('README.txt') +
     read('CHANGES.txt')
