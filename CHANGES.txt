@@ -5,7 +5,7 @@
 1.8.2 (unreleased)
 ==================
 
-- Nothing changed yet.
+- Adapted tests to run with `icemac.addressbook` version 1.8.2.
 
 
 1.8.1 (2012-04-20)
