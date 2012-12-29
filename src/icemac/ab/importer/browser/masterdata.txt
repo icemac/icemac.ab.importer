@@ -5,8 +5,7 @@
 The importer shows up in the master data section of the
 addressbook. But is not visible for all users.
 
->>> from icemac.addressbook.testing import create_addressbook
->>> from zope.app.wsgi.testlayer import Browser
+>>> from icemac.addressbook.testing import create_addressbook, Browser
 >>> create_addressbook()
 <AddressBook u'ab' (u'test address book')>
 
@@ -16,7 +15,7 @@ Manager
 A manager can see the importer in the master data:
 
 >>> manager = Browser()
->>> manager.addHeader('Authorization', 'Basic mgr:mgrpw')
+>>> manager.login('mgr')
 >>> manager.open('http://localhost/++skin++AddressBook/ab')
 >>> manager.getLink('Master data').click()
 >>> print manager.contents
