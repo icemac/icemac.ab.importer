@@ -8,15 +8,12 @@ wizard helps in this process.
 Set up
 ======
 
->>> from icemac.addressbook.testing import create_addressbook
->>> from z3c.etestbrowser.wsgi import ExtendedTestBrowser as Browser
->>> ab = create_addressbook()
+Only administrators can upload import files. So we log-in as administrator
+and go to the master data area:
 
-Only administrators can upload import files. So we log-in as
-administrator and go to the master data area:
-
+>>> from icemac.addressbook.testing import Browser
 >>> browser = Browser()
->>> browser.addHeader('Authorization', 'Basic mgr:mgrpw')
+>>> browser.login('mgr')
 >>> browser.open('http://localhost/++skin++AddressBook/ab')
 >>> browser.getLink('Master data').click()
 >>> browser.getLink('Import data').click()

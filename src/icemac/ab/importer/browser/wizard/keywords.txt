@@ -8,21 +8,17 @@ keywords get created. Existing ones get used.
 Set up
 ======
 
-Create an addressbook:
-
->>> from icemac.addressbook.testing import create_addressbook
->>> from z3c.etestbrowser.wsgi import ExtendedTestBrowser as Browser
->>> ab = create_addressbook()
-
 Create a browser:
 
+>>> from icemac.addressbook.testing import Browser
 >>> browser = Browser()
->>> browser.addHeader('Authorization', 'Basic mgr:mgrpw')
+>>> browser.login('mgr')
 >>> browser.open('http://localhost/++skin++AddressBook/ab')
 
 Create a keyword first to show it gets used:
 
 >>> from icemac.addressbook.testing import create_keyword
+>>> ab = layer['addressbook']
 >>> create_keyword(ab, u'family', return_obj=False)
 
 Create an import file:

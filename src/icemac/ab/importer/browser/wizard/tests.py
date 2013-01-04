@@ -1,10 +1,8 @@
-# -*- coding: latin-1 -*-
 # Copyright (c) 2008-2012 Michael Howitz
 # See also LICENSE.txt
-# $Id$
 
 import icemac.addressbook.testing
-import icemac.ab.importer.browser.testing
+import icemac.ab.importer.testing
 
 
 def test_suite():
@@ -16,5 +14,5 @@ def test_suite():
         "wizard.txt",
         "userfields.txt",
         package='icemac.ab.importer.browser.wizard',
-        layer=icemac.ab.importer.browser.testing.ImporterLayer,
+        layer=icemac.ab.importer.testing.TEST_BROWSER_LAYER,
         )

@@ -8,7 +8,7 @@ import setuptools
 def read(*path_elements):
     return "\n\n" + file(os.path.join(*path_elements)).read()
 
-version = '1.9.1.dev0'
+version = '1.10.0.dev0'
 long_description = (
     read('README.txt') +
     read('CHANGES.txt')
@@ -45,7 +45,7 @@ setuptools.setup(
     install_requires=[
         'gocept.cache',
         'icemac.ab.locales >= 0.8',
-        'icemac.addressbook >= 1.8.1',
+        'icemac.addressbook >= 1.10.0.dev0',
         'icemac.truncatetext >= 0.2',
         'pytz',
         'setuptools',

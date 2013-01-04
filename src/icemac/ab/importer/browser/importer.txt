@@ -7,9 +7,6 @@ Administrators are able to upload files for import and edit them.
 Set up
 ======
 
->>> from icemac.addressbook.testing import create_addressbook
->>> from z3c.etestbrowser.wsgi import ExtendedTestBrowser as Browser
->>> ab = create_addressbook()
 
 
 Upload files
@@ -18,8 +15,9 @@ Upload files
 Administrators can upload import files in the master data area. So we
 log-in as administrator and go there:
 
+>>> from icemac.addressbook.testing import Browser
 >>> browser = Browser()
->>> browser.addHeader('Authorization', 'Basic mgr:mgrpw')
+>>> browser.login('mgr')
 >>> browser.open('http://localhost/++skin++AddressBook/ab')
 >>> browser.getLink('Master data').click()
 >>> browser.getLink('Import data').click()
@@ -97,7 +95,7 @@ Editor
 ------
 
 >>> editor = Browser()
->>> editor.addHeader('Authorization', 'Basic editor:editor')
+>>> editor.login('editor')
 
 The addressbook opens correctly, as the authorization succeeded, but
 the import files list, the upload file form and the import form are
@@ -121,9 +119,9 @@ Visitor
 -------
 
 >>> visitor = Browser()
->>> visitor.addHeader('Authorization', 'Basic visitor:visitor')
+>>> visitor.login('visitor')
 
-The addressbook opens correctly, as the authorization succeeded, but
+The address book opens correctly, as the authorization succeeded, but
 the import files list and the upload file form are not accessible:
 
 >>> visitor.open('http://localhost/++skin++AddressBook/ab')

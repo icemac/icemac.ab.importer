@@ -2,18 +2,16 @@
  Master data
 =============
 
-The importer shows up in the master data section of the
-addressbook. But is not visible for all users.
+The importer shows up in the master data section of the addressbook. But is
+not visible for all users.
 
->>> from icemac.addressbook.testing import create_addressbook, Browser
->>> create_addressbook()
-<AddressBook u'ab' (u'test address book')>
 
 Manager
 =======
 
 A manager can see the importer in the master data:
 
+>>> from icemac.addressbook.testing import Browser
 >>> manager = Browser()
 >>> manager.login('mgr')
 >>> manager.open('http://localhost/++skin++AddressBook/ab')
@@ -30,7 +28,7 @@ Editor
 An editor cannot see the importer in the master data:
 
 >>> editor = Browser()
->>> editor.addHeader('Authorization', 'Basic editor:editor')
+>>> editor.login('editor')
 >>> editor.open('http://localhost/++skin++AddressBook/ab')
 >>> editor.getLink('Master data').click()
 >>> '++attribute++importer' in editor.contents
@@ -43,7 +41,7 @@ Visitor
 A visitor cannot see the importer in the master data:
 
 >>> visitor = Browser()
->>> visitor.addHeader('Authorization', 'Basic visitor:visitor')
+>>> visitor.login('visitor')
 >>> visitor.open('http://localhost/++skin++AddressBook/ab')
 >>> visitor.getLink('Master data').click()
 >>> '++attribute++importer' in editor.contents
