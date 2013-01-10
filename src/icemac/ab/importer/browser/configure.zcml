@@ -50,12 +50,6 @@
      template="importer.pt"
      />
 
-  <browser:defaultView
-     name="index.html"
-     layer="icemac.addressbook.browser.interfaces.IAddressBookLayer"
-     for="icemac.ab.importer.interfaces.IImporter"
-     />
-
   <adapter
      for="icemac.ab.importer.interfaces.IImporter
           icemac.addressbook.browser.interfaces.IAddressBookLayer
