@@ -13,7 +13,7 @@ Create an addressbook and a browser to test the import:
 
 >>> browser = Browser()
 >>> browser.login('mgr')
->>> browser.open('http://localhost/++skin++AddressBook/ab')
+>>> browser.open('http://localhost/ab')
 >>> browser.getLink('Master data').click()
 >>> browser.getLink('Import data').click()
 
@@ -72,13 +72,13 @@ The upload and import works as usual:
 ['"errors.csv" added.']
 >>> browser.getLink('Import', index=0).click()
 >>> browser.url
-'http://localhost/++skin++AddressBook/ab/++attribute++importer/File/@@import'
+'http://localhost/ab/++attribute++importer/File/@@import'
 
 The user chooses the reader as usual and maps the fields:
 
 >>> browser.getControl('Next').click()
 >>> print browser.url
-http://localhost/++skin++AddressBook/ab/++attribute++importer/File/import/map
+http://localhost/ab/++attribute++importer/File/import/map
 >>> browser.getControl('last name').displayValue = [
 ...     'last_name (wrong date, wrong e-mail)']
 >>> browser.getControl('birth date').displayValue = [
@@ -93,7 +93,7 @@ http://localhost/++skin++AddressBook/ab/++attribute++importer/File/import/map
 The review step shows the error messages:
 
 >>> print browser.url
-http://localhost/.../ab/++attribute++importer/File/import/review
+http://localhost/ab/++attribute++importer/File/import/review
 >>> print browser.contents
 <!DOCTYPE ...
     <table>
@@ -313,11 +313,13 @@ Selecting the `back` button shows that the selected mapping has been kept:
 ['www']
 >>> browser.getControl('Next').click()
 
-As the user can't go further from the review step he could upload another import file or abort the import right now by selecting any link outside the importer. None of the data rows got imported as there were errors:
+As the user can't go further from the review step he could upload another
+import file or abort the import right now by selecting any link outside the
+importer. None of the data rows got imported as there were errors:
 
 >>> browser.getLink('Person list').click()
 >>> browser.url
-'http://localhost/++skin++AddressBook/ab/@@index.html'
+'http://localhost/ab/@@person-list.html'
 >>> print browser.contents
 <!DOCTYPE ...
 ...There are no persons entered yet, click on "Add person" to create one...

@@ -13,7 +13,7 @@ Create a browser to test the import:
 >>> from icemac.addressbook.testing import Browser
 >>> browser = Browser()
 >>> browser.login('mgr')
->>> browser.open('http://localhost/++skin++AddressBook/ab')
+>>> browser.open('http://localhost/ab')
 >>> browser.getLink('Master data').click()
 >>> browser.getLink('Import data').click()
 
@@ -44,7 +44,7 @@ The upload and import works as usual:
 ['"multi.csv" added.']
 >>> browser.getLink('Import').click()
 >>> browser.url
-'http://localhost/++skin++AddressBook/ab/++attribute++importer/File/@@import'
+'http://localhost/ab/++attribute++importer/File/@@import'
 
 The user chooses the reader and selects `2` as the number of entries
 per person:
@@ -54,7 +54,7 @@ per person:
 >>> browser.getControl('Number of e.g. phone numbers per person').value = '3'
 >>> browser.getControl('Next').click()
 >>> print browser.url
-http://localhost/++skin++AddressBook/ab/++attribute++importer/File/import/map
+http://localhost/ab/++attribute++importer/File/import/map
 
 Now it is possible to map the fields:
 
@@ -72,7 +72,7 @@ The review step shows the import result, the first phone number is the
 default one:
 
 >>> print browser.url
-http://localhost/.../ab/++attribute++importer/File/import/review
+http://localhost/ab/++attribute++importer/File/import/review
 >>> print browser.contents
 <!DOCTYPE ...
     <table>
@@ -244,13 +244,13 @@ After completing the import the imported data can be inspected:
 
 >>> browser.getControl('Next').click()
 >>> browser.url
-'http://localhost/.../ab/++attribute++importer/File/import/complete'
+'http://localhost/ab/++attribute++importer/File/import/complete'
 >>> browser.getControl('Complete').click()
 >>> browser.url
-'http://localhost/++skin++AddressBook/ab/++attribute++importer'
+'http://localhost/ab/++attribute++importer'
 >>> browser.getLink('Person list').click()
 >>> browser.url
-'http://localhost/++skin++AddressBook/ab/@@index.html'
+'http://localhost/ab/@@person-list.html'
 
 The first phone number is the main one and it is displayed as the main
 phone number in he form below, too:
