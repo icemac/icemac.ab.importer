@@ -24,6 +24,32 @@ Importing data requires the following steps:
 - The imported data gets shown and the user can decide to keep or to
   discard the imported data.
 
+=========
+ Hacking
+=========
+
+Source code
+===========
+
+Get the source code::
+
+   $ hg clone https://bitbucket.org/icemac/icemac.ab.importer
+
+or fork me on: https://bitbucket.org/icemac/icemac.ab.importer
+
+Running Tests
+=============
+
+.. image:: https://secure.travis-ci.org/icemac/icemac.ab.importer.png
+   :target: https://travis-ci.org/icemac/icemac.ab.importer
+
+To run the tests yourself call::
+
+  $ python2.6 bootstrap.py
+  $ bin/buildout
+  $ bin/test
+
+
 ===================================
  Write your own import file reader
 ===================================
