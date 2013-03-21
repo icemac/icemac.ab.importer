@@ -25,7 +25,7 @@ setuptools.setup(
     url='http://pypi.python.org/pypi/icemac.ab.importer',
     license='ZPL 2.1',
     classifiers=[
-        'Development Status :: 4 - Beta',
+        'Development Status :: 5 - Production/Stable',
         'Environment :: Web Environment',
         'Framework :: Paste',
         'Framework :: Zope3',
