@@ -8,6 +8,8 @@
 - Adapted configuration, tests and test set up to run with
   `icemac.addressbook` version 1.10.0.
 
+- Moved repository to https://bitbucket.org/icemac/icemac.ab.importer
+
 
 1.9.0 (2012-12-29)
 ==================

@@ -6,13 +6,11 @@ import os.path
 import setuptools
 
 def read(*path_elements):
-    return "\n\n" + file(os.path.join(*path_elements)).read()
+    return file(os.path.join(*path_elements)).read()
 
 version = '1.10.0.dev0'
-long_description = (
-    read('README.txt') +
-    read('CHANGES.txt')
-    )
+long_description = '\n\n'.join([read('README.rst'),
+                                read('CHANGES.rst')])
 
 setuptools.setup(
     name='icemac.ab.importer',
