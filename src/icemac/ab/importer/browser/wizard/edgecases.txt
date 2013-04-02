@@ -171,7 +171,7 @@ Delete all persons in address book
 
 This function can be found on the `Edit address book` form:
 
->>> browser.getLink('Edit address book').click()
+>>> browser.open('http://localhost/ab/@@edit.html')
 >>> browser.getControl('Delete all persons in address book').click()
 >>> browser.url
 'http://localhost/ab/@@delete_content.html'
