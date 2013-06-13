@@ -2,6 +2,27 @@
 Old changes
 ===========
 
+1.7.2 (2011-11-22)
+==================
+
+- Fixed a missing import which was masked by the Python import bug.
+
+1.7.1 (2011-11-03)
+==================
+
+- Fixing brown bag release: only namespace packages were installed.
+
+
+1.7.0 (2011-11-03)
+==================
+
+- Using stacked test layers for faster tests.
+
+- Extracted reuseable parts of import wizard to `icemac.addressbook`.
+
+- Adapted code, test set up and tests to run with `icemac.addressbook` version
+  1.7.
+
 1.6.0 (2011-02-03)
 ==================
 

@@ -6,7 +6,7 @@
 ===================
 
 - Adapted configuration, tests and test set up to run with
-  `icemac.addressbook` version 1.10.0.
+  `icemac.addressbook` version 1.10.
 
 - Moved repository to https://bitbucket.org/icemac/icemac.ab.importer
 
@@ -14,7 +14,7 @@
 1.9.0 (2012-12-29)
 ==================
 
-- Adapted tests to run with `icemac.addressbook` version 1.9.0.
+- Adapted tests to run with `icemac.addressbook` version 1.9.
 
 
 1.8.1 (2012-04-20)
@@ -29,29 +29,7 @@
 - Adapted tests and test set up to run with `icemac.addressbook` version 1.8.
 
 
-1.7.2 (2011-11-22)
-==================
-
-- Fixed a missing import which was masked by the Python import bug.
-
-1.7.1 (2011-11-03)
-==================
-
-- Fixing brown bag release: only namespace packages were installed.
-
-
-1.7.0 (2011-11-03)
-==================
-
-- Using stacked test layers for faster tests.
-
-- Extracted reuseable parts of import wizard to `icemac.addressbook`.
-
-- Adapted code, test set up and tests to run with `icemac.addressbook` version
-  1.7.
-
-
 Previous Versions
 =================
 
-See ``OLD_CHANGES.txt`` inside the package.
+See ``OLD_CHANGES.rst`` inside the package.
