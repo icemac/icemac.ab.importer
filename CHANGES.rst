@@ -2,7 +2,7 @@
  Changelog
 ===========
 
-1.10.0 (unreleased)
+1.10.0 (2013-06-13)
 ===================
 
 - Adapted configuration, tests and test set up to run with
