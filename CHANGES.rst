@@ -2,8 +2,10 @@
  Changelog
 ===========
 
-1.11.0 (unreleased)
+2.0.0 (unreleased)
 ===================
+
+- Updated supported Python version to 2.7.x.
 
 - Adapted test setup to `icemac.addressbook` version 2.0.
 

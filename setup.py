@@ -8,7 +8,7 @@ import setuptools
 def read(*path_elements):
     return file(os.path.join(*path_elements)).read()
 
-version = '1.11.0.dev0'
+version = '2.0.0.dev0'
 long_description = '\n\n'.join([read('README.rst'),
                                 read('CHANGES.rst')])
 
@@ -33,7 +33,11 @@ setuptools.setup(
         'Natural Language :: German',
         'Operating System :: OS Independent',
         'Programming Language :: Python',
-        'Programming Language :: Python :: 2.6',
+        'Programming Language :: Python :: 2',
+        'Programming Language :: Python :: 2 :: only',
+        'Programming Language :: Python :: 2.7',
+        'Programming Language :: Python :: Implementation',
+        'Programming Language :: Python :: Implementation :: CPython',
         ],
     packages=setuptools.find_packages('src'),
     package_dir = {'': 'src'},
