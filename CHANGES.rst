@@ -5,7 +5,7 @@
 1.11.0 (unreleased)
 ===================
 
-- Nothing changed yet.
+- Adapted test setup to `icemac.addressbook` version 2.0.
 
 
 1.10.0 (2013-06-13)

@@ -3,6 +3,8 @@
   <include package="zope.securitypolicy" file="meta.zcml" />
 
   <include package="icemac.ab.importer" />
+  <include package="icemac.ab.locales" />
+
   <grantAll role="zope.Manager" />
 
 </configure>
