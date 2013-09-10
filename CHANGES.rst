@@ -7,7 +7,7 @@
 
 - Updated supported Python version to 2.7.x.
 
-- Adapted test setup to `icemac.addressbook` version 2.0.
+- Adapted test setup and tests to `icemac.addressbook` version 2.0.
 
 
 1.10.0 (2013-06-13)
