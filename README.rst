@@ -45,7 +45,7 @@ Running Tests
 
 To run the tests yourself call::
 
-  $ python2.6 bootstrap.py
+  $ python2.7 bootstrap.py
   $ bin/buildout
   $ bin/test
 
