@@ -75,7 +75,7 @@ import file can be choosen. Not only the names of the fields in the
 import file are shown but also some sample values:
 
 >>> browser.getControl('first name').displayOptions
-['no value',
+['No value',
  'firstname (Rene Manfred, Jurgen)',
  'last_name (Kohn, Krafft)',
  'addr_city (Hiernase, Dortmund)']
@@ -173,7 +173,7 @@ The import file is still displayed:
 
 >>> print browser.contents
 <!DOCTYPE ...
-<td><a href="http://localhost/ab/++attribute++importer/File">first.csv</a>...
+<td class="sorted-on ascending"><a href="http://localhost/ab/++attribute++importer/File">first.csv</a>...
 
 The imported persons are displayed on the person list:
 
