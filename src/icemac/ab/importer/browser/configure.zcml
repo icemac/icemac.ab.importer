@@ -67,6 +67,14 @@
      template="readers.pt"
      />
 
+  <browser:viewlet
+      for="..interfaces.IImporter"
+      layer="icemac.addressbook.browser.interfaces.IAddressBookLayer"
+      manager="icemac.addressbook.browser.interfaces.IFanstaticViewletManager"
+      name="AddressBookResources"
+      class="icemac.addressbook.browser.resource.AddressBookResources"
+      permission="zope.Public" />
+
   <include package=".wizard" />
 
 </configure>
