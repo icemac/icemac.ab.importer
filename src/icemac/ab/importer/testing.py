@@ -4,7 +4,7 @@ import icemac.ab.importer
 import icemac.addressbook.testing
 
 
-ZCML_LAYER = icemac.addressbook.testing.ZCMLLayer(
+ZCML_LAYER = icemac.addressbook.testing.SecondaryZCMLLayer(
     'Importer', __name__, icemac.ab.importer,
     bases=[icemac.addressbook.testing.ZCML_LAYER])
 ZODB_LAYER = icemac.addressbook.testing.ZODBLayer(
