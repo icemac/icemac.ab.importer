@@ -151,7 +151,7 @@ http://localhost/++skin++AddressBook/ab/++attribute++importer/File/@@delete.html
 >>> print browser.contents
 <!DOCTYPE ...
 ...csv...
->>> browser.getControl('Yes, delete').click()
+>>> browser.getControl('Yes').click()
 >>> get_messages(browser) == ['"%s" deleted.' % filename2]
 True
 >>> browser.url
