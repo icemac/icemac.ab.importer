@@ -2,8 +2,8 @@
  Changelog
 ===========
 
-2.0.0 (unreleased)
-===================
+2.0.0 (2013-11-03)
+==================
 
 - Updated supported Python version to 2.7.x.
 
@@ -25,7 +25,7 @@
 - Adapted tests to run with `icemac.addressbook` version 1.9.
 
 
-Previous Versions
+Previous versions
 =================
 
 See ``OLD_CHANGES.rst`` inside the package.
