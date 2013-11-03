@@ -9,3 +9,4 @@ coverage
 develop-eggs
 my-buildout.cfg
 parts
+cache/*.py

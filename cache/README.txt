@@ -1,0 +1,1 @@
+Chameleon stores its cache files here.
