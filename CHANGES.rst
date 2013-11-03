@@ -25,18 +25,6 @@
 - Adapted tests to run with `icemac.addressbook` version 1.9.
 
 
-1.8.1 (2012-04-20)
-==================
-
-- Adapted test set up to run with `icemac.addressbook` version 1.8.1.
-
-
-1.8.0 (2011-12-14)
-==================
-
-- Adapted tests and test set up to run with `icemac.addressbook` version 1.8.
-
-
 Previous Versions
 =================
 
