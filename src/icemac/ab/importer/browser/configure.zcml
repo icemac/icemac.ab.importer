@@ -13,7 +13,7 @@
   <include package="z3c.template" file="meta.zcml" />
 
   <z3c:siteMenuItem
-     manager="icemac.addressbook.browser.masterdata.manager.IMasterData"
+     manager="icemac.addressbook.browser.masterdata.interfaces.IMasterData"
      layer="icemac.addressbook.browser.interfaces.IAddressBookLayer"
      name="Import data"
      title="Import data"

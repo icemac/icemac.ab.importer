@@ -2,10 +2,10 @@
  Changelog
 ===========
 
-2.0.1 (unreleased)
+2.1.0 (unreleased)
 ==================
 
-- Nothing changed yet.
+- Update code and tests to changes in `icemac.addressbook 2.5`.
 
 
 2.0.0 (2013-11-03)
