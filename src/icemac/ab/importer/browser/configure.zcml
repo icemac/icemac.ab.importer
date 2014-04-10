@@ -75,6 +75,12 @@
       class="icemac.addressbook.browser.resource.AddressBookResources"
       permission="zope.Public" />
 
+  <subscriber
+     for="*"
+     provides="
+        icemac.addressbook.browser.masterdata.interfaces.IMasterDataMenuItemOn"
+     factory=".menu.importer_views" />
+
   <include package=".wizard" />
 
 </configure>

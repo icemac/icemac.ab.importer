@@ -5,6 +5,9 @@
 2.1.0 (unreleased)
 ==================
 
+- The master data tab in the main menu is now highlighted when the importer
+  is displayed.
+
 - Update code and tests to changes in `icemac.addressbook 2.5`.
 
 
