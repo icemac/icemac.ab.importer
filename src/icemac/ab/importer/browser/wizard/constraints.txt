@@ -11,8 +11,7 @@ Create an addressbook and a browser to test the import:
 
 >>> from icemac.addressbook.testing import Browser
 
->>> browser = Browser()
->>> browser.login('mgr')
+>>> browser = get_browser('mgr')
 >>> browser.open('http://localhost/ab')
 >>> browser.getLink('Master data').click()
 >>> browser.getLink('Import data').click()

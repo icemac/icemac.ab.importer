@@ -9,9 +9,7 @@ Set up
 
 Create a browser to test the import:
 
->>> from icemac.addressbook.testing import Browser
->>> browser = Browser()
->>> browser.login('mgr')
+>>> browser = get_browser('mgr')
 >>> browser.open('http://localhost/ab')
 
 Empty import file

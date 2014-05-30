@@ -55,10 +55,8 @@ two lines of the import file.
 
 Create a browser to access the addressbook. Log in as `Administrator`:
 
->>> from z3c.etestbrowser.wsgi import ExtendedTestBrowser as Browser
->>> browser = Browser()
->>> browser.addHeader('Authorization', 'Basic mgr:mgrpw')
->>> browser.open('http://localhost/++skin++AddressBook/ab')
+>>> browser = get_browser('mgr')
+>>> browser.open('http://localhost/ab')
 
 
 
@@ -77,14 +75,13 @@ The first import file has data which lets some constraints fail:
 ['"fail.csv" added.']
 >>> browser.getLink('Import', index=0).click()
 >>> browser.url
-'http://localhost/++skin++AddressBook/ab/++attribute++importer/File/@@import'
+'http://localhost/ab/++attribute++importer/File/@@import'
 
 The user chooses the reader as usual and maps the fields:
 
->>> browser.handleErrors = False
 >>> browser.getControl('Next').click()
 >>> print browser.url
-http://localhost/++skin++AddressBook/ab/++attribute++importer/File/import/map
+http://localhost/ab/++attribute++importer/File/import/map
 >>> browser.getControl('last name').displayValue = [
 ...     'last_name (wrong bool, wrong bool 2, wrong datetime)']
 >>> browser.getControl('photo permission?').displayValue = [
@@ -99,7 +96,7 @@ http://localhost/++skin++AddressBook/ab/++attribute++importer/File/import/map
 The review step shows the error messages:
 
 >>> print browser.url
-http://localhost/.../ab/++attribute++importer/File/import/review
+http://localhost/ab/++attribute++importer/File/import/review
 >>> print browser.contents
 <!DOCTYPE ...
     <table>
@@ -313,7 +310,7 @@ The second import file can be imported without errors:
 >>> browser.getControl('Back').click()
 >>> browser.getControl('Back').click()
 >>> browser.url
-'http://localhost/.../ab/++attribute++importer/File/import/editFile'
+'http://localhost/ab/++attribute++importer/File/import/editFile'
 >>> browser.getControl('file', index=1).add_file(fine_data, 'text/plain', 'fine.csv')
 >>> browser.getControl('Next').click()
 >>> browser.getControl('Next').click()
@@ -323,7 +320,7 @@ The imported data is shown in the preview, the contents of the `mail
 box text` column is abbreviated:
 
 >>> browser.url
-'http://localhost/.../ab/++attribute++importer/File/import/review'
+'http://localhost/ab/++attribute++importer/File/import/review'
 >>> print browser.contents
 <!DOCTYPE ...
     <table>
@@ -425,7 +422,7 @@ box text` column is abbreviated:
 <!DOCTYPE ...Import complete...
 >>> browser.getControl('Complete').click()
 >>> browser.url
-'http://localhost/++skin++AddressBook/ab/++attribute++importer'
+'http://localhost/ab/++attribute++importer'
 
 The imported data is also displayed in the person edit forms:
 

@@ -4,10 +4,6 @@
 
 Administrators are able to upload files for import and edit them.
 
-Set up
-======
-
-
 
 Upload files
 ============
@@ -15,10 +11,8 @@ Upload files
 Administrators can upload import files in the master data area. So we
 log-in as administrator and go there:
 
->>> from icemac.addressbook.testing import Browser
->>> browser = Browser()
->>> browser.login('mgr')
->>> browser.open('http://localhost/++skin++AddressBook/ab')
+>>> browser = get_browser('mgr')
+>>> browser.open('http://localhost/ab')
 >>> browser.getLink('Master data').click()
 >>> browser.getLink('Import data').click()
 
@@ -38,7 +32,7 @@ To upload a file the add file link can be used:
 >>> get_messages(browser) == ['"%s" added.' % filename]
 True
 >>> browser.url
-'http://localhost/++skin++AddressBook/ab/++attribute++importer'
+'http://localhost/ab/++attribute++importer'
 
 The uploaded file gets displayed in the list:
 
@@ -46,7 +40,7 @@ The uploaded file gets displayed in the list:
 <!DOCTYPE...
 ...txt...<DATETIME>...Delete...Import...
 >>> browser.getLink('Import').url
-'http://localhost/++skin++AddressBook/ab/++attribute++importer/File/@@import'
+'http://localhost/ab/++attribute++importer/File/@@import'
 
 
 Edit uploaded file
@@ -75,7 +69,7 @@ True
 >>> get_messages(browser)
 ['Data successfully updated.']
 >>> browser.url
-'http://localhost/++skin++AddressBook/ab/++attribute++importer'
+'http://localhost/ab/++attribute++importer'
 
 
 Security
@@ -94,22 +88,21 @@ even when they know the URL.
 Editor
 ------
 
->>> editor = Browser()
->>> editor.login('editor')
+>>> editor = get_browser('editor')
 
 The addressbook opens correctly, as the authorization succeeded, but
 the import files list, the upload file form and the import form are
 not accessible:
 
->>> editor.open('http://localhost/++skin++AddressBook/ab')
->>> editor.open('http://localhost/++skin++AddressBook/ab/++attribute++importer')
+>>> editor.open('http://localhost/ab')
+>>> editor.open('http://localhost/ab/++attribute++importer')
 Traceback (most recent call last):
 HTTPError: HTTP Error 403: Forbidden
->>> editor.open('http://localhost/++skin++AddressBook/ab/++attribute++importer'
+>>> editor.open('http://localhost/ab/++attribute++importer'
 ...             '/@@addFile.html')
 Traceback (most recent call last):
 HTTPError: HTTP Error 403: Forbidden
->>> editor.open('http://localhost/++skin++AddressBook/ab/++attribute++importer/'
+>>> editor.open('http://localhost/ab/++attribute++importer/'
 ...             'File/@@import.html')
 Traceback (most recent call last):
 HTTPError: HTTP Error 403: Forbidden
@@ -118,22 +111,21 @@ HTTPError: HTTP Error 403: Forbidden
 Visitor
 -------
 
->>> visitor = Browser()
->>> visitor.login('visitor')
+>>> visitor = get_browser('visitor')
 
 The address book opens correctly, as the authorization succeeded, but
 the import files list and the upload file form are not accessible:
 
->>> visitor.open('http://localhost/++skin++AddressBook/ab')
+>>> visitor.open('http://localhost/ab')
 >>> visitor.open(
-...     'http://localhost/++skin++AddressBook/ab/++attribute++importer')
+...     'http://localhost/ab/++attribute++importer')
 Traceback (most recent call last):
 HTTPError: HTTP Error 403: Forbidden
->>> visitor.open('http://localhost/++skin++AddressBook/ab/++attribute++importer'
+>>> visitor.open('http://localhost/ab/++attribute++importer'
 ...             '/@@addFile.html')
 Traceback (most recent call last):
 HTTPError: HTTP Error 403: Forbidden
->>> visitor.open('http://localhost/++skin++AddressBook/ab/'
+>>> visitor.open('http://localhost/ab/'
 ...              '++attribute++importer/File/@@import.html')
 Traceback (most recent call last):
 HTTPError: HTTP Error 403: Forbidden
@@ -147,7 +139,7 @@ here):
 
 >>> browser.getLink('Delete').click()
 >>> print browser.url
-http://localhost/++skin++AddressBook/ab/++attribute++importer/File/@@delete.html
+http://localhost/ab/++attribute++importer/File/@@delete.html
 >>> print browser.contents
 <!DOCTYPE ...
 ...csv...
@@ -155,7 +147,7 @@ http://localhost/++skin++AddressBook/ab/++attribute++importer/File/@@delete.html
 >>> get_messages(browser) == ['"%s" deleted.' % filename2]
 True
 >>> browser.url
-'http://localhost/++skin++AddressBook/ab/++attribute++importer'
+'http://localhost/ab/++attribute++importer'
 >>> browser.open(browser.url)
 >>> 'csv' in browser.contents
 False
@@ -168,7 +160,7 @@ There is a link on the import's page which leads to a list of all registered imp
 
 >>> browser.getLink('Registered import file readers').click()
 >>> browser.url
-'http://localhost/++skin++AddressBook/ab/++attribute++importer/@@readers.html'
+'http://localhost/ab/++attribute++importer/@@readers.html'
 >>> print browser.contents
 <!DOCTYPE ...
 <li>CSV file (comma separated fields, ISO-dates, UTF-8 encoded)</li>...

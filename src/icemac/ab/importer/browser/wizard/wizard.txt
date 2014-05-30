@@ -11,9 +11,7 @@ Set up
 Only administrators can upload import files. So we log-in as administrator
 and go to the master data area:
 
->>> from icemac.addressbook.testing import Browser
->>> browser = Browser()
->>> browser.login('mgr')
+>>> browser = get_browser('mgr')
 >>> browser.open('http://localhost/ab')
 >>> browser.getLink('Master data').click()
 >>> browser.getLink('Import data').click()
