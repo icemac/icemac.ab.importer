@@ -22,7 +22,7 @@ class IReaderSettings(zope.interface.Interface):
 
 
 class ReaderSettings(
-    icemac.ab.importer.browser.wizard.base.FileSessionStorageStep):
+        icemac.ab.importer.browser.wizard.base.FileSessionStorageStep):
 
     interface = IReaderSettings
     label = _(u'Reader settings')

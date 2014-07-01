@@ -69,7 +69,7 @@ def split_keywords(keywords):
     return [x.strip() for x in keywords.split(',')]
 
 
-#noinspection PyMethodParameters
+# noinspection PyMethodParameters
 class IFieldValue(zope.interface.Interface):
     """Value for a specific field."""
 

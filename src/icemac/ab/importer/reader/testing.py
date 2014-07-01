@@ -22,7 +22,7 @@ class ReaderTest(unittest.TestCase):
         if file_name is None:
             file_name = self.import_file
         return file(os.path.join(
-                os.path.dirname(base_path), 'tests', 'data', file_name))
+            os.path.dirname(base_path), 'tests', 'data', file_name))
 
     def getReader(self, import_file=None):
         return self.reader_class.open(self.getFileHandle(import_file))
@@ -60,13 +60,13 @@ class ReaderTest(unittest.TestCase):
 
     def test_getFieldSamples_less_than_3_samples_in_file(self):
         samples = list(self.getReader(self.import_file_short).getFieldSamples(
-                u'last name'))
+            u'last name'))
         self.assertEqual([u'Koch'], samples)
         self.assert_(isinstance(samples[0], unicode))
 
     def test_getFieldSamples_empty_string(self):
         samples = list(self.getReader(self.import_file_short).getFieldSamples(
-                u'firstname'))
+            u'firstname'))
         self.assertEqual([u''], samples)
         self.assert_(isinstance(samples[0], unicode))
 

@@ -17,21 +17,24 @@ import zope.security.proxy
 
 
 class ContainerColumn(z3c.table.column.GetAttrColumn):
-    "Context is a container, search values in container items."
-    interface = None  # search only objects providing this interface
-    container_interface = None  # when value provides this interface, lookup
-                                # atribute on container
-    index = 0  # index in the list of found objects
-    attrName = None  # attr to look up
-    attrInterface = None  # interface of the attribute (needed to look up user
-                          # defined fields)
+    """Context is a container, search values in container items."""
+    # Search only objects providing this interface:
+    interface = None
+    # When value provides this interface, lookup atribute on container:
+    container_interface = None
+    # Index in the list of found objects:
+    index = 0
+    # Attr to look up:
+    attrName = None
+    # Interface of the attribute (needed to look up user defined fields):
+    attrInterface = None
 
     def getObject(self, container):
         if (self.container_interface and
-            self.container_interface == self.interface):
+                self.container_interface == self.interface):
             return container
         candidates = list(icemac.addressbook.utils.iter_by_interface(
-                container, self.interface))
+            container, self.interface))
         if self.index < len(candidates):
             return candidates[self.index]
         return None
