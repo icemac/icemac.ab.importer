@@ -2,6 +2,11 @@
 Old changes
 ===========
 
+1.9.0 (2012-12-29)
+==================
+
+- Adapted tests to run with `icemac.addressbook` version 1.9.
+
 
 1.8.1 (2012-04-20)
 ==================

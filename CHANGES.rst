@@ -10,7 +10,7 @@
 
 - Update code and tests to changes in `icemac.addressbook 2.5`.
 
-- Add py.test to run the tests.
+- Add `py.test` to run the tests.
 
 
 2.0.0 (2013-11-03)
@@ -28,12 +28,6 @@
   `icemac.addressbook` version 1.10.
 
 - Moved repository to https://bitbucket.org/icemac/icemac.ab.importer
-
-
-1.9.0 (2012-12-29)
-==================
-
-- Adapted tests to run with `icemac.addressbook` version 1.9.
 
 
 Previous versions
