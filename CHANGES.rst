@@ -2,7 +2,7 @@
  Changelog
 ===========
 
-2.1.0 (unreleased)
+2.1.0 (2014-07-01)
 ==================
 
 - The master data tab in the main menu is now highlighted when the importer
