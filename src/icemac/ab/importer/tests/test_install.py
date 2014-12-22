@@ -4,7 +4,7 @@
 import icemac.ab.importer.install
 import icemac.addressbook.addressbook
 import icemac.addressbook.testing
-import unittest2 as unittest
+import unittest
 
 
 class TestInstall(unittest.TestCase,
