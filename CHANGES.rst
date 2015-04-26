@@ -7,6 +7,8 @@
 
 - No longer use `unittest2` as it was included in Python 2.7.
 
+- Update to ``bootstrap.py`` from `zc.buildout 2.3.1`.
+
 
 2.1.0 (2014-07-01)
 ==================
