@@ -1,11 +1,10 @@
 # -*- coding: utf-8 -*-
-# Copyright (c) 2008-2014 Michael Howitz
-# See also LICENSE.txt
-
 import os.path
 import setuptools
 
+
 def read(*path_elements):
+    """Read a path."""
     return file(os.path.join(*path_elements)).read()
 
 version = '2.2.0.dev0'
@@ -38,10 +37,10 @@ setuptools.setup(
         'Programming Language :: Python :: 2.7',
         'Programming Language :: Python :: Implementation',
         'Programming Language :: Python :: Implementation :: CPython',
-        ],
+    ],
     packages=setuptools.find_packages('src'),
-    package_dir = {'': 'src'},
-    namespace_packages = ['icemac', 'icemac.ab'],
+    package_dir={'': 'src'},
+    namespace_packages=['icemac', 'icemac.ab'],
     include_package_data=True,
     zip_safe=False,
     install_requires=[
@@ -57,11 +56,11 @@ setuptools.setup(
         'zope.generations',
         'zope.interface',
         'zope.schema',
-        ],
-    extras_require = dict(
+    ],
+    extras_require=dict(
         test=[
             'icemac.addressbook [test]',
             'zope.testing >= 3.8.0',
             'zope.traversing',
-            ]),
-    )
+        ]),
+)
