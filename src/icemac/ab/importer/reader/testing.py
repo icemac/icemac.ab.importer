@@ -30,68 +30,74 @@ class ReaderTest(unittest.TestCase):
     def getReader(self, import_file=None):
         return self.reader_class.open(self.getFileHandle(import_file))
 
-    def test_interfaces(self):
-        zope.interface.verify.verifyObject(
+    def test_Reader__interfaces__1(self):
+        """It fulfills the IImportFileReader interface."""
+        assert zope.interface.verify.verifyObject(
             icemac.ab.importer.interfaces.IImportFileReader,
             self.getReader())
 
-    def test_getFieldNames(self):
+    def test_Reader__getFieldNames__1(self):
+        """It returns a list of unicode field names."""
         field_names = list(self.getReader().getFieldNames())
-        self.assertEqual([u'last name', u'firstname', u'birth_date'],
-                         field_names)
-        self.assert_(isinstance(field_names[0], unicode))
-        self.assert_(isinstance(field_names[1], unicode))
-        self.assert_(isinstance(field_names[2], unicode))
+        assert [u'last name', u'firstname', u'birth_date'] == field_names
+        assert isinstance(field_names[0], unicode)
+        assert isinstance(field_names[1], unicode)
+        assert isinstance(field_names[2], unicode)
 
-    def test_getFieldSamples_firstname(self):
+    def test_Reader__getFieldSamples__1(self):
+        """It returns a list of unicode field values."""
         samples = list(self.getReader().getFieldSamples(u'firstname'))
-        self.assertEqual([u'Andreas', u'Hanna', u'Jens'], samples)
-        self.assert_(isinstance(samples[0], unicode))
-        self.assert_(isinstance(samples[1], unicode))
-        self.assert_(isinstance(samples[2], unicode))
+        assert [u'Andreas', u'Hanna', u'Jens'] == samples
+        assert isinstance(samples[0], unicode)
+        assert isinstance(samples[1], unicode)
+        assert isinstance(samples[2], unicode)
 
-    def test_getFieldSamples_lastname(self):
-        self.assertEqual([u'Koch', u'Hula', u'Jänsen'],
-                         list(self.getReader().getFieldSamples(u'last name')))
+    def test_Reader__getFieldSamples__2(self):
+        """It is able to handle non-ASCII field values."""
+        assert ([u'Koch', u'Hula', u'Jänsen'] ==
+                list(self.getReader().getFieldSamples(u'last name')))
 
-    def test_getFieldSamples_birthdate(self):
+    def test_Reader__getFieldSamples__3(self):
+        """It returns datetime field values as ISO unicodes."""
         samples = list(self.getReader().getFieldSamples(u'birth_date'))
-        self.assertEqual([u'1976-01-24', u'2000-01-01', u''], samples)
-        self.assert_(isinstance(samples[0], unicode))
-        self.assert_(isinstance(samples[1], unicode))
-        self.assert_(isinstance(samples[2], unicode))
+        assert [u'1976-01-24', u'2000-01-01', u''] == samples
+        assert isinstance(samples[0], unicode)
+        assert isinstance(samples[1], unicode)
+        assert isinstance(samples[2], unicode)
 
-    def test_getFieldSamples_less_than_3_samples_in_file(self):
+    def test_Reader__getFieldSamples__4(self):
+        """It returns all samples if there are less than 3 in the file."""
         samples = list(self.getReader(self.import_file_short).getFieldSamples(
             u'last name'))
-        self.assertEqual([u'Koch'], samples)
-        self.assert_(isinstance(samples[0], unicode))
+        assert [u'Koch'] == samples
+        assert isinstance(samples[0], unicode)
 
-    def test_getFieldSamples_empty_string(self):
+    def test_Reader__getFieldSamples__5(self):
+        """It returns an empty string if the only value is empty."""
         samples = list(self.getReader(self.import_file_short).getFieldSamples(
             u'firstname'))
-        self.assertEqual([u''], samples)
-        self.assert_(isinstance(samples[0], unicode))
+        assert [u''] == samples
+        assert isinstance(samples[0], unicode)
 
-    def test___iter__(self):
+    def test_Reader____iter____1(self):
+        """It iterates over the lines in the import file."""
         result = [[u'Koch', u'Andreas', datetime.date(1976, 1, 24)],
                   [u'Hula', u'Hanna', datetime.date(2000, 1, 1)],
                   [u'Jänsen', u'Jens', None],
                   [u'Fruma', None, datetime.date(2001, 12, 31)]]
         for index, line in enumerate(self.getReader()):
-            self.assertEqual(result[index], line)
+            assert result[index] == line
             for value in line:
-                self.assert_((isinstance(value, unicode) or
-                              isinstance(value, datetime.date) or
-                              value is None),
-                             repr(value))
+                assert (isinstance(value, unicode) or
+                        isinstance(value, datetime.date) or
+                        value is None)
 
-    def test___iter__short(self):
+    def test_Reader____iter____2(self):
+        """It iterates over the lines in the short import file."""
         result = [[u'Koch', None, datetime.date(1976, 1, 24)]]
         for index, line in enumerate(self.getReader(self.import_file_short)):
-            self.assertEqual(result[index], line)
+            assert result[index] == line
             for value in line:
-                self.assert_((isinstance(value, unicode) or
-                              isinstance(value, datetime.date) or
-                              value is None),
-                             repr(value))
+                assert (isinstance(value, unicode) or
+                        isinstance(value, datetime.date) or
+                        value is None)

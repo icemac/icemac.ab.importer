@@ -1,33 +1,17 @@
-
-import icemac.ab.importer.install
-import icemac.addressbook.addressbook
-import icemac.addressbook.testing
-import unittest
+from icemac.addressbook.addressbook import AddressBookCreated
+from icemac.ab.importer.install import install_importer
+from icemac.ab.importer.interfaces import IImporter
 
 
-class TestInstall(unittest.TestCase,
-                  icemac.addressbook.testing.InstallationAssertions):
+def test_install__install_importer__1(assert_address_book):
+    """It creates an importer attribute."""
+    install_importer(AddressBookCreated(assert_address_book.address_book))
+    assert_address_book.has_attribute('importer', IImporter)
 
-    layer = icemac.addressbook.testing.ZODB_LAYER
 
-    def check_addressbook(self, ab):
-        self.assertAttribute(
-            ab, 'importer', icemac.ab.importer.interfaces.IImporter)
-
-    def setUp(self):
-        self.ab = self.layer['addressbook']
-
-    def test_create(self):
-        icemac.addressbook.addressbook.create_address_book_infrastructure(
-            self.ab)
-        icemac.ab.importer.install.install_importer(
-            icemac.addressbook.addressbook.AddressBookCreated(self.ab))
-        self.check_addressbook(self.ab)
-
-    def test_recall_create(self):
-        icemac.addressbook.addressbook.create_address_book_infrastructure(
-            self.ab)
-        event = icemac.addressbook.addressbook.AddressBookCreated(self.ab)
-        icemac.ab.importer.install.install_importer(event)
-        icemac.ab.importer.install.install_importer(event)
-        self.check_addressbook(self.ab)
+def test_install__install_importer__2(assert_address_book):
+    """It does not break if it gets called twice."""
+    event = AddressBookCreated(assert_address_book.address_book)
+    install_importer(event)
+    install_importer(event)
+    assert_address_book.has_attribute('importer', IImporter)

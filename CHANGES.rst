@@ -5,9 +5,11 @@
 2.2.0 (unreleased)
 ==================
 
-- No longer use `unittest2` as it is included in Python 2.7.
-
 - Update to ``bootstrap.py`` from `zc.buildout 2.3.1`.
+
+- Update tests to only run with `py.test`.
+
+- Update code and tests to changes in `icemac.addressbook 2.6`.
 
 
 2.1.0 (2014-07-01)
