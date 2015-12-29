@@ -27,7 +27,7 @@
      for="icemac.ab.importer.interfaces.IImportFileContainer"
      permission="icemac.addressbook.Import"
      layer="icemac.addressbook.browser.interfaces.IAddressBookLayer"
-     class="icemac.addressbook.browser.file.file.Add"
+     class="icemac.ab.importer.browser.importer.Add"
      />
 
   <z3c:addMenuItem

@@ -99,6 +99,17 @@ def test_importer__Add__1(address_book, browser, role):
     assert 'HTTP Error 403: Forbidden' == str(err.value)
 
 
+def test_importer__Add__2(address_book, browser, import_file):
+    """It sets the interface `IImportFile` on the created file."""
+    browser.login('mgr')
+    browser.open(browser.IMPORTER_FILE_ADD_URL)
+    browser.getControl('file').add_file(
+        import_file('Import data file'), 'text/plain', 'file.txt')
+    browser.getControl('Add').click()
+    assert '"file.txt" added.' == browser.message
+    assert IImportFile.providedBy(address_book.importer['File'])
+
+
 @pytest.mark.parametrize('role', ['editor', 'visitor'])
 def test_importer__Edit__1(address_book, browser, role):
     """It is not allowed to be accessed by some user roles."""

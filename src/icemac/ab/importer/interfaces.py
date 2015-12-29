@@ -6,9 +6,6 @@ import zope.schema
 class IImporter(zope.interface.Interface):
     """Importer and storage for import files."""
 
-    file_marker_interface = zope.interface.Attribute(
-        u"""Interface to be used as marker interface for contained files.""")
-
 
 class IImportFileContainer(zope.interface.Interface):
     """Marker interface for container which can contain files."""
