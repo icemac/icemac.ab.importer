@@ -1,5 +1,3 @@
-# Copyright (c) 2008-2014 Michael Howitz
-# See also LICENSE.txt
 
 import icemac.ab.importer.install
 import icemac.addressbook.addressbook

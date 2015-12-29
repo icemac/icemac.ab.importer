@@ -1,7 +1,4 @@
 # -*- coding: utf-8 -*-
-# Copyright (c) 2008-2014 Michael Howitz
-# See also LICENSE.txt
-
 import datetime
 import icemac.ab.importer.interfaces
 import os.path
@@ -11,7 +8,13 @@ import zope.interface.verify
 
 
 class ReaderTest(unittest.TestCase):
-    "Test class for readers."
+    """Test class for readers.
+
+    Extend it and set the class variables to test your reader implementation.
+
+    The import files have to be in a `test/data` directory relative to the
+    importer class.
+    """
 
     reader_class = None  # reference to the reader's class object
     import_file = None  # name of the longer import file

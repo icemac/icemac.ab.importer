@@ -1,14 +1,12 @@
 # -*- coding: utf-8 -*-
-# Copyright (c) 2009-2014 Michael Howitz
-# See also LICENSE.txt
-
-from icemac.addressbook.i18n import MessageFactory as _
+from icemac.addressbook.i18n import _
 import zope.traversing.api
 import zope.traversing.browser.absoluteurl
 import z3c.wizard.step
 
 
 class Complete(z3c.wizard.step.Step):
+    """Step displaying that the import was completed."""
 
     label = _(u'Complete')
 

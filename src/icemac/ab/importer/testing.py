@@ -1,5 +1,3 @@
-# Copyright (c) 2012-2014 Michael Howitz
-# See also LICENSE.txt
 import icemac.ab.importer
 import icemac.addressbook.testing
 

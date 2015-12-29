@@ -1,7 +1,4 @@
 # -*- coding: utf-8 -*-
-# Copyright (c) 2009-2014 Michael Howitz
-# See also LICENSE.txt
-
 import unittest
 import icemac.ab.importer.browser.table
 import datetime
@@ -10,8 +7,9 @@ import zope.publisher.browser
 
 
 class DummyDC(object):
+    """Dummy dublin core object."""
 
-    modified = None
+    modified = datetime(2003, 5, 3, 11, 12, 13, tzinfo=utc)
 
 
 class TestModifiedColumnLocalTime(unittest.TestCase):

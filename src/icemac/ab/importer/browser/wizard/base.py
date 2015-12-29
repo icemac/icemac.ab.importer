@@ -1,6 +1,4 @@
 # -*- coding: utf-8 -*-
-# Copyright (c) 2009-2014 Michael Howitz
-# See also LICENSE.txt
 from icemac.addressbook.i18n import _
 import gocept.cache.property
 import icemac.ab.importer.interfaces
@@ -26,11 +24,11 @@ class ImportWizard(icemac.addressbook.browser.wizard.Wizard):
             z3c.wizard.step.addStep(self, 'map', weight=3),
             z3c.wizard.step.addStep(self, 'review', weight=4),
             z3c.wizard.step.addStep(self, 'complete', weight=5),
-            ]
+        ]
 
 
 class FileSession(persistent.mapping.PersistentMapping):
-    "Session of an import file."
+    """Session of an import file."""
 
     file = None
     cache = gocept.cache.property.TransactionBoundCache('_cache', dict)
@@ -44,7 +42,7 @@ def file_session_to_import_file(file_session):
 
 
 def get_file_session(file, request):
-    "Get the session associated with the file."
+    """Get the session associated with the file."""
     session = icemac.addressbook.browser.base.get_session(request)
     key = 'import_%s' % file.__name__
     file_session = session.get(key, None)
@@ -56,7 +54,7 @@ def get_file_session(file, request):
 
 
 class FileSessionStorageStep(icemac.addressbook.browser.wizard.Step):
-    "Step which stores its data in file's session."
+    """Step which stores its data in file's session."""
 
     def getContent(self):
         return get_file_session(self.context, self.request)
@@ -65,7 +63,7 @@ class FileSessionStorageStep(icemac.addressbook.browser.wizard.Step):
 @zope.interface.implementer(icemac.addressbook.interfaces.IAddressBook)
 @zope.component.adapter(icemac.ab.importer.interfaces.IImportFile)
 def importfile_to_addressbook(import_file):
-    "Adapt import file to address book."
+    """Adapt import file to address book."""
     return import_file.__parent__.__parent__
 
 

@@ -1,8 +1,4 @@
 # -*- coding: utf-8 -*-
-# Copyright (c) 2009-2014 Michael Howitz
-# See also LICENSE.txt
-
-from icemac.addressbook.i18n import MessageFactory as _
 import icemac.addressbook.browser.table
 import z3c.table.column
 import icemac.ab.importer.browser.table
@@ -34,8 +30,7 @@ class Overview(icemac.addressbook.browser.table.PageletTable):
             z3c.table.column.addColumn(
                 self, z3c.table.column.LinkColumn, 'import', weight=200,
                 header=_(u''), linkContent=_(u'Import'),
-                linkName='@@import'),
-            ]
+                linkName='@@import')]
 
     @property
     def values(self):

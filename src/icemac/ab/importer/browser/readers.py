@@ -1,12 +1,10 @@
 # -*- coding: utf-8 -*-
-# Copyright (c) 2009-2014 Michael Howitz
-# See also LICENSE.txt
-
 import zope.component
 import icemac.ab.importer.interfaces
 
 
 class Readers(object):
+    """List the known readers."""
 
     def readers(self):
         readers = zope.component.getAdapters(

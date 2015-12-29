@@ -1,7 +1,4 @@
 # -*- coding: utf-8 -*-
-# Copyright (c) 2009-2014 Michael Howitz
-# See also LICENSE.txt
-
 import icemac.ab.importer.reader.testing
 import icemac.ab.importer.reader.csv.csv
 

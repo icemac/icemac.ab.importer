@@ -1,7 +1,4 @@
 # -*- coding: utf-8 -*-
-# Copyright (c) 2009-2014 Michael Howitz
-# See also LICENSE.txt
-
 import StringIO
 import icemac.ab.importer.interfaces
 import icemac.ab.importer.reader.base
@@ -14,6 +11,7 @@ import zope.interface.verify
 
 
 class DummyReader(icemac.ab.importer.reader.base.BaseReader):
+    """Dummy reader implementation."""
 
     title = u'Dummy Reader'
 
@@ -31,6 +29,7 @@ class DummyReader(icemac.ab.importer.reader.base.BaseReader):
 
 
 class NoXMLReader(DummyReader):
+    """A dummy reader implementation which does not like XML files."""
 
     def getFieldNames(self):
         self.file.seek(0)
@@ -41,6 +40,7 @@ class NoXMLReader(DummyReader):
 
 
 class DummyImportFile(object):
+    """A dummy import file implemention."""
 
     zope.interface.implements(icemac.ab.importer.interfaces.IImportFile)
 

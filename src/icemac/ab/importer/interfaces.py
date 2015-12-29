@@ -1,7 +1,4 @@
 # -*- coding: utf-8 -*-
-# Copyright (c) 2009-2014 Michael Howitz
-# See also LICENSE.txt
-
 import zope.interface
 import zope.schema
 
@@ -14,7 +11,7 @@ class IImporter(zope.interface.Interface):
 
 
 class IImportFileContainer(zope.interface.Interface):
-    "Marker interface for container which can contain files."
+    """Marker interface for container which can contain files."""
 
 
 class IImportFile(zope.interface.Interface):

@@ -1,8 +1,5 @@
 # -*- coding: utf-8 -*-
-# Copyright (c) 2009-2014 Michael Howitz
-# See also LICENSE.txt
-
-from icemac.addressbook.i18n import MessageFactory as _
+from icemac.addressbook.i18n import _
 import icemac.ab.importer.browser.wizard.base
 import icemac.ab.importer.source
 import zope.interface
@@ -10,7 +7,7 @@ import zope.schema
 
 
 class IReaderSettings(zope.interface.Interface):
-    "Reader Setttings."
+    """Reader Setttings."""
 
     reader = zope.schema.Choice(
         title=_(u'Import file reader'),
@@ -23,6 +20,7 @@ class IReaderSettings(zope.interface.Interface):
 
 class ReaderSettings(
         icemac.ab.importer.browser.wizard.base.FileSessionStorageStep):
+    """Step to set the reader and the number of entries."""
 
     interface = IReaderSettings
     label = _(u'Reader settings')
@@ -33,6 +31,6 @@ class ReaderSettings(
         return True
 
     def doBack(self, action):
-        """Process back action and return True on sucess."""
+        """Process back action and return True on success."""
         self.getContent()['edit_file_available'] = True
         return super(ReaderSettings, self).doBack(action)
