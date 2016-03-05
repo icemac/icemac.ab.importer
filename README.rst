@@ -51,14 +51,11 @@ or fork me on: https://bitbucket.org/icemac/icemac.ab.importer
 Running Tests
 =============
 
-.. image:: https://secure.travis-ci.org/icemac/icemac.ab.importer.png
-   :target: https://travis-ci.org/icemac/icemac.ab.importer
-
 To run the tests yourself call::
 
   $ python2.7 bootstrap.py
   $ bin/buildout
-  $ bin/test
+  $ bin/py.test
 
 
 ===================================
