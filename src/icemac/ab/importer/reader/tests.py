@@ -15,25 +15,25 @@ def test_base__BaseReader__1():
 def test_base__BaseReader__canRead__1():
     """It returns `False` on an exception during calling `open()`."""
     with patch.object(BaseReader, 'open', side_effect=Exception):
-        assert False == BaseReader.canRead(None)
+        assert False is BaseReader.canRead(None)
 
 
 def test_base__BaseReader__canRead__2():
     """It returns `False` on an exception during calling `getFieldNames()`."""
     with patch.object(BaseReader, 'getFieldNames', side_effect=Exception):
-        assert False == BaseReader.canRead(None)
+        assert False is BaseReader.canRead(None)
 
 
 def test_base__BaseReader__canRead__3():
     """It returns `False` if `getFieldNames()` returns an empty list."""
     with patch.object(BaseReader, 'getFieldNames', return_value=[]):
-        assert False == BaseReader.canRead(None)
+        assert False is BaseReader.canRead(None)
 
 
 def test_base__BaseReader__canRead__4():
     """It returns `True` if `getFieldNames()` returns an non-empty list."""
     with patch.object(BaseReader, 'getFieldNames', return_value=['sdfg']):
-        assert True == BaseReader.canRead(None)
+        assert True is BaseReader.canRead(None)
 
 
 def test_base__BaseReader__getFieldNames__1():
