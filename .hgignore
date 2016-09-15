@@ -2,14 +2,13 @@ syntax: glob
 
 *.egg-info
 *.pyc
-.cache
+.cache/
 .coverage
 .installed.cfg
 .mr.developer.cfg
-bin
+bin/
 cache/*.py
-coverage
-develop-eggs
+develop-eggs/
 htmlcov/
 my-buildout.cfg
-parts
+parts/
