@@ -144,8 +144,6 @@ class ImportedTable(icemac.addressbook.browser.table.Table):
 
     def renderRow(self, row, cssClass=None):
         rendered_row = super(ImportedTable, self).renderRow(row, cssClass)
-        if not row:
-            return rendered_row
         return u'\n'.join((rendered_row,
                            self._renderErrors(row[0][0], cssClass)))
 

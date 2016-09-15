@@ -66,11 +66,10 @@ def split_keywords(keywords):
     return [x.strip() for x in keywords.split(',')]
 
 
-# noinspection PyMethodParameters
 class IFieldValue(zope.interface.Interface):
     """Value for a specific field."""
 
-    def __call__():  # pragma: no cover
+    def __call__():
         """Return the value."""
 
 
@@ -204,10 +203,7 @@ def simple_invalid(field, exc):
     icemac.addressbook.browser.interfaces.IErrorMessage)
 def choice_constraint_not_satisfield(field, exc):
     value = exc.args[0]
-    if zope.schema.interfaces.IVocabulary.providedBy(field.source):
-        allowed = [x.value for x in field.source]
-    else:
-        allowed = [str(x) for x in field.source.factory.getValues()]
+    allowed = [str(x) for x in field.source.factory.getValues()]
     return _(u'Value ${value} is not allowed. Allowed values are: ${values}',
              mapping=dict(value=value, values=', '.join(allowed)))
 
@@ -315,10 +311,9 @@ class KeywordBuilder(object):
         Example: IcemacAddressbookPersonPerson-0.first_name --> 0
                  IcemacAddressbookAddressHomePageAddress-2.notes --> 11
         """
-        if self.KEYWORD_FIELD_NAME in user_data:
-            self.keyword_index = user_data[self.KEYWORD_FIELD_NAME]
-            self.keywords = zope.component.getUtility(
-                icemac.addressbook.interfaces.IKeywords)
+        self.keyword_index = user_data[self.KEYWORD_FIELD_NAME]
+        self.keywords = zope.component.getUtility(
+            icemac.addressbook.interfaces.IKeywords)
 
     def create(self, data):
         created = []
