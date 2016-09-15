@@ -148,7 +148,7 @@ class ImportedTable(icemac.addressbook.browser.table.Table):
                            self._renderErrors(row[0][0], cssClass)))
 
     def _create_col(self, entity, field, field_name, weight, header, index):
-        "Create a single column for the field."
+        """Create a single column for the field."""
         # try named adapter first
         column = zope.component.queryMultiAdapter(
             (self.context, field), z3c.table.interfaces.IColumn,
