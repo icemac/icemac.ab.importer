@@ -4,6 +4,4 @@
 
   <include package="icemac.ab.importer" />
 
-  <grantAll role="zope.Manager" />
-
 </configure>

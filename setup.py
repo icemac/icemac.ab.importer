@@ -46,7 +46,7 @@ setuptools.setup(
     install_requires=[
         'gocept.cache',
         'icemac.ab.locales >= 0.8',
-        'icemac.addressbook >= 2.6.dev0',
+        'icemac.addressbook >= 2.9.dev0',
         'icemac.truncatetext >= 0.2',
         'pytz',
         'setuptools',
@@ -56,6 +56,7 @@ setuptools.setup(
         'zope.generations',
         'zope.interface',
         'zope.schema',
+        'zope.securitypolicy >= 4.1',
     ],
     extras_require=dict(
         test=[

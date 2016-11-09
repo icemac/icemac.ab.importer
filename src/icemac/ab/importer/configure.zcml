@@ -10,6 +10,13 @@
      title="Import"
      />
 
+  <!-- Administrator -->
+  <grant
+     role="icemac.addressbook.global.Administrator"
+     permissions="
+        icemac.addressbook.Import
+     " />
+
   <!-- Importer -->
   <class class=".importer.Importer">
     <implements
