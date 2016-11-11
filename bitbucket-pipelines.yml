@@ -4,7 +4,6 @@ pipelines:
   default:
     - step:
         script:
-          - printf "[hostfingerprints]\nbitbucket.org = 97:8c:1b:f2:6f:14:6b:5c:3b:ec:aa:46:46:74:7c:40" > $HOME/.hgrc
           - python bootstrap.py
           - bin/buildout -n buildout:eggs-directory=../eggs
           - bin/py.test
