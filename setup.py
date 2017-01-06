@@ -19,7 +19,7 @@ setuptools.setup(
     keywords='icemac.addressbook',
     author='Michael Howitz',
     author_email='icemac@gmx.net',
-    url='http://pypi.python.org/pypi/icemac.ab.importer',
+    url='https://pypi.org/project/icemac.ab.importer',
     license='ZPL 2.1',
     classifiers=[
         'Development Status :: 5 - Production/Stable',

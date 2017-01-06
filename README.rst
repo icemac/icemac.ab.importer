@@ -1,6 +1,6 @@
 This package provides import infrastructure for `icemac.addressbook`_.
 
-.. _`icemac.addressbook` : http://pypi.python.org/pypi/icemac.addressbook
+.. _`icemac.addressbook` : https://pypi.org/project/icemac.addressbook/
 
 Copyright (c) 2008-2017 Michael Howitz
 
@@ -70,7 +70,7 @@ This package already provides an import file reader for CSV files.
 `icemac.ab.importxls`_ provides a reader for XLS files, so it could be
 a starting point, too.
 
-.. _icemac.ab.importxls: http://pypi.python.org/pypi/icemac.ab.importxls
+.. _icemac.ab.importxls: https://pypi.org/project/icemac.ab.importxls
 
 1. Write a reader class
 =======================
