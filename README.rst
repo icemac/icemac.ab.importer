@@ -2,7 +2,7 @@ This package provides import infrastructure for `icemac.addressbook`_.
 
 .. _`icemac.addressbook` : http://pypi.python.org/pypi/icemac.addressbook
 
-Copyright (c) 2008-2016 Michael Howitz
+Copyright (c) 2008-2017 Michael Howitz
 
 All Rights Reserved.
 
