@@ -2,6 +2,14 @@
 Old changes
 ===========
 
+2.0.0 (2013-11-03)
+==================
+
+- Updated supported Python version to 2.7.x.
+
+- Adapted test setup and tests to `icemac.addressbook` version 2.0.
+
+
 1.10.0 (2013-06-13)
 ===================
 
