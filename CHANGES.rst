@@ -7,7 +7,7 @@
 
 - Bring branch test coverage to 100 %.
 
-- Adapt configuration of user roles to `icemac.addressbook >= 2.9`.
+- Adapt configuration of user roles and code to `icemac.addressbook >= 2.9`.
 
 
 2.2 (2016-03-05)

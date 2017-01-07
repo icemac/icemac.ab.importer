@@ -30,6 +30,14 @@
      class="icemac.ab.importer.browser.importer.Add"
      />
 
+  <z3c:pagelet
+     name="index.html"
+     for="icemac.ab.importer.interfaces.IImportFile"
+     permission="icemac.addressbook.Import"
+     layer="icemac.addressbook.browser.interfaces.IAddressBookLayer"
+     class=".file.Edit"
+     />
+
   <z3c:addMenuItem
      manager="icemac.addressbook.browser.menus.interfaces.IAddMenu"
      for="icemac.ab.importer.interfaces.IImportFileContainer"
