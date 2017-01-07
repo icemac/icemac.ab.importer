@@ -2,7 +2,7 @@
  Changelog
 ===========
 
-2.3 (unreleased)
+2.3 (2017-01-07)
 ================
 
 - Bring branch test coverage to 100 %.
