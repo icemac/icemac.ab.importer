@@ -5,7 +5,7 @@
 2.4 (unreleased)
 ================
 
-- Nothing changed yet.
+- Update code to support `icemac.addressbook >= 2.9`.
 
 
 2.3 (2017-01-07)

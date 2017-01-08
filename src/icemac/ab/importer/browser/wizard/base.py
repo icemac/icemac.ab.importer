@@ -31,7 +31,7 @@ class FileSession(persistent.mapping.PersistentMapping):
     """Session of an import file."""
 
     file = None
-    cache = gocept.cache.property.TransactionBoundCache('_cache', dict)
+    cache = gocept.cache.property.TransactionBoundCache('_v_cache', dict)
 
 
 @zope.component.adapter(FileSession)
