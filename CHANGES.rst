@@ -26,17 +26,6 @@
 - Update code and tests to changes in `icemac.addressbook 2.6`.
 
 
-2.1.0 (2014-07-01)
-==================
-
-- The master data tab in the main menu is now highlighted when the importer
-  is displayed.
-
-- Update code and tests to changes in `icemac.addressbook 2.5`.
-
-- Add `py.test` to run the tests.
-
-
 Previous versions
 =================
 

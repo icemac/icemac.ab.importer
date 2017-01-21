@@ -2,6 +2,19 @@
 Old changes
 ===========
 
+Changelog of releases more than 2 major versions behind current version.
+
+2.1.0 (2014-07-01)
+==================
+
+- The master data tab in the main menu is now highlighted when the importer
+  is displayed.
+
+- Update code and tests to changes in `icemac.addressbook 2.5`.
+
+- Add `py.test` to run the tests.
+
+
 2.0.0 (2013-11-03)
 ==================
 
