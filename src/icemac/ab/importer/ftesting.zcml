@@ -1,7 +1,6 @@
 <configure xmlns="http://namespaces.zope.org/zope">
 
-  <include package="zope.securitypolicy" file="meta.zcml" />
-
+  <include package="icemac.addressbook" file="ftesting-base.zcml" />
   <include package="icemac.ab.importer" />
 
 </configure>
