@@ -5,7 +5,6 @@ import icemac.addressbook.testing
 import pytest
 
 
-
 pytest_plugins = 'icemac.addressbook.fixtures'
 
 # Fixtures to set-up infrastructure which are usable in tests:
