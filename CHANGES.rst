@@ -2,7 +2,7 @@
  Changelog
 ===========
 
-2.5 (unreleased)
+2.5 (2017-02-04)
 ================
 
 - Update test infrastructure to `icemac.addressbook >= 3.0`.
