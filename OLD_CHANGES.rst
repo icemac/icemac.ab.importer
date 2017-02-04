@@ -2,7 +2,18 @@
 Old changes
 ===========
 
-Changelog of releases more than 2 major versions behind current version.
+Changelog of releases more than 2 minor versions behind current version.
+
+
+2.2 (2016-03-05)
+================
+
+- Update to ``bootstrap.py`` from `zc.buildout 2.3.1`.
+
+- Update tests to only run with `py.test`.
+
+- Update code and tests to changes in `icemac.addressbook 2.6`.
+
 
 2.1.0 (2014-07-01)
 ==================

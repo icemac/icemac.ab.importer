@@ -22,16 +22,6 @@
 - Adapt configuration of user roles and code to `icemac.addressbook >= 2.9`.
 
 
-2.2 (2016-03-05)
-================
-
-- Update to ``bootstrap.py`` from `zc.buildout 2.3.1`.
-
-- Update tests to only run with `py.test`.
-
-- Update code and tests to changes in `icemac.addressbook 2.6`.
-
-
 Previous versions
 =================
 
