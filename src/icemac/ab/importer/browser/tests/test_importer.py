@@ -1,5 +1,5 @@
 from icemac.ab.importer.interfaces import IImportFile
-from mechanize import HTTPError
+from zope.testbrowser.browser import HTTPError
 import pytest
 
 # Fixtures

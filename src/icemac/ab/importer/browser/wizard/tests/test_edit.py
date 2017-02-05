@@ -10,7 +10,7 @@ def test_edit__EditFile__1(
     browser.getControl('Back').click()
     assert browser.IMPORTER_IMPORT_EDIT_URL == browser.url
     browser.getControl('file', index=1).add_file(
-        import_file('first_name'), 'text/plain', 'header.csv')
+        import_file(b'first_name'), 'text/plain', 'header.csv')
     browser.getControl('Next').click()
     assert browser.IMPORTER_IMPORT_READER_URL == browser.url
     # The original file was really replaced:
