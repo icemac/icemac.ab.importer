@@ -24,7 +24,6 @@ class DummyReader(icemac.ab.importer.reader.base.BaseReader):
 
     def getFieldSamples(self, field_name):
         """Get sample values for a field."""
-        return []
 
     def __iter__(self):
         """Iterate over the file."""

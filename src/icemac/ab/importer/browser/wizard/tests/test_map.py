@@ -66,15 +66,15 @@ def test_map__1(address_book, browser, KeywordFactory, ImportFileFactory):
     assert browser.IMPORTER_OVERVIEW_URL == browser.url
     # The new keywords have been created:
     keywords = zope.component.getUtility(IKeywords, context=address_book)
-    assert ([u'company', u'family', u'friends'] ==
-            sorted(x.title for x in keywords.get_keywords()))
+    keyword_titles = sorted(x.title for x in keywords.get_keywords())
+    assert ([u'company', u'family', u'friends'] == keyword_titles)
     # They have been associated to the persons:
     with zope.component.hooks.site(address_book):
         assert ([
             (u'Lahn', [u'family', u'friends']),
             (u'Sieg', [u'company', u'friends']),
             (u'Pech', [])] ==
-            [(x.get_name(), sorted(y.title for y in x.keywords))
+            [(x.get_name(), sorted([y.title for y in x.keywords]))
              for x in address_book.values()])
 
 
