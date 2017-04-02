@@ -59,6 +59,7 @@ class ImportFields(zc.sourcefactory.contextual.BasicContextualSourceFactory):
             title = '%s (%s)' % (field_name, samples)
         return title
 
+
 import_fields = ImportFields()
 
 
