@@ -2,7 +2,7 @@
  Changelog
 ===========
 
-2.6 (unreleased)
+2.6 (2017-04-08)
 ================
 
 - Update to changes in test infrastructure in `icemac.addressbook >= 4.0`.
