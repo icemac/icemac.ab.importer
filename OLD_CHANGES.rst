@@ -5,6 +5,14 @@ Old changes
 Changelog of releases more than 2 minor versions behind current version.
 
 
+2.3 (2017-01-07)
+================
+
+- Bring branch test coverage to 100 %.
+
+- Adapt configuration of user roles and code to `icemac.addressbook >= 2.9`.
+
+
 2.2 (2016-03-05)
 ================
 

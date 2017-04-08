@@ -22,14 +22,6 @@
 - Update code to support `icemac.addressbook >= 2.9`.
 
 
-2.3 (2017-01-07)
-================
-
-- Bring branch test coverage to 100 %.
-
-- Adapt configuration of user roles and code to `icemac.addressbook >= 2.9`.
-
-
 Previous versions
 =================
 
