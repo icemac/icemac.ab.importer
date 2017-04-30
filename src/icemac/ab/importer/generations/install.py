@@ -1,9 +1,3 @@
-# -*- coding: utf-8 -*-
-# Copyright (c) 2008-2014 Michael Howitz
-# See also LICENSE.txt
-"""Initial generation."""
-
-
 import icemac.ab.importer.install
 import icemac.addressbook.addressbook
 import icemac.addressbook.generations.utils
