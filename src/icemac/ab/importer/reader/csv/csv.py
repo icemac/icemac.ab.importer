@@ -1,5 +1,5 @@
 from __future__ import absolute_import
-from icemac.addressbook.i18n import MessageFactory as _
+from icemac.addressbook.i18n import _
 import csv
 import datetime
 import icemac.ab.importer.reader.base
