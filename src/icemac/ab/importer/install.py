@@ -7,7 +7,7 @@ import zope.component
 @zope.component.adapter(
     icemac.addressbook.addressbook.AddressBookCreated)
 def install_importer(event):
-    "Install the importer in the newly created addressbook."
+    """Install the importer in the newly created addressbook."""
     address_book = event.address_book
     icemac.addressbook.addressbook.create_and_register(
         address_book, 'importer', icemac.ab.importer.importer.Importer,

@@ -38,7 +38,7 @@ def as_data(method):
 
 
 class CSV(icemac.ab.importer.reader.base.BaseReader):
-    "Read CSV import files."
+    """Read CSV import files."""
 
     title = _(u'CSV file (comma separated fields, ISO-dates, UTF-8 encoded)')
     encoding = 'utf-8'
