@@ -40,10 +40,9 @@ class NoXMLReader(DummyReader):
         return ['field1']
 
 
+@zope.interface.implementer(icemac.ab.importer.interfaces.IImportFile)
 class DummyImportFile(object):
     """A dummy import file implemention."""
-
-    zope.interface.implements(icemac.ab.importer.interfaces.IImportFile)
 
     def __init__(self, data):
         self.data = data

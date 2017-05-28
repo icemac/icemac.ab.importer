@@ -4,11 +4,10 @@ import zope.component
 import zope.interface
 
 
+@zope.component.adapter(None)
+@zope.interface.implementer(icemac.ab.importer.interfaces.IImportFileReader)
 class BaseReader(object):
     """Base class for import file readers."""
-
-    zope.interface.implements(icemac.ab.importer.interfaces.IImportFileReader)
-    zope.component.adapts(None)
 
     title = None
     file = None

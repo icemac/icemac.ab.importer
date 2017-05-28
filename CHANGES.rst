@@ -5,7 +5,8 @@
 2.7 (unreleased)
 ================
 
-- Nothing changed yet.
+- Change `zope.interface.implements[Only]` and `zope.component.adapts` to
+  class decorators.
 
 
 2.6 (2017-04-08)
