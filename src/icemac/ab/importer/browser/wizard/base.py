@@ -15,7 +15,7 @@ import zope.security.proxy
 class ImportWizard(icemac.addressbook.browser.wizard.Wizard):
     """Wizard to import data."""
 
-    label = _(u'Import Wizard')
+    title = _(u'Import Wizard')
 
     def setUpSteps(self):
         return [

@@ -1,9 +1,16 @@
 <configure
    xmlns="http://namespaces.zope.org/zope"
+   xmlns:grok="http://namespaces.zope.org/grok"
    i18n_domain="icemac.addressbook">
 
   <include package="zope.security" file="meta.zcml" />
   <include package="zope.component" file="meta.zcml" />
+
+  <include package="grokcore.component" file="meta.zcml"/>
+  <grok:grok package="."
+             exclude="generations
+                      conftest
+                      test_*" />
 
   <permission
      id="icemac.addressbook.Import"

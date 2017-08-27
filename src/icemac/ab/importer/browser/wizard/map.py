@@ -477,7 +477,7 @@ class MapFields(z3c.form.group.GroupForm,
                 icemac.ab.importer.browser.wizard.base.FileSessionStorageStep):
     "Map the fields in the import file to fields in the addressbook."
 
-    label = _(u'Map fields')
+    title = label = _(u'Map fields')
 
     def __init__(self, *args, **kw):
         super(MapFields, self).__init__(*args, **kw)

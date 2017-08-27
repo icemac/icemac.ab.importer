@@ -1,5 +1,4 @@
 <tal:domain i18n:domain="icemac.addressbook">
-  <h2 i18n:translate="">Files for import</h2>
   <div tal:replace="structure view/renderTable" />
   <br />
   <a i18n:translate=""

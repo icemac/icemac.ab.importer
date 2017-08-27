@@ -23,7 +23,7 @@ class ReaderSettings(
     """Step to set the reader and the number of entries."""
 
     interface = IReaderSettings
-    label = _(u'Reader settings')
+    title = label = _(u'Reader settings')
 
     @property
     def showBackButton(self):

@@ -1,14 +1,15 @@
 # -*- coding: utf-8 -*-
 from icemac.addressbook.i18n import _
+import icemac.addressbook.browser.wizard
 import zope.traversing.api
 import zope.traversing.browser.absoluteurl
-import z3c.wizard.step
 
 
-class Complete(z3c.wizard.step.Step):
+class Complete(icemac.addressbook.browser.wizard.Step):
     """Step displaying that the import was completed."""
 
-    label = _(u'Complete')
+    title = label = _(u'Complete')
+    fields = {}
 
     def applyChanges(self, data):
         super(Complete, self).applyChanges(data)

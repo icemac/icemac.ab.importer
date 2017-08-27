@@ -33,7 +33,8 @@ def test_importer__CRUD__1(address_book, browser, import_file):
     # List the file
     assert browser.IMPORTER_OVERVIEW_URL == browser.url
     assert '>file.txt</a>' in browser.contents
-    assert browser.IMPORTER_FILE_IMPORT_URL == browser.getLink('Import').url
+    assert browser.IMPORTER_FILE_IMPORT_URL == browser.getLink(
+        'Import', index=1).url
     # Read the uploaded file
     browser.getLink('file.txt').click()
     assert browser.IMPORTER_FILE_EDIT_URL == browser.url

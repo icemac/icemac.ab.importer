@@ -10,7 +10,7 @@ class EditFile(icemac.addressbook.browser.wizard.Step):
     """Wizard step to edit the import file."""
 
     interface = icemac.addressbook.file.interfaces.IFile
-    label = _(u'Edit import file')
+    title = label = _(u'Edit import file')
 
     @property
     def available(self):

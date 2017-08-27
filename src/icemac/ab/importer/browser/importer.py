@@ -1,16 +1,30 @@
 # -*- coding: utf-8 -*-
 from icemac.addressbook.i18n import _
+import grokcore.component as grok
 import icemac.ab.importer.browser.table
 import icemac.ab.importer.interfaces
+import icemac.addressbook.browser.breadcrumb
 import icemac.addressbook.browser.file.file
 import icemac.addressbook.browser.table
 import z3c.table.column
 import zope.security.proxy
 
 
+class ImporterBreadCrumb(
+        icemac.addressbook.browser.breadcrumb.MasterdataChildBreadcrumb):
+    """Breadcrumb for the importer."""
+
+    grok.adapts(
+        icemac.ab.importer.interfaces.IImporter,
+        icemac.addressbook.browser.interfaces.IAddressBookLayer)
+
+    title = _('Importer')
+
+
 class Overview(icemac.addressbook.browser.table.PageletTable):
     """List of already uploaded import files + action links."""
 
+    title = _('Files for import')
     no_rows_message = _(u'No import files uploaded, yet.')
 
     def setUpColumns(self):

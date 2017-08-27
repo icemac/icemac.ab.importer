@@ -197,7 +197,7 @@ class ImportedTable(icemac.addressbook.browser.table.Table):
 class Review(icemac.ab.importer.browser.wizard.base.FileSessionStorageStep):
 
     interface = ReviewFields
-    label = _(u'Review imported data')
+    title = label = _(u'Review imported data')
 
     def renderImportedTable(self):
         table = ImportedTable(self.context, self.request)

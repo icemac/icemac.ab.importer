@@ -8,8 +8,8 @@ class Edit(icemac.addressbook.browser.base.BaseEditForm):
     """Edit an import file."""
 
     interface = icemac.addressbook.file.interfaces.IFile
+    title = _('Edit file')
     next_url = 'parent'
-    label = _('Edit file')
 
     def applyChanges(self, data):
         changes = super(Edit, self).applyChanges(data)

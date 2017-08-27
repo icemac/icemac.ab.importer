@@ -64,7 +64,7 @@ def test_review__ImportedTable__renderRow__1(
         example_data, 'text/plain', 'errors.csv')
     browser.getControl('Add').click()
     assert '"errors.csv" added.' == browser.message
-    browser.getLink('Import', index=0).click()
+    browser.getLink('Import', index=1).click()
     assert browser.IMPORTER_FILE_IMPORT_URL == browser.url
     # Map the fields:
     browser.getControl('Next').click()

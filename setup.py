@@ -45,8 +45,9 @@ setuptools.setup(
     zip_safe=False,
     install_requires=[
         'gocept.cache',
+        'grokcore.component',
         'icemac.ab.locales >= 0.8',
-        'icemac.addressbook >= 4.0.dev0',
+        'icemac.addressbook >= 4.2.dev0',
         'icemac.truncatetext >= 0.2',
         'pytz',
         'setuptools',
