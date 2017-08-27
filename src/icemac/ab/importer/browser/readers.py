@@ -1,8 +1,8 @@
 # -*- coding: utf-8 -*-
 from icemac.addressbook.i18n import _
+import icemac.ab.importer.interfaces
 import icemac.addressbook.browser.base
 import zope.component
-import icemac.ab.importer.interfaces
 
 
 class Readers(icemac.addressbook.browser.base.FlashView):
