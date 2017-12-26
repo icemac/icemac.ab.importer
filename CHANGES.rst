@@ -10,6 +10,8 @@
 - Change `zope.interface.implements[Only]` and `zope.component.adapts` to
   class decorators.
 
+- Also release as wheel.
+
 
 2.6 (2017-04-08)
 ================
