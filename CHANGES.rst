@@ -2,7 +2,7 @@
  Changelog
 ===========
 
-2.7 (unreleased)
+2.7 (2017-12-26)
 ================
 
 - Add breadcrumbs.
