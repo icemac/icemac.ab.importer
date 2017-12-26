@@ -5,6 +5,12 @@ Old changes
 Changelog of releases more than 2 minor versions behind current version.
 
 
+2.4 (2017-01-21)
+================
+
+- Update code to support `icemac.addressbook >= 2.9`.
+
+
 2.3 (2017-01-07)
 ================
 

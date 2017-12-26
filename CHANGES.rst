@@ -27,12 +27,6 @@
 - Update test infrastructure to `icemac.addressbook >= 3.0`.
 
 
-2.4 (2017-01-21)
-================
-
-- Update code to support `icemac.addressbook >= 2.9`.
-
-
 Previous versions
 =================
 
