@@ -22,7 +22,7 @@ def as_data(method):
                 return None
             try:
                 time_tuple = time.strptime(value.strip(), date_format)
-            except:
+            except Exception:
                 # no date value, do normal convert
                 return unicode(value, encoding)
             else:

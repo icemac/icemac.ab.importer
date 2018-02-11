@@ -26,7 +26,7 @@ class BaseReader(object):
         try:
             reader = cls.open(file_handle)
             return bool(list(reader.getFieldNames()))
-        except:
+        except Exception:
             return False
 
     def __del__(self):
