@@ -5,7 +5,7 @@ import setuptools
 
 def read(*path_elements):
     """Read a path."""
-    return file(os.path.join(*path_elements)).read()
+    return open(os.path.join(*path_elements)).read()
 
 version = '2.8.dev0'
 long_description = '\n\n'.join([read('README.rst'),
