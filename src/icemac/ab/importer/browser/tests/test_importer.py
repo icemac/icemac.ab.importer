@@ -1,5 +1,4 @@
 from icemac.ab.importer.interfaces import IImportFile
-from zope.testbrowser.browser import HTTPError
 import pytest
 
 # Fixtures
@@ -86,18 +85,14 @@ def test_importer__Overview__2(address_book, browser, importer_link, role):
 def test_importer__Overview__3(address_book, browser, role):
     """It is not allowed to be accessed by some user roles."""
     browser.login(role)
-    with pytest.raises(HTTPError) as err:
-        browser.open(browser.IMPORTER_OVERVIEW_URL)
-    assert 'HTTP Error 403: Forbidden' == str(err.value)
+    browser.assert_forbidden(browser.IMPORTER_OVERVIEW_URL)
 
 
 @pytest.mark.parametrize('role', ['editor', 'visitor'])
 def test_importer__Add__1(address_book, browser, role):
     """It is not allowed to be accessed by some user roles."""
     browser.login(role)
-    with pytest.raises(HTTPError) as err:
-        browser.open(browser.IMPORTER_FILE_ADD_URL)
-    assert 'HTTP Error 403: Forbidden' == str(err.value)
+    browser.assert_forbidden(browser.IMPORTER_FILE_ADD_URL)
 
 
 def test_importer__Add__2(address_book, browser, import_file):
@@ -115,15 +110,11 @@ def test_importer__Add__2(address_book, browser, import_file):
 def test_importer__Edit__1(address_book, browser, role):
     """It is not allowed to be accessed by some user roles."""
     browser.login(role)
-    with pytest.raises(HTTPError) as err:
-        browser.open(browser.IMPORTER_FILE_EDIT_URL)
-    assert 'HTTP Error 403: Forbidden' == str(err.value)
+    browser.assert_forbidden(browser.IMPORTER_FILE_EDIT_URL)
 
 
 @pytest.mark.parametrize('role', ['editor', 'visitor'])
 def test_importer__Delete__1(address_book, browser, role):
     """It is not allowed to be accessed by some user roles."""
     browser.login(role)
-    with pytest.raises(HTTPError) as err:
-        browser.open(browser.IMPORTER_FILE_DELETE_URL)
-    assert 'HTTP Error 403: Forbidden' == str(err.value)
+    browser.assert_forbidden(browser.IMPORTER_FILE_DELETE_URL)
