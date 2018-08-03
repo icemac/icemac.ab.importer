@@ -5,6 +5,12 @@ Old changes
 Changelog of releases more than 2 minor versions behind current version.
 
 
+2.5 (2017-02-04)
+================
+
+- Update test infrastructure to `icemac.addressbook >= 3.0`.
+
+
 2.4 (2017-01-21)
 ================
 

@@ -29,12 +29,6 @@
 - Bring test coverage to 100 % including the tests themselves.
 
 
-2.5 (2017-02-04)
-================
-
-- Update test infrastructure to `icemac.addressbook >= 3.0`.
-
-
 Previous versions
 =================
 
