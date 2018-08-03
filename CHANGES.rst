@@ -7,6 +7,8 @@
 
 - Update to changes in test infrastructure in `icemac.addressbook >= 7.0`.
 
+- Change license from ZPL to MIT.
+
 
 2.7 (2017-12-26)
 ================
