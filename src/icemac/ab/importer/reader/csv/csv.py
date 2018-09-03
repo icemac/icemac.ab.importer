@@ -2,6 +2,7 @@ from __future__ import absolute_import
 from icemac.addressbook.i18n import _
 import csv
 import datetime
+import functools
 import icemac.ab.importer.reader.base
 import time
 
@@ -16,6 +17,7 @@ def as_unicode(method):
 
 
 def as_data(method):
+    @functools.wraps(method)
     def decorated(*args):
         def convert(value):
             if value == '':
