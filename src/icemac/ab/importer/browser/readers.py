@@ -8,7 +8,7 @@ import zope.component
 class Readers(icemac.addressbook.browser.base.FlashView):
     """List the known readers."""
 
-    title = _('Registered import file readers')
+    title = _('Supported import file formats')
 
     def readers(self):
         readers = zope.component.getAdapters(

@@ -2,5 +2,5 @@
   <div tal:replace="structure view/renderTable" />
   <br />
   <a i18n:translate=""
-     href="@@readers.html">Registered import file readers</a>
+     href="@@readers.html">Supported import file formats</a>
 </tal:domain>

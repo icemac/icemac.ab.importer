@@ -7,6 +7,8 @@
 
 - Improve naming of import fields and add descriptions to them.
 
+- Fix wording mess of import file readers, they are now named as file formats.
+
 
 2.8 (2018-08-03)
 ================
