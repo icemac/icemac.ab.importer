@@ -10,7 +10,7 @@ def test_wizard__end_to_end__1(address_book, browser, ImportFileFactory):
     # readers capable to import the file are displayed:
 
     assert (['CSV file (comma separated fields, ISO-dates, UTF-8 encoded)'] ==
-            browser.getControl('Import file reader').displayOptions)
+            browser.getControl('Import file format').displayOptions)
     browser.getControl('Next').click()
     assert browser.IMPORTER_IMPORT_MAP_URL == browser.url
     # For each field in the address book the corresponding field in the import

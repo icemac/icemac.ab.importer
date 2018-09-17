@@ -5,7 +5,7 @@
 2.9 (unreleased)
 ================
 
-- Improve naming of an import field and add a description to it.
+- Improve naming of import fields and add descriptions to them.
 
 
 2.8 (2018-08-03)

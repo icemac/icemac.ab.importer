@@ -10,7 +10,9 @@ class IReaderSettings(zope.interface.Interface):
     """Reader Setttings."""
 
     reader = zope.schema.Choice(
-        title=_(u'Import file reader'),
+        title=_(u'Import file format'),
+        description=_(
+            "If the drop-down is empty the file's format is not supported."),
         source=icemac.ab.importer.source.Importers())
 
     entries_number = zope.schema.Int(

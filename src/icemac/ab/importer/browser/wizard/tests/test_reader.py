@@ -9,7 +9,7 @@ def test_reader__ReaderSettings__1(address_book, browser, ImportFileFactory):
     browser.open(browser.IMPORTER_FILE_IMPORT_URL)
     # There is no import file reader, as the CSV reader expects a first line
     # containing the field names:
-    assert [] == browser.getControl('Import file reader').displayOptions
+    assert [] == browser.getControl('Import file format').displayOptions
 
 
 def test_reader__ReaderSettings__2(address_book, browser, ImportFileFactory):
