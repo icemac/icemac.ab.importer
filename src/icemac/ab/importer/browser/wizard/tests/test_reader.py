@@ -22,10 +22,8 @@ def test_reader__ReaderSettings__2(address_book, browser, ImportFileFactory):
         'Four,,,'])
     browser.login('mgr')
     browser.open(browser.IMPORTER_FILE_IMPORT_URL)
-    assert (
-        '1' ==
-        browser.getControl('Number of e.g. phone numbers per person').value)
-    browser.getControl('Number of e.g. phone numbers per person').value = '3'
+    assert '1' == browser.getControl('person sub-entities').value
+    browser.getControl('person sub-entities').value = '3'
     browser.getControl('Next').click()
     assert browser.IMPORTER_IMPORT_MAP_URL == browser.url
     browser.getControl('last name').displayValue = [

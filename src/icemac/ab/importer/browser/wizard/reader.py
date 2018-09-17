@@ -14,7 +14,11 @@ class IReaderSettings(zope.interface.Interface):
         source=icemac.ab.importer.source.Importers())
 
     entries_number = zope.schema.Int(
-        title=_(u'Number of e.g. phone numbers per person'),
+        title=_('person sub-entities'),
+        description=_(
+            'This is the maximum number per person of postal addresses, phone'
+            ' numbers, e-mail addresses resp. homepage addresses the import'
+            ' file contains.'),
         min=1, max=9, default=1)
 
 
