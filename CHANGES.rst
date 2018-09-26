@@ -9,6 +9,8 @@
 
 - Fix wording mess of import file readers, they are now named as file formats.
 
+- Update to changes in test infrastructure in `icemac.addressbook >= 8.0`.
+
 
 2.8 (2018-08-03)
 ================

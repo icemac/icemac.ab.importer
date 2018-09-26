@@ -50,7 +50,7 @@ def test_importer__CRUD__1(address_book, browser, import_file):
     browser.open(browser.IMPORTER_FILE_EDIT_URL)
     browser.getControl('file', index=1).add_file(
         import_file('Import2 data2 file2'), 'text/csv', 'file2.csv')
-    browser.getControl('Apply').click()
+    browser.getControl('Save').click()
     assert 'Data successfully updated.' == browser.message
     assert browser.IMPORTER_OVERVIEW_URL == browser.url
     # Delete file
