@@ -11,6 +11,9 @@
 
 - Update to changes in test infrastructure in `icemac.addressbook >= 8.0`.
 
+- Change installation procedure from `bootstrap.py` to `virtualenv`,
+  see `README.txt`.
+
 
 2.8 (2018-08-03)
 ================
