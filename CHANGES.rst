@@ -2,7 +2,7 @@
  Changelog
 ===========
 
-2.9 (unreleased)
+2.9 (2018-10-13)
 ================
 
 - Improve naming of import fields and add descriptions to them.
@@ -32,14 +32,6 @@
   class decorators.
 
 - Also release as wheel.
-
-
-2.6 (2017-04-08)
-================
-
-- Update to changes in test infrastructure in `icemac.addressbook >= 4.0`.
-
-- Bring test coverage to 100 % including the tests themselves.
 
 
 Previous versions

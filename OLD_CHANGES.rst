@@ -5,6 +5,14 @@ Old changes
 Changelog of releases more than 2 minor versions behind current version.
 
 
+2.6 (2017-04-08)
+================
+
+- Update to changes in test infrastructure in `icemac.addressbook >= 4.0`.
+
+- Bring test coverage to 100 % including the tests themselves.
+
+
 2.5 (2017-02-04)
 ================
 
