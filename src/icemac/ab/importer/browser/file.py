@@ -1,13 +1,13 @@
 from icemac.addressbook.i18n import _
+import icemac.ab.importer.interfaces
 import icemac.addressbook.browser.base
 import icemac.addressbook.browser.file.file
-import icemac.addressbook.file.interfaces
 
 
 class Edit(icemac.addressbook.browser.base.BaseEditForm):
     """Edit an import file."""
 
-    interface = icemac.addressbook.file.interfaces.IFile
+    interface = icemac.ab.importer.interfaces.IImportFile
     title = _('Edit file')
     next_url = 'parent'
 

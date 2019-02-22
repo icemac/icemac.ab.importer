@@ -5,7 +5,8 @@
 2.10 (unreleased)
 =================
 
-- Nothing changed yet.
+- Do not use field label customizations set for file fields (new feature in
+  icemac.addressbook 8.1) on fields of import files.
 
 
 2.9 (2018-10-13)

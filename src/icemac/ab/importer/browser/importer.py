@@ -65,7 +65,11 @@ def provide_IImportFile(file):
 class Add(icemac.addressbook.browser.file.file.Add):
     """Add a file with the `IImportFile` marker interface."""
 
+    interface = icemac.ab.importer.interfaces.IImportFile
+
     def create(self, data):
-        file = super(Add, self).create(data)
+        file = icemac.addressbook.utils.create_obj(self.class_)
         provide_IImportFile(file)
+        icemac.addressbook.browser.file.file.update_blob(
+            self.widgets['data'], file)
         return file

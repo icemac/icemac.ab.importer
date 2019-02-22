@@ -1,4 +1,5 @@
 # -*- coding: utf-8 -*-
+import icemac.addressbook.file.interfaces
 import zope.interface
 import zope.schema
 
@@ -13,6 +14,16 @@ class IImportFileContainer(zope.interface.Interface):
 
 class IImportFile(zope.interface.Interface):
     """Marker interface for import files."""
+
+
+# Copy the fields from i.a.file.interfaces.IFile, so we have the same fields
+# but do not get the customizations of the field labels:
+for name, field in zope.schema.getFieldsInOrder(
+        icemac.addressbook.file.interfaces.IFile):
+    clone = field.bind(None)
+    clone.interface = IImportFile
+    IImportFile._InterfaceClass__attrs[name] = clone
+IImportFile.changed(IImportFile)
 
 
 class IImportFileReader(zope.interface.Interface):
