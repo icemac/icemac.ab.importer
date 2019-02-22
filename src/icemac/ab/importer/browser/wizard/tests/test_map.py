@@ -5,6 +5,7 @@ from icemac.addressbook.interfaces import IEMailAddress
 from icemac.addressbook.interfaces import IKeywords, IEntity, IPerson
 from icemac.addressbook.interfaces import IPostalAddress, IPhoneNumber
 import datetime
+import icemac.addressbook.interfaces
 import zope.component
 import zope.component.hooks
 
@@ -189,3 +190,19 @@ def test_map__3(address_book, browser, ImportFileFactory):
     assert browser.IMPORTER_IMPORT_MAP_URL == browser.url
     assert (['Current step:', 'Map fields'] ==
             browser.etree.xpath('//div[@class="currStep"]/span/text()'))
+
+
+def test_map__4(address_book, browser, ImportFileFactory):
+    """It respects the customization of pre-defined fields."""
+    field = icemac.addressbook.interfaces.IPersonName['first_name']
+    customization = icemac.addressbook.interfaces.IFieldCustomization(
+        address_book)
+    customization.set_value(
+        field, u'label', u'first name (given name or Christian name)')
+
+    ImportFileFactory(address_book, u'del.csv', ["last_name", "Vipraschil"])
+    browser.login('mgr')
+    browser.open(browser.IMPORTER_FILE_IMPORT_URL)
+    browser.getControl('Next').click()
+    assert browser.IMPORTER_IMPORT_MAP_URL == browser.url
+    assert browser.getControl('first name (given name or Christian name)')

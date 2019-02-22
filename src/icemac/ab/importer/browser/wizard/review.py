@@ -112,6 +112,10 @@ class ImportedTable(icemac.addressbook.browser.table.Table):
         weight = 0
         entities = zope.component.getUtility(
             icemac.addressbook.interfaces.IEntities)
+        address_book = icemac.addressbook.interfaces.IAddressBook(None)
+        customization = icemac.addressbook.interfaces.IFieldCustomization(
+            address_book)
+
         for entity in entities.getMainEntities():
             if entity.class_name == 'icemac.addressbook.person.Person':
                 entries_number = 1
@@ -123,6 +127,7 @@ class ImportedTable(icemac.addressbook.browser.table.Table):
                 first = True
                 for field_name, field in entity.getFields():
                     weight += 1
+                    field_title = customization.query_value(field, u'label')
                     if first:
                         if index == 0:
                             title_prefix = main_prefix
@@ -133,11 +138,11 @@ class ImportedTable(icemac.addressbook.browser.table.Table):
                                                title=entity.title))
                         header = _(
                             '<i>${prefix}</i><br />${title}',
-                            mapping=dict(prefix=title, title=field.title))
+                            mapping=dict(prefix=title, title=field_title))
                         first = False
                     else:
                         header = _('<br />${title}',
-                                   mapping=dict(title=field.title))
+                                   mapping=dict(title=field_title))
                     cols.append(self._create_col(
                         entity, field, field_name, weight, header, index))
         return cols

@@ -3,6 +3,7 @@ from StringIO import StringIO
 from icemac.addressbook.interfaces import IKeywords
 from mock import patch
 import gocept.country.db
+import icemac.addressbook.interfaces
 import pytest
 import zope.component
 
@@ -181,6 +182,29 @@ def test_review__ImportedTable__renderTable__1(
     assert browser.IMPORTER_IMPORT_COMPLETE_URL == browser.url
     browser.getControl('Complete').click()
     assert browser.IMPORTER_OVERVIEW_URL == browser.url
+
+
+def test_review__ImportedTable__setUpColumns__1(
+        address_book, browser, ImportFileFactory):
+    """It respects customized labels of pre-defined fields."""
+    first_name_field = icemac.addressbook.interfaces.IPersonName['first_name']
+    birth_date_field = icemac.addressbook.interfaces.IPersonData['birth_date']
+    customization = icemac.addressbook.interfaces.IFieldCustomization(
+        address_book)
+    customization.set_value(
+        first_name_field, u'label', u'given name or Christian name')
+    customization.set_value(
+        birth_date_field, u'label', u'date of birth (ISO)')
+
+    ImportFileFactory(address_book, u'header.csv', ['last_name', 'Vrba'])
+    browser.login('mgr')
+    browser.open(browser.IMPORTER_FILE_IMPORT_URL)
+    browser.getControl('Next').click()
+    assert browser.IMPORTER_IMPORT_MAP_URL == browser.url
+    browser.getControl('last name').displayValue = ['last_name']
+    browser.getControl('Next').click()
+    assert 'given name or Christian name' in browser.contents
+    assert 'date of birth (ISO)' in browser.contents
 
 
 def test_review__Review__applyChanges__1(

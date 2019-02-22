@@ -456,9 +456,14 @@ class FieldsGroup(z3c.form.group.Group):
         self.label = label
         self.prefix = prefix
         fields = []
+        address_book = icemac.addressbook.interfaces.IAddressBook(None)
+        customization = icemac.addressbook.interfaces.IFieldCustomization(
+            address_book)
+
         for field_name, field in entity.getFields():
+            field_title = customization.query_value(field, u'label')
             choice = zope.schema.Choice(
-                title=field.title, description=field.description,
+                title=field_title, description=field.description,
                 required=False, source=import_fields)
             choice.__name__ = field_name
             fields.append(choice)
