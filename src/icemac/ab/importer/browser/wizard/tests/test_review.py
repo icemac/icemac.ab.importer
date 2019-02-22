@@ -49,7 +49,7 @@ def test_review__ImportedTable__renderRow__1(
         address_book, browser, example_data):
     """It renders error messages if data does not match the constraints.
 
-    There are a number of constraints the imported data must fulfill
+    There are a number of constraints the imported data must fulfil
     otherwise error messages are displayed. Most constraints are tested here
     together.
 
@@ -239,5 +239,3 @@ def test_review__Review__applyChanges__1(
     assert [u'family'] == sorted(x.title for x in keywords.get_keywords())
     # No new persons have been created:
     assert [] == list(address_book)
-
-# delete ../keywords.txt
