@@ -2,7 +2,7 @@ This package provides import infrastructure for `icemac.addressbook`_.
 
 .. _`icemac.addressbook` : https://pypi.org/project/icemac.addressbook/
 
-Copyright (c) 2008-2018 Michael Howitz
+Copyright (c) 2008-2019 Michael Howitz
 
 This package is licensed under the MIT License, see LICENSE.txt inside the
 package.
