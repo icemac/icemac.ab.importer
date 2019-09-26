@@ -5,7 +5,7 @@
 2.10 (unreleased)
 =================
 
-- Adapt to new feature in icemac.addressbook 8.1: customization of the labels
+- Adapt to new feature in `icemac.addressbook 9.0`: customization of the labels
   of pre-defined fields:
 
     + use customized labels in import forms
@@ -13,6 +13,7 @@
     + do not use field label customizations which are set for file fields on
       fields of import files.
 
+- Adapt tests to `icemac.addressbook >= 9.0`.
 
 2.9 (2018-10-13)
 ================

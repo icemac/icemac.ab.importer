@@ -42,7 +42,7 @@ setuptools.setup(
         'gocept.cache',
         'grokcore.component',
         'icemac.ab.locales >= 0.8',
-        'icemac.addressbook >= 8.1.dev0',
+        'icemac.addressbook >= 9.0.dev0',
         'icemac.truncatetext >= 0.2',
         'pytz',
         'setuptools',
