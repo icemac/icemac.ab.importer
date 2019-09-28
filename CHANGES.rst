@@ -36,17 +36,6 @@
 - Change license from ZPL to MIT.
 
 
-2.7 (2017-12-26)
-================
-
-- Add breadcrumbs.
-
-- Change `zope.interface.implements[Only]` and `zope.component.adapts` to
-  class decorators.
-
-- Also release as wheel.
-
-
 Previous versions
 =================
 

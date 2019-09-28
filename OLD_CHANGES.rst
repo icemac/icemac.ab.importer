@@ -5,6 +5,17 @@ Old changes
 Changelog of releases more than 2 minor versions behind current version.
 
 
+2.7 (2017-12-26)
+================
+
+- Add breadcrumbs.
+
+- Change `zope.interface.implements[Only]` and `zope.component.adapts` to
+  class decorators.
+
+- Also release as wheel.
+
+
 2.6 (2017-04-08)
 ================
 
