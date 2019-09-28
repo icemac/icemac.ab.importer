@@ -2,7 +2,7 @@
  Changelog
 ===========
 
-2.10 (unreleased)
+2.10 (2019-09-28)
 =================
 
 - Adapt to new feature in `icemac.addressbook 9.0`: customization of the labels
