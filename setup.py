@@ -7,7 +7,7 @@ def read(*path_elements):
     """Read a path."""
     return open(os.path.join(*path_elements)).read()
 
-version = '2.10'
+version = '2.11.dev0'
 long_description = '\n\n'.join([read('README.rst'),
                                 read('CHANGES.rst')])
 
