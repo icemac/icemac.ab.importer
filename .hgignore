@@ -3,6 +3,7 @@ syntax: glob
 *.egg-info
 *.pyc
 .DS_Store
+.Python
 .cache/
 .coverage
 .installed.cfg
@@ -12,5 +13,7 @@ bin/
 cache/*.py
 develop-eggs/
 htmlcov/
+include/
+lib/
 my-buildout.cfg
 parts/
