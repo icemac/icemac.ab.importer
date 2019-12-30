@@ -34,14 +34,6 @@
   see `README.txt`.
 
 
-2.8 (2018-08-03)
-================
-
-- Update to changes in test infrastructure in `icemac.addressbook >= 7.0`.
-
-- Change license from ZPL to MIT.
-
-
 Previous versions
 =================
 
