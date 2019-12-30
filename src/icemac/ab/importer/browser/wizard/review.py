@@ -1,5 +1,6 @@
 # -*- coding: utf-8 -*-
 from icemac.addressbook.i18n import _
+import grokcore.component as grok
 import icemac.ab.importer.browser.wizard.base
 import icemac.addressbook.browser.table
 import icemac.addressbook.interfaces
@@ -197,6 +198,26 @@ class ImportedTable(icemac.addressbook.browser.table.Table):
         addressbook = icemac.addressbook.interfaces.IAddressBook(self.context)
         for id in self.session.get('imported', []):
             yield addressbook[id]
+
+
+@grok.adapter(
+    icemac.addressbook.file.interfaces.IFile,
+    icemac.addressbook.browser.interfaces.IAddressBookLayer,
+    ImportedTable,
+    zope.interface.Interface)
+@grok.implementer(z3c.table.interfaces.IColumnHeader)
+class ImportedTableColumnHeader(grok.MultiAdapter):
+    """Column header implementation which does not HTML escape."""
+
+    def __init__(self, context, request, table, column):
+        self.request = request
+        self.column = column
+
+    def update(self):
+        pass
+
+    def render(self):
+        return zope.i18n.translate(self.column.header, context=self.request)
 
 
 class Review(icemac.ab.importer.browser.wizard.base.FileSessionStorageStep):

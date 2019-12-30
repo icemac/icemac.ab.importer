@@ -5,7 +5,7 @@
 2.11 (unreleased)
 =================
 
-- Nothing changed yet.
+- Adapt code to `icemac.addressbook >= 9.2`.
 
 
 2.10 (2019-09-28)
