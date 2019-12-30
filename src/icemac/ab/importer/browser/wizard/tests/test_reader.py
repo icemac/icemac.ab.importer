@@ -115,5 +115,3 @@ def test_reader__ReaderSettings__2(address_book, browser, ImportFileFactory):
     assert None is p4.default_phone_number.number
     assert ([None] ==
             [x.number for x in p4.values() if IPhoneNumber.providedBy(x)])
-
-# delete ../multientries.txt
