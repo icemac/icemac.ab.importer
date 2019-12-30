@@ -2,7 +2,7 @@
  Changelog
 ===========
 
-2.11 (unreleased)
+2.11 (2019-12-30)
 =================
 
 - Adapt code to `icemac.addressbook >= 9.2`.
