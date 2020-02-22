@@ -5,7 +5,7 @@
 2.12 (unreleased)
 =================
 
-- Nothing changed yet.
+- Move repository to https://github.com/icemac/icemac.ab.importer.
 
 
 2.11 (2019-12-30)

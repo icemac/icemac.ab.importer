@@ -38,9 +38,9 @@ Source code
 
 Get the source code::
 
-   $ hg clone https://bitbucket.org/icemac/icemac.ab.importer
+   $ git clone https://github.com/icemac/icemac.ab.importer
 
-or fork me on: https://bitbucket.org/icemac/icemac.ab.importer
+or fork me at https://github.com/icemac/icemac.ab.importer.
 
 Running Tests
 =============
