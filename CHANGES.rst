@@ -7,6 +7,8 @@
 
 - Move repository to https://github.com/icemac/icemac.ab.importer.
 
+- Adapt code to `icemac.addressbook >= 9.3`.
+
 
 2.11 (2019-12-30)
 =================
