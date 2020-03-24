@@ -2,7 +2,7 @@
  Changelog
 ===========
 
-2.12 (unreleased)
+2.12 (2020-03-24)
 =================
 
 - Move repository to https://github.com/icemac/icemac.ab.importer.
