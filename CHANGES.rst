@@ -29,18 +29,6 @@
 
 - Adapt tests to `icemac.addressbook >= 9.0`.
 
-2.9 (2018-10-13)
-================
-
-- Improve naming of import fields and add descriptions to them.
-
-- Fix wording mess of import file readers, they are now named as file formats.
-
-- Update to changes in test infrastructure in `icemac.addressbook >= 8.0`.
-
-- Change installation procedure from `bootstrap.py` to `virtualenv`,
-  see `README.txt`.
-
 
 Previous versions
 =================
