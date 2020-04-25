@@ -112,15 +112,15 @@ def test_map__2(
         'True',
         '2009-10-31 11:31:00',
         'DE',
-        '3',
         'Sachsen-Anhalt',
+        '3',
         '4.3',
         u'I do not like long and …',
         'User',
         'True',
         'DE',
-        '6',
         'Sachsen',
+        '6',
         '1E+3',
         'Nobody',
         'False',
@@ -136,8 +136,8 @@ def test_map__2(
         (u'last name', u'Utzer'),
         (u'photo permission?', True),
         (u'last seen', datetime.datetime(2009, 10, 31, 11, 31)),
-        (u'number of letters', 3),
         (u'state', u'Sachsen-Anhalt'),
+        (u'number of letters', 3),
         (u'cost per minute', Decimal('4.3')),
         (u'mail box text', u'I do not like long and boring mail box texts '
                            u'where people tell a whole story instead of '
@@ -147,8 +147,8 @@ def test_map__2(
     assert ([
         (u'last name', u'User'),
         (u'photo permission?', True),
-        (u'number of letters', 6),
         (u'state', u'Sachsen'),
+        (u'number of letters', 6),
         (u'cost per minute', Decimal('1E+3'))
     ] == list(fields_and_values(p2)))
     p3 = address_book['Person-3']
