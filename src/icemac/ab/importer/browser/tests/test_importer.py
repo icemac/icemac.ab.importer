@@ -7,8 +7,8 @@ import pytest
 @pytest.fixture('function')
 def importer_link(browser):
     """Generate the importer link rendered on the master data view."""
-    return '<a href="{}"><span>Import data</span></a>'.format(
-        browser.IMPORTER_OVERVIEW_URL)
+    return b'<a href="%s"><span>Import data</span></a>' % (
+        browser.IMPORTER_OVERVIEW_URL.encode('ascii'))
 
 
 # Tests
@@ -26,7 +26,7 @@ def test_importer__CRUD__1(address_book, browser, import_file):
     browser.getLink('file').click()
     assert browser.IMPORTER_FILE_ADD_URL == browser.url
     browser.getControl('file').add_file(
-        import_file('Import data file'), 'text/plain', 'file.txt')
+        import_file(b'Import data file'), 'text/plain', 'file.txt')
     browser.getControl('Add').click()
     assert '"file.txt" added.' == browser.message
     # List the file
@@ -44,12 +44,12 @@ def test_importer__CRUD__1(address_book, browser, import_file):
     assert 'text/plain' == browser.headers['content-type']
     assert ('attachment; filename=file.txt' ==
             browser.headers['content-disposition'])
-    assert 'Import data file' == browser.contents
+    assert b'Import data file' == browser.contents
     # It is possible to upload a new file instead of the previously uploaded
     # one:
     browser.open(browser.IMPORTER_FILE_EDIT_URL)
     browser.getControl('file', index=1).add_file(
-        import_file('Import2 data2 file2'), 'text/csv', 'file2.csv')
+        import_file(b'Import2 data2 file2'), 'text/csv', 'file2.csv')
     browser.getControl('Save').click()
     assert 'Data successfully updated.' == browser.message
     assert browser.IMPORTER_OVERVIEW_URL == browser.url
@@ -100,7 +100,7 @@ def test_importer__Add__2(address_book, browser, import_file):
     browser.login('mgr')
     browser.open(browser.IMPORTER_FILE_ADD_URL)
     browser.getControl('file').add_file(
-        import_file('Import data file'), 'text/plain', 'file.txt')
+        import_file(b'Import data file'), 'text/plain', 'file.txt')
     browser.getControl('Add').click()
     assert '"file.txt" added.' == browser.message
     assert IImportFile.providedBy(address_book.importer['File'])

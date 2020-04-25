@@ -16,6 +16,8 @@ import zope.component
 import zope.interface
 import zope.schema
 import zope.security.proxy
+import six
+from six.moves import range
 
 
 NONE_REPLACEMENT = object()
@@ -47,7 +49,7 @@ class ImportFields(zc.sourcefactory.contextual.BasicContextualSourceFactory):
     """Where to put the imported data in the addressbook."""
 
     def getValues(self, context):
-        return xrange(len(list(get_reader(context).getFieldNames())))
+        return range(len(list(get_reader(context).getFieldNames())))
 
     def getTitle(self, context, value):
         reader = get_reader(context)
@@ -127,7 +129,7 @@ def bool_field(value, field):
     if value is None:
         # We can't return None, as this means that the adapter can't adapt.
         return NONE_REPLACEMENT
-    if not isinstance(value, unicode):
+    if not isinstance(value, six.text_type):
         return value  # produces an error in validation
     value = value.lower()
     if value in TRUE_VALUES:
@@ -158,7 +160,10 @@ def uri_field(value, field):
     if value is None:
         # We can't return None, as this means that the adapter can't adapt.
         return NONE_REPLACEMENT
-    return value.strip().encode('ascii')
+    value = value.strip()
+    if six.PY2:  # pragma: no cover
+        value = value.encode('ascii')
+    return value
 
 
 @zope.component.adapter(None, zope.schema.interfaces.IChoice)
@@ -356,10 +361,10 @@ class ImportObjectBuilder(object):
             icemac.addressbook.interfaces.IEntities)
         self.import_entities = entities.getMainEntities()
         for entity in self.import_entities:
-            for index in xrange(self.entries_number):
+            for index in range(self.entries_number):
                 key = "%s-%s" % (entity.name, index)
                 setattr(self, key, {})
-        for field_desc, index in user_data.iteritems():
+        for field_desc, index in six.iteritems(user_data):
             if index is None:
                 continue  # field was not selected for import
             prefix, field_name = field_desc.split('.')
@@ -380,7 +385,7 @@ class ImportObjectBuilder(object):
             if entity.class_name == 'icemac.addressbook.person.Person':
                 # already handled
                 continue
-            for index in xrange(self.entries_number):
+            for index in range(self.entries_number):
                 prefix = "%s-%s" % (entity.name, index)
                 main_entry = (index == 0)
                 obj = self._create(prefix, person, data, main_entry)
@@ -412,11 +417,11 @@ class ImportObjectBuilder(object):
         obj = icemac.addressbook.utils.create_obj(entity.getClass())
 
         # set the values
-        for field_name, index in field_mapping.iteritems():
+        for field_name, index in six.iteritems(field_mapping):
             field = entity.getField(field_name)
             try:
                 value = data[index]
-            except IndexError, e:
+            except IndexError as e:
                 self.errors.add(render_error(entity, '', e))
             else:
                 # try named converter first
@@ -431,7 +436,7 @@ class ImportObjectBuilder(object):
                 context = field.interface(obj)
                 try:
                     field.set(context, conv_value)
-                except zope.interface.Invalid, e:
+                except zope.interface.Invalid as e:
                     self.errors.add(render_error(entity, field_name, e))
 
         icemac.addressbook.utils.add(parent, obj)
@@ -444,7 +449,7 @@ class ImportObjectBuilder(object):
             value = field.get(context)
             try:
                 field.validate(value)
-            except zope.schema.ValidationError, exc:
+            except zope.schema.ValidationError as exc:
                 self.errors.add(render_error(entity, field_name, exc))
 
 
@@ -498,7 +503,7 @@ class MapFields(z3c.form.group.GroupForm,
             else:
                 entries_number = session.get('entries_number', 0)
                 main_prefix = _(u'main')
-            for index in xrange(entries_number):
+            for index in range(entries_number):
                 if index == 0:
                     row_title_prefix = main_prefix
                 else:

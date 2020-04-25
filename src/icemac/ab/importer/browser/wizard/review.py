@@ -12,6 +12,8 @@ import zope.i18n
 import zope.interface
 import zope.schema
 import zope.security.proxy
+import six
+from six.moves import range
 
 
 class ContainerColumn(z3c.table.column.GetAttrColumn):
@@ -124,7 +126,7 @@ class ImportedTable(icemac.addressbook.browser.table.Table):
             else:
                 entries_number = self.session['entries_number']
                 main_prefix = _(u'main')
-            for index in xrange(entries_number):
+            for index in range(entries_number):
                 first = True
                 for field_name, field in entity.getFields():
                     weight += 1
@@ -181,7 +183,7 @@ class ImportedTable(icemac.addressbook.browser.table.Table):
                            u'<ul class="errors">'])
             for error in errors:
                 result.append(
-                    u'<li>%s</li>' % xml.sax.saxutils.escape(unicode(
+                    u'<li>%s</li>' % xml.sax.saxutils.escape(six.text_type(
                         zope.i18n.translate(error, context=self.request))))
             result.extend([u'</ul>',
                            u'</td>',

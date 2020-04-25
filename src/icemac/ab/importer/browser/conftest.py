@@ -1,4 +1,4 @@
-from StringIO import StringIO
+from io import BytesIO
 import pytest
 
 
@@ -6,7 +6,7 @@ import pytest
 def import_file():
     """Get a function to create a file like object for import."""
     def create_file(data):
-        file = StringIO()
+        file = BytesIO()
         file.write(data)
         file.seek(0)
         return file

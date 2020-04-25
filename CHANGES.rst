@@ -7,6 +7,8 @@
 
 - Adapt code to `icemac.addressbook >= 9.5`.
 
+- Port code to Python 3.8.
+
 
 2.12 (2020-03-24)
 =================

@@ -1,10 +1,10 @@
 # -*- coding: utf-8 -*-
 from icemac.ab.importer.interfaces import IImportFileReader
 from icemac.ab.importer.source import Importers
-import StringIO
 import icemac.ab.importer.interfaces
 import icemac.ab.importer.reader.base
 import icemac.ab.importer.source
+import io
 import pytest
 import zope.component
 import zope.component.globalregistry
@@ -35,7 +35,7 @@ class NoXMLReader(DummyReader):
     def getFieldNames(self):
         self.file.seek(0)
         data = self.file.read()
-        if data.startswith('<?xml'):
+        if data.startswith(b'<?xml'):
             raise ValueError('No XML!')
         return ['field1']
 
@@ -45,10 +45,10 @@ class DummyImportFile(object):
     """A dummy import file implemention."""
 
     def __init__(self, data):
-        self.data = data
+        self.data = data.encode('utf-8')
 
     def openDetached(self):
-        return StringIO.StringIO(self.data)
+        return io.BytesIO(self.data)
 
 
 @pytest.yield_fixture('module', autouse=True)
@@ -71,16 +71,17 @@ def test_test_source__1():
 def test_source__Importers__getValue__1():
     """It returns all readers capable to read text files."""
     file = DummyImportFile('text')
-    assert [u'dummy',
-            u'csv-commaseparated-utf8-isodate',
-            u'no-xml'] == list(Importers().factory.getValues(file))
+    assert set([
+        u'dummy',
+        u'csv-commaseparated-utf8-isodate',
+        u'no-xml']) == set(Importers().factory.getValues(file))
 
 
 def test_source__Importers__getValue__2():
     """It returns all readers capable to read XML files."""
     file = DummyImportFile('<?xml ...')
-    assert ([u'dummy', u'csv-commaseparated-utf8-isodate'] ==
-            list(Importers().factory.getValues(file)))
+    assert (set([u'dummy', u'csv-commaseparated-utf8-isodate']) ==
+            set(Importers().factory.getValues(file)))
 
 
 def test_source__Importers__getTitle__1():

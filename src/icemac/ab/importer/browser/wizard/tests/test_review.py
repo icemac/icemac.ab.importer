@@ -1,5 +1,5 @@
 # -*- coding: utf-8 -*-
-from StringIO import StringIO
+from io import BytesIO
 from icemac.addressbook.interfaces import IKeywords
 from mock import patch
 import gocept.country.db
@@ -28,19 +28,19 @@ def example_data():
     is used as an example here.)
 
     """
-    file_data = StringIO()
-    file_data.write('\n'.join([
-        'last_name,birth_date,e_mail_addr,www,asdf,countries,pnotes',
-        ',1999-09-09,,,asdf,,',  # missing last name
-        '"wrong date",1981,,,,,,',
-        '"wrong e-mail",,i@me@de,,,,',
-        '"wrong home page address",,i@me.de,asdf,,,',
-        '"wrong country",,,,,D,',
-        '"country ISO code",,,,,AT,',
-        '"not enough fields",,',
-        '" nice "," 2006-06-06", r6@ab.info," http://www.r6.sf.net",,'
-        '" Switzerland ",'
-        '"  my r e a l l y   long, but also really nice  notes    "']))
+    file_data = BytesIO()
+    file_data.write(b'\n'.join([
+        b'last_name,birth_date,e_mail_addr,www,asdf,countries,pnotes',
+        b',1999-09-09,,,asdf,,',  # missing last name
+        b'"wrong date",1981,,,,,,',
+        b'"wrong e-mail",,i@me@de,,,,',
+        b'"wrong home page address",,i@me.de,asdf,,,',
+        b'"wrong country",,,,,D,',
+        b'"country ISO code",,,,,AT,',
+        b'"not enough fields",,',
+        b'" nice "," 2006-06-06", r6@ab.info," http://www.r6.sf.net",,'
+        b'" Switzerland ",'
+        b'"  my r e a l l y   long, but also really nice  notes    "']))
     file_data.seek(0)
     return file_data
 

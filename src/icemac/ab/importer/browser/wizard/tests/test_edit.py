@@ -4,7 +4,7 @@ from __future__ import unicode_literals
 def test_edit__EditFile__1(
         address_book, browser, import_file, ImportFileFactory):
     """It allows to replace the import file."""
-    ImportFileFactory(address_book, '1.csv', 'last_name')
+    ImportFileFactory(address_book, '1.csv', ['last_name'])
     browser.login('mgr')
     browser.open(browser.IMPORTER_FILE_IMPORT_URL)
     browser.getControl('Back').click()
@@ -18,4 +18,4 @@ def test_edit__EditFile__1(
     assert browser.IMPORTER_IMPORT_EDIT_URL == browser.url
     assert 'header.csv' == browser.getControl('name').value
     browser.getLink('Download file').click()
-    assert 'first_name' == browser.contents
+    assert b'first_name' == browser.contents

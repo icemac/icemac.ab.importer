@@ -5,6 +5,7 @@ import os.path
 import sys
 import unittest
 import zope.interface.verify
+import six
 
 
 class ReaderTest(unittest.TestCase):
@@ -24,8 +25,8 @@ class ReaderTest(unittest.TestCase):
         base_path = sys.modules[self.reader_class.__module__].__file__
         if file_name is None:
             file_name = self.import_file
-        return file(os.path.join(
-            os.path.dirname(base_path), 'tests', 'data', file_name))
+        return open(os.path.join(
+            os.path.dirname(base_path), 'tests', 'data', file_name), 'rb')
 
     def getReader(self, import_file=None):
         return self.reader_class.open(self.getFileHandle(import_file))
@@ -40,17 +41,17 @@ class ReaderTest(unittest.TestCase):
         """It returns a list of unicode field names."""
         field_names = list(self.getReader().getFieldNames())
         assert [u'last name', u'firstname', u'birth_date'] == field_names
-        assert isinstance(field_names[0], unicode)
-        assert isinstance(field_names[1], unicode)
-        assert isinstance(field_names[2], unicode)
+        assert isinstance(field_names[0], six.text_type)
+        assert isinstance(field_names[1], six.text_type)
+        assert isinstance(field_names[2], six.text_type)
 
     def test_Reader__getFieldSamples__1(self):
         """It returns a list of unicode field values."""
         samples = list(self.getReader().getFieldSamples(u'firstname'))
         assert [u'Andreas', u'Hanna', u'Jens'] == samples
-        assert isinstance(samples[0], unicode)
-        assert isinstance(samples[1], unicode)
-        assert isinstance(samples[2], unicode)
+        assert isinstance(samples[0], six.text_type)
+        assert isinstance(samples[1], six.text_type)
+        assert isinstance(samples[2], six.text_type)
 
     def test_Reader__getFieldSamples__2(self):
         """It is able to handle non-ASCII field values."""
@@ -61,23 +62,23 @@ class ReaderTest(unittest.TestCase):
         """It returns datetime field values as ISO unicodes."""
         samples = list(self.getReader().getFieldSamples(u'birth_date'))
         assert [u'1976-01-24', u'2000-01-01', u''] == samples
-        assert isinstance(samples[0], unicode)
-        assert isinstance(samples[1], unicode)
-        assert isinstance(samples[2], unicode)
+        assert isinstance(samples[0], six.text_type)
+        assert isinstance(samples[1], six.text_type)
+        assert isinstance(samples[2], six.text_type)
 
     def test_Reader__getFieldSamples__4(self):
         """It returns all samples if there are less than 3 in the file."""
         samples = list(self.getReader(self.import_file_short).getFieldSamples(
             u'last name'))
         assert [u'Koch'] == samples
-        assert isinstance(samples[0], unicode)
+        assert isinstance(samples[0], six.text_type)
 
     def test_Reader__getFieldSamples__5(self):
         """It returns an empty string if the only value is empty."""
         samples = list(self.getReader(self.import_file_short).getFieldSamples(
             u'firstname'))
         assert [u''] == samples
-        assert isinstance(samples[0], unicode)
+        assert isinstance(samples[0], six.text_type)
 
     def test_Reader____iter____1(self):
         """It iterates over the lines in the import file."""
@@ -88,7 +89,7 @@ class ReaderTest(unittest.TestCase):
         for index, line in enumerate(self.getReader()):
             assert result[index] == line
             for value in line:
-                assert (isinstance(value, unicode) or
+                assert (isinstance(value, six.text_type) or
                         isinstance(value, datetime.date) or
                         value is None)
 
@@ -98,6 +99,6 @@ class ReaderTest(unittest.TestCase):
         for index, line in enumerate(self.getReader(self.import_file_short)):
             assert result[index] == line
             for value in line:
-                assert (isinstance(value, unicode) or
+                assert (isinstance(value, six.text_type) or
                         isinstance(value, datetime.date) or
                         value is None)

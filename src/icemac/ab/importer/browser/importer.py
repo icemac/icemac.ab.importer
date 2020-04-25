@@ -52,7 +52,7 @@ class Overview(icemac.addressbook.browser.table.PageletTable):
 
     @property
     def values(self):
-        return self.context.values()
+        return list(self.context.values())
 
 
 def provide_IImportFile(file):

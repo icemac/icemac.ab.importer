@@ -33,8 +33,10 @@ def ImportFileFactory(FileFactory):
     data ... list of the lines in the import file.
     """
     def create_file(address_book, filename, data, **kw):
+
         file = FileFactory(
-            address_book.importer, filename, data='\n'.join(data), **kw)
+            address_book.importer, filename,
+            data=b'\n'.join(x.encode('utf-8') for x in data), **kw)
         provide_IImportFile(file)
         return file
     return create_file
